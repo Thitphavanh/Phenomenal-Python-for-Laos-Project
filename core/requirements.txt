@@ -1,0 +1,44 @@
+django
+Pillow
+django-ckeditor
+django-jazzmin
+markdown2
+pygments
+pillow==11.1.0
+qrcode==8.2
+requests==2.32.3
+
+# AI & Machine Learning Dependencies
+langchain==0.1.0
+langchain-openai==0.0.2
+langchain-community==0.0.10
+openai==1.7.2
+anthropic==0.8.1
+
+# Vector Database
+chromadb==0.4.22
+sentence-transformers==2.3.1
+
+# Data Processing & Analysis
+pandas==2.1.4
+numpy==1.26.3
+scikit-learn==1.4.0
+
+# Image Processing (for payment slips)
+pytesseract==0.3.10
+opencv-python==4.9.0.80
+
+# API & Async
+django-rest-framework==0.1.0
+djangorestframework==3.14.0
+channels==4.0.0
+daphne==4.0.0
+
+# Environment Variables
+python-dotenv==1.0.0
+
+# Celery (for async tasks)
+celery==5.3.6
+redis==5.0.1
+django-celery-beat==2.5.0
+django-celery-results==2.5.1

@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block title %}ຫຼັກສູດ - Python for Laos{% endblock %}
+
+{% block content %}
+<!-- Section: Header (Ducafecat Style) -->
+<section class="bg-white dark:bg-gray-900 pt-16 pb-8 border-b border-gray-100 dark:border-gray-800">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Search Bar -->
+        <div class="max-w-xl mx-auto mt-8">
+            <form method="get" class="relative">
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search_query }}"
+                    class="w-full bg-gray-100 dark:bg-gray-800 border-0 rounded-full py-3 pl-12 pr-4 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-[#0078D4] transition-all"
+                    placeholder="ຄົ້ນຫາຄອດສຶກສາ..."
+                >
+                <svg class="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Section: Filters (Pills) -->
+<section class="bg-white dark:bg-gray-900 py-6 sticky top-16 z-30 border-b border-gray-100 dark:border-gray-800 backdrop-blur-md bg-white/80 dark:bg-gray-900/80">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <form id="filter-form" method="get">
+            {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
+            
+            <div class="space-y-4">
+                <!-- Subject / Category -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white mr-2">ໝວດໝູ່:</span>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="category" value="" class="hidden peer" {% if not selected_category %}checked{% endif %}>
+                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                            ທັງໝົດ
+                        </span>
+                    </label>
+                    {% for cat in categories %}
+                    <label class="cursor-pointer">
+                        <input type="radio" name="category" value="{{ cat.slug }}" class="hidden peer" {% if selected_category == cat.slug %}checked{% endif %}>
+                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                            {{ cat.name }}
+                        </span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <!-- Difficulty -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white mr-2">ລະດັບ:</span>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="difficulty" value="" class="hidden peer" {% if not selected_difficulty %}checked{% endif %}>
+                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                            ທັງໝົດ
+                        </span>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="difficulty" value="beginner" class="hidden peer" {% if selected_difficulty == 'beginner' %}checked{% endif %}>
+                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                            ພື້ນຖານ
+                        </span>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="difficulty" value="intermediate" class="hidden peer" {% if selected_difficulty == 'intermediate' %}checked{% endif %}>
+                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                            ປານກາງ
+                        </span>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="difficulty" value="advanced" class="hidden peer" {% if selected_difficulty == 'advanced' %}checked{% endif %}>
+                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                            ຂັ້ນສູງ
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Section: Course Grid -->
+<section class="bg-gray-50 dark:bg-gray-900 min-h-screen py-10">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for course in page_obj %}
+            <a href="{% url 'courses:course_detail' course.slug %}" class="group block h-full">
+                <article class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100 dark:border-gray-700">
+                    <!-- Thumbnail -->
+                    <div class="relative aspect-video overflow-hidden bg-gray-200 dark:bg-gray-700">
+                        {% if course.cover_image %}
+                        <img src="{{ course.cover_image.url }}" alt="{{ course.title }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                        {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-gray-400">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        {% endif %}
+
+                        <!-- Badges -->
+                        <div class="absolute top-2 left-2 flex gap-1">
+                            {% if course.is_free %}
+                            <span class="bg-green-500/90 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+                                FREE
+                            </span>
+                            {% else %}
+                             <span class="bg-[#0078D4]/90 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+                                ₭{{ course.price|floatformat:0|intcomma }}
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <div class="absolute bottom-2 right-2">
+                             <span class="bg-black/70 backdrop-blur-sm text-white text-[10px] font-medium px-1.5 py-0.5 rounded">
+                                {{ course.duration_hours }}h {{ course.duration_minutes }}m
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-4 flex flex-col flex-1">
+                        <!-- Title -->
+                        <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 line-clamp-2 mb-2 group-hover:text-[#0078D4] transition-colors leading-snug">
+                            {{ course.title }}
+                        </h3>
+
+                        <!-- Meta Stats -->
+                        <div class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-4 mt-auto">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                <span>{{ course.views_count|default:"0" }}</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>{{ course.total_lessons }} ບົດຮຽນ</span>
+                            </div>
+                        </div>
+
+                        <!-- Footer/Tags -->
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700/50">
+                            <span class="text-[10px] font-medium px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                                {{ course.category.name|default:"General" }}
+                            </span>
+                            <span class="text-[10px] text-gray-400">
+                                {% if course.difficulty == 'beginner' %}ພື້ນຖານ{% elif course.difficulty == 'intermediate' %}ປານກາງ{% else %}ຂັ້ນສູງ{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </article>
+            </a>
+            {% empty %}
+             <div class="col-span-full py-20 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-6">
+                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ບໍ່ພົບຂໍ້ມູນ</h3>
+                <p class="text-gray-500 dark:text-gray-400">ລອງປ່ຽນເງື່ອນໄຂການຄົ້ນຫາໃໝ່</p>
+                <a href="{% url 'courses:course_list' %}" class="inline-block mt-6 text-[#0078D4] font-medium hover:underline">
+                    ລ້າງຕົວກອງທັງໝົດ
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="mt-12 flex justify-center">
+            <nav class="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-100 dark:border-gray-700 shadow-sm">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </a>
+                {% endif %}
+
+                <span class="px-4 py-2 font-medium text-[#001868] dark:text-[#0078D4]">
+                    ໜ້າ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" class="w-10 h-10 flex items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto submit filters
+    document.querySelectorAll('input[name="category"], input[name="difficulty"]').forEach(input => {
+        input.addEventListener('change', () => {
+             document.getElementById('filter-form').submit();
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-gray-50 dark:bg-gray-900 min-h-screen py-12">
+    <div class="max-w-8xl mx-auto px-4">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Upcoming Events</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Join the Python for Laos community events. Workshops, meetups, and conferences to level up your skills.</p>
+        </div>
+
+        <!-- Categories -->
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+            <a href="{% url 'events:event_list' %}"
+               class="px-6 py-2 rounded-full text-sm font-medium transition-colors {% if not request.GET.category %}bg-blue-600 text-white shadow-md{% else %}bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700{% endif %}">
+                All Events
+            </a>
+            {% for cat in categories %}
+            <a href="?category={{ cat.slug }}"
+               class="px-6 py-2 rounded-full text-sm font-medium transition-colors {% if request.GET.category == cat.slug %}bg-blue-600 text-white shadow-md{% else %}bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700{% endif %}">
+                {{ cat.name }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- Featured Events (if any and on first page) -->
+        {% if featured_events and not request.GET.page and not request.GET.category %}
+        <div class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+                Featured
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for event in featured_events %}
+                    {% include 'events/includes/event_card.html' with event=event featured=True %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Event Grid -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Latest Events</h2>
+        {% if events %}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for event in events %}
+                    <!-- Filtering out featured events from main list if already shown is tricky in template efficiently without view logic, 
+                         so we just show all or rely on view logic. For simplicity, just showing all here. -->
+                    {% include 'events/includes/event_card.html' with event=event %}
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <div class="mt-12 flex justify-center">
+                <nav class="flex items-center space-x-2">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        Previous
+                    </a>
+                    {% endif %}
+
+                    <span class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        Next
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+
+        {% else %}
+            <div class="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No events found</h3>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Check back later for new events.</p>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

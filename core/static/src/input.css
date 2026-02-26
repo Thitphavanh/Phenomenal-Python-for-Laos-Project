@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+@theme {
+  /* Reddit-inspired color palette */
+  --color-reddit-orange: #ff4500;
+  --color-reddit-blue: #0079d3;
+  --color-upvote: #ff4500;
+  --color-downvote: #7193ff;
+
+  /* Light theme */
+  --color-canvas: #dae0e6;
+  --color-canvas-light: #f6f7f8;
+  --color-border: #edeff1;
+  --color-border-strong: #ccc;
+
+  /* Font family */
+  --font-family-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-family-mono: ui-monospace, "SF Mono", Monaco, "Cascadia Code",
+    monospace;
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: #030303;
+    --color-canvas-light: #1a1a1b;
+    --color-border: #343536;
+    --color-border-strong: #818384;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom components */
+@layer components {
+  /* Vote buttons */
+  .vote-btn {
+    @apply p-1 rounded transition-colors cursor-pointer bg-transparent border-none;
+  }
+
+  .vote-btn-upvote:hover,
+  .vote-btn-upvote.active {
+    @apply text-[--color-upvote];
+  }
+
+  .vote-btn-downvote:hover,
+  .vote-btn-downvote.active {
+    @apply text-[--color-downvote];
+  }
+
+  /* Reddit-style post card */
+  .post-card {
+    @apply bg-white dark:bg-[--color-canvas-light] border border-[--color-border] rounded hover:border-[--color-border-strong] transition-colors mb-2.5;
+  }
+
+  /* Blog card */
+  .blog-card {
+    @apply bg-white dark:bg-[--color-canvas-light] border border-[--color-border] rounded-lg overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* Documentation styles */
+  .doc-nav-item {
+    @apply block px-3 py-2 rounded text-sm transition-colors;
+  }
+
+  .doc-nav-item:hover {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+
+  .doc-nav-item.active {
+    @apply bg-[--color-reddit-blue] text-white;
+  }
+
+  /* Prose styling for blog content */
+  .prose-blog {
+    @apply prose prose-lg max-w-none;
+    @apply prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-gray-100;
+    @apply prose-p:text-gray-700 dark:prose-p:text-gray-300;
+    @apply prose-a:text-[--color-reddit-blue] prose-a:no-underline hover:prose-a:underline;
+    @apply prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded;
+    @apply prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800;
+  }
+
+  /* Reflex.dev-inspired Callout Boxes */
+  .callout {
+    @apply mb-6 p-4 rounded-lg border-l-4;
+  }
+
+  .callout-info {
+    @apply bg-blue-50 border-blue-500 dark:bg-blue-950/30 dark:border-blue-400;
+  }
+
+  .callout-info .callout-title {
+    @apply text-blue-900 dark:text-blue-300 font-semibold text-sm mb-2 flex items-center gap-2;
+  }
+
+  .callout-info .callout-content {
+    @apply text-blue-800 dark:text-blue-200 text-sm;
+  }
+
+  .callout-warning {
+    @apply bg-yellow-50 border-yellow-500 dark:bg-yellow-950/30 dark:border-yellow-400;
+  }
+
+  .callout-warning .callout-title {
+    @apply text-yellow-900 dark:text-yellow-300 font-semibold text-sm mb-2 flex items-center gap-2;
+  }
+
+  .callout-warning .callout-content {
+    @apply text-yellow-800 dark:text-yellow-200 text-sm;
+  }
+
+  .callout-tip {
+    @apply bg-green-50 border-green-500 dark:bg-green-950/30 dark:border-green-400;
+  }
+
+  .callout-tip .callout-title {
+    @apply text-green-900 dark:text-green-300 font-semibold text-sm mb-2 flex items-center gap-2;
+  }
+
+  .callout-tip .callout-content {
+    @apply text-green-800 dark:text-green-200 text-sm;
+  }
+
+  .callout-danger {
+    @apply bg-red-50 border-red-500 dark:bg-red-950/30 dark:border-red-400;
+  }
+
+  .callout-danger .callout-title {
+    @apply text-red-900 dark:text-red-300 font-semibold text-sm mb-2 flex items-center gap-2;
+  }
+
+  .callout-danger .callout-content {
+    @apply text-red-800 dark:text-red-200 text-sm;
+  }
+
+  /* Enhanced Code Blocks */
+  .code-block-wrapper {
+    @apply relative group mb-6;
+  }
+
+  .code-block-header {
+    @apply flex items-center justify-between px-4 py-2 bg-gray-800 dark:bg-gray-900 rounded-t-lg border-b border-gray-700;
+  }
+
+  .code-block-language {
+    @apply text-xs font-mono text-gray-400 uppercase tracking-wider;
+  }
+
+  .code-block-copy {
+    @apply px-3 py-1 text-xs font-medium rounded bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors;
+  }
+
+  /* Step-by-step Tutorial Styles */
+  .tutorial-step {
+    @apply mb-8 pb-8 border-b border-gray-200 dark:border-gray-800 last:border-0;
+  }
+
+  .tutorial-step-number {
+    @apply inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white font-bold text-sm mb-3;
+  }
+
+  .tutorial-step-title {
+    @apply text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3;
+  }
+
+  /* Feedback Section */
+  .feedback-section {
+    @apply mt-12 p-6 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50;
+  }
+
+  .feedback-title {
+    @apply text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4;
+  }
+
+  .feedback-buttons {
+    @apply flex gap-3;
+  }
+
+  .feedback-btn {
+    @apply px-4 py-2 rounded-lg font-medium text-sm transition-all;
+  }
+
+  .feedback-btn-primary {
+    @apply bg-blue-500 text-white hover:bg-blue-600;
+  }
+
+  .feedback-btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700;
+  }
+}

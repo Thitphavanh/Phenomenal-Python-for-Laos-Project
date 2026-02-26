@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block title %}ຊຳລະເງິນ - {{ event.title }} - Python for Laos{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 dark:bg-gray-900 min-h-screen py-8">
+    <div class="container mx-auto px-4 max-w-lg">
+        <!-- Progress Steps -->
+        <div class="flex justify-between items-center mb-6 px-2">
+            <div class="flex flex-col items-center">
+                <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm font-bold mb-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <span class="text-xs text-green-600 dark:text-green-400 font-medium">Confirm</span>
+            </div>
+            <div class="flex-1 h-1 bg-green-500 mx-2"></div>
+            <div class="flex flex-col items-center">
+                <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold mb-1">2</div>
+                <span class="text-xs text-blue-600 dark:text-blue-400 font-bold">Payment</span>
+            </div>
+            <div class="flex-1 h-1 bg-gray-200 dark:bg-gray-700 mx-2"></div>
+            <div class="flex flex-col items-center">
+                <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 flex items-center justify-center text-sm font-bold mb-1">3</div>
+                <span class="text-xs text-gray-400 dark:text-gray-500">Ticket</span>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+            <!-- Header -->
+            <div class="bg-white dark:bg-gray-800 p-6 text-center border-b border-gray-100 dark:border-gray-700">
+                <h1 class="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1">{{ event.title }}</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Order ID: #{{ registration.id|stringformat:"06d" }}</p>
+                
+                <div class="mt-4">
+                    <span class="text-3xl font-extrabold text-gray-900 dark:text-white">₭ {{ registration.total_amount|floatformat:0|intcomma }}</span>
+                </div>
+            </div>
+
+            <!-- QR Section -->
+            <div class="p-6 bg-gray-50 dark:bg-gray-800/50">
+                <div class="bg-white dark:bg-white rounded-2xl shadow-sm p-4 mx-auto max-w-[300px] relative border border-gray-200">
+                    <!-- Timer Badge -->
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-red-200 flex items-center gap-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span id="timer">15:00</span>
+                    </div>
+
+                    <!-- QR Image -->
+                    <div class="aspect-square relative flex items-center justify-center mt-2">
+                         {% if payment.qr_code_image %}
+                        <img src="{{ payment.qr_code_image.url }}" alt="Payment QR Code" class="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal">
+                        {% else %}
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ qr_data }}" alt="Payment QR Code" class="w-full h-full object-contain">
+                        {% endif %}
+
+                        <!-- Center Logo Overlay -->
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div class="bg-white p-1 rounded-lg shadow-sm border border-gray-100">
+                                <div class="w-10 h-10 bg-red-600 rounded flex items-center justify-center flex-col">
+                                    <span class="text-[0.5rem] text-white font-bold leading-none mt-0.5">LAO</span>
+                                    <span class="text-[0.6rem] text-white font-extrabold leading-tight">QR</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-2">
+                        <p class="text-xs text-gray-400 font-mono">SCAN TO PAY</p>
+                    </div>
+                </div>
+
+                <!-- Check Payment Button -->
+                <div class="mt-6 max-w-[300px] mx-auto">
+                    <form method="post" id="verifyForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="check_status">
+                        <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            ກວດສອບການຊຳລະ
+                        </button>
+                    </form>
+                    <p class="text-[10px] text-gray-400 text-center mt-2">Auto-checking every 5 seconds</p>
+                </div>
+            </div>
+
+            <!-- Footer / Banks -->
+            <div class="bg-white dark:bg-gray-800 p-4 border-t border-gray-100 dark:border-gray-700">
+                <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">ຮອງຮັບການຊຳລະຜ່ານທະນາຄານ</p>
+                <div class="flex justify-center gap-4 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all">
+                    <!-- Bank Icons (CSS/SVG mocks) -->
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white text-[8px] font-bold">BCEL</div>
+                        <span class="text-[8px] text-gray-500">OnePay</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-[8px] font-bold">JDB</div>
+                        <span class="text-[8px] text-gray-500">Yes</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white text-[8px] font-bold">LDB</div>
+                        <span class="text-[8px] text-gray-500">Trust</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-6">
+             <a href="{% url 'events:event_payment_method' event.slug %}" class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 underline">
+                &larr; ກັບໄປໜ້າເລືອກວິທີຊຳລະ
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Timer countdown
+    let time = 15 * 60; // 15 minutes
+    const timerElement = document.getElementById('timer');
+
+    const timerInterval = setInterval(() => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        if (time <= 0) {
+            clearInterval(timerInterval);
+            timerElement.textContent = 'EXPIRED';
+            timerElement.parentElement.classList.remove('bg-red-100', 'text-red-600');
+            timerElement.parentElement.classList.add('bg-gray-100', 'text-gray-500');
+        } else {
+            time--;
+        }
+    }, 1000);
+
+    // Auto-check payment status
+    const paymentId = '{{ payment.payment_id }}';
+    let checkCount = 0;
+    const maxChecks = 180; // 15 mins
+
+    const statusCheckInterval = setInterval(async () => {
+        checkCount++;
+        if (checkCount > maxChecks) {
+            clearInterval(statusCheckInterval);
+            return;
+        }
+
+        try {
+            const response = await fetch(`/events/payment/status/${paymentId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.paid === true) {
+                    clearInterval(statusCheckInterval);
+                    clearInterval(timerInterval);
+                    
+                    // Show success state visually
+                    const btn = document.querySelector('button[type="submit"]');
+                    btn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    btn.classList.add('bg-green-600');
+                    btn.innerHTML = `<svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Payment Successful!`;
+                    
+                    setTimeout(() => {
+                         window.location.href = data.ticket_url || '/events/{{ event.slug }}/ticket/';
+                    }, 1000);
+                }
+            }
+        } catch (error) {
+            console.error('Check failed:', error);
+        }
+    }, 5000);
+    
+    // Form submit handler
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const button = form.querySelector('button');
+            const originalContent = button.innerHTML;
+            
+            button.disabled = true;
+            button.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Checking...`;
+            
+            // Manual check call
+             try {
+                const response = await fetch(`/events/payment/status/${paymentId}/`, {
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
+                });
+                const data = await response.json();
+                
+                if (data.paid) {
+                     window.location.href = data.ticket_url;
+                } else {
+                    button.disabled = false;
+                    button.innerHTML = originalContent;
+                    
+                    // Toast
+                    const toast = document.createElement('div');
+                    toast.className = 'fixed top-5 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-lg z-50 text-sm flex items-center gap-2 animate-bounce';
+                    toast.innerHTML = `<svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg> Payment not found yet.`;
+                    document.body.appendChild(toast);
+                    setTimeout(() => toast.remove(), 3000);
+                }
+            } catch (e) {
+                button.disabled = false;
+                button.innerHTML = originalContent;
+            }
+        });
+    }
+</script>
+{% endblock %}

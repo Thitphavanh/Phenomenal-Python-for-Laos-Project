@@ -1,0 +1,608 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block title %}ແຜນລາຄາ - Python for Laos{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-primary text-white py-20">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                ເລືອກແຜນທີ່ເໝາະກັບທ່ານ
+            </h1>
+            <p class="text-xl text-blue-100 mb-8">
+                ເລີ່ມຮຽນ Python ແລະ Django ດ້ວຍແຜນການທີ່ຍືດຫຍຸ່ນ ແລະ ລາຄາທີ່ເໝາະສົມ
+            </p>
+            <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-lg rounded-full px-6 py-3">
+                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="text-sm font-medium">ທົດລອງຟຣີ 7 ວັນ ສຳລັບທຸກແຜນການ</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Plans -->
+<section class="py-20 bg-gray-50 dark:bg-gray-800/50">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if pricing_plans %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            {% for plan in pricing_plans %}
+            <div class="relative">
+                <!-- Popular Badge -->
+                {% if plan.is_popular %}
+                <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 z-10">
+                    <span class="bg-gradient-secondary text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                        🌟 ນິຍົມທີ່ສຸດ
+                    </span>
+                </div>
+                {% endif %}
+
+                <!-- Pricing Card -->
+                <div class="{% if plan.is_popular %}ring-4 ring-primary shadow-2xl scale-105{% endif %}
+                            bg-white dark:bg-gray-900 rounded-2xl overflow-hidden
+                            border-2 {% if plan.is_popular %}border-primary{% else %}border-gray-200 dark:border-gray-700{% endif %}
+                            hover:shadow-2xl transition-all duration-300 h-full">
+
+                    <!-- Header -->
+                    <div class="{% if plan.is_popular %}bg-gradient-primary text-white{% else %}bg-gray-50 dark:bg-gray-800{% endif %} p-8 text-center">
+                        <h3 class="text-2xl font-bold mb-2">
+                            {{ plan.name }}
+                        </h3>
+
+                        <!-- Price -->
+                        <div class="mt-4">
+                            <div class="flex items-baseline justify-center gap-2">
+                                {% if plan.price == 0 %}
+                                <span class="text-5xl font-bold">ຟຣີ</span>
+                                {% else %}
+                                <span class="text-2xl font-semibold {% if not plan.is_popular %}text-gray-500 dark:text-gray-400{% endif %}">$</span>
+                                <span class="text-5xl font-bold">{{ plan.price|floatformat:0 }}</span>
+                                <span class="text-lg {% if not plan.is_popular %}text-gray-500 dark:text-gray-400{% endif %}">
+                                    {% if plan.duration_days == 0 %}
+                                    / ຕະຫຼອດຊີວິດ
+                                    {% elif plan.duration_days == 30 %}
+                                    / ເດືອນ
+                                    {% elif plan.duration_days == 365 %}
+                                    / ປີ
+                                    {% else %}
+                                    / {{ plan.duration_days }} ວັນ
+                                    {% endif %}
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Plan Type Badge -->
+                        <div class="mt-4">
+                            <span class="inline-block px-4 py-1 rounded-full text-xs font-semibold
+                                {% if plan.plan_type == 'free' %}bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300
+                                {% elif plan.plan_type == 'single' %}bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300
+                                {% else %}bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300{% endif %}">
+                                {% if plan.plan_type == 'free' %}ແຜນຟຣີ
+                                {% elif plan.plan_type == 'single' %}ແຜນຄອດດຽວ
+                                {% else %}ແຜນ VIP{% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="p-8">
+                        <p class="text-gray-600 dark:text-gray-400 text-center mb-8">
+                            {{ plan.description }}
+                        </p>
+
+                        <!-- Features -->
+                        <ul class="space-y-4 mb-8">
+                            {% for feature in plan.get_features_list %}
+                            <li class="flex items-start gap-3">
+                                <svg class="w-6 h-6 {% if plan.is_popular %}text-primary{% else %}text-green-600{% endif %} flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-300">{{ feature }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        <!-- CTA Button -->
+                        <div class="text-center">
+                            {% if plan.plan_type == 'free' %}
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'courses:course_list' %}?price=free"
+                                   class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
+                                          {% if plan.is_popular %}
+                                          bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
+                                          {% else %}
+                                          bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
+                                          {% endif %}">
+                                    ເລີ່ມຮຽນຟຣີ
+                                </a>
+                                {% else %}
+                                <a href="{% url 'blog:register' %}"
+                                   class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
+                                          {% if plan.is_popular %}
+                                          bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
+                                          {% else %}
+                                          bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
+                                          {% endif %}">
+                                    ລົງທະບຽນຮຽນຟຣີ
+                                </a>
+                                {% endif %}
+                            {% elif plan.plan_type == 'single' %}
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'courses:course_list' %}"
+                                   class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
+                                          {% if plan.is_popular %}
+                                          bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
+                                          {% else %}
+                                          bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
+                                          {% endif %}">
+                                    ເລືອກຄອດສຶກສາ
+                                </a>
+                                {% else %}
+                                <a href="{% url 'blog:register' %}"
+                                   class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
+                                          {% if plan.is_popular %}
+                                          bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
+                                          {% else %}
+                                          bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
+                                          {% endif %}">
+                                    ລົງທະບຽນເພື່ອຊື້
+                                </a>
+                                {% endif %}
+                            {% else %}
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'courses:course_list' %}"
+                                   class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
+                                          {% if plan.is_popular %}
+                                          bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
+                                          {% else %}
+                                          bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
+                                          {% endif %}">
+                                    ເລີ່ມຕົ້ນຮຽນຮູ້
+                                </a>
+                                {% else %}
+                                <a href="{% url 'register' %}"
+                                   class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
+                                          {% if plan.is_popular %}
+                                          bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
+                                          {% else %}
+                                          bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
+                                          {% endif %}">
+                                    ລົງທະບຽນເລີ່ມຕົ້ນ
+                                </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+
+                        <!-- Note for VIP -->
+                        {% if plan.plan_type == 'vip' %}
+                        <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
+                            ເຂົ້າເຖິງຄອດສຶກສາທັງໝົດ
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-16">
+            <svg class="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                ຍັງບໍ່ມີແຜນລາຄາ
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+                ກະລຸນາກັບມາໃໝ່ໃນພາຍຫຼັງ
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Comparison Table -->
+{% if pricing_plans %}
+<section class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                ປຽບທຽບແຜນການ
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">
+                ເລືອກແຜນທີ່ເໝາະສົມກັບເປົ້າໝາຍການຮຽນຂອງທ່ານ
+            </p>
+        </div>
+
+        <!-- Desktop Table -->
+        <div class="hidden md:block overflow-x-auto">
+            <table class="w-full border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-sm font-bold text-gray-900 dark:text-white">ຄຸນສົມບັດ</th>
+                        {% for plan in pricing_plans %}
+                        <th class="px-6 py-4 text-center text-sm font-bold {% if plan.is_popular %}bg-primary/10{% endif %}">
+                            <div class="{% if plan.is_popular %}text-primary{% else %}text-gray-900 dark:text-white{% endif %}">
+                                {{ plan.name }}
+                            </div>
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <!-- Row: Price -->
+                    <tr class="bg-white dark:bg-gray-900">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ລາຄາ</td>
+                        {% for plan in pricing_plans %}
+                        <td class="px-6 py-4 text-center {% if plan.is_popular %}bg-primary/5{% endif %}">
+                            <span class="text-2xl font-bold text-gray-900 dark:text-white">
+                                {% if plan.price == 0 %}ຟຣີ{% else %}₭{{ plan.price|floatformat:0|intcomma }}{% endif %}
+                            </span>
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <!-- Row: Access Duration -->
+                    <tr class="bg-gray-50 dark:bg-gray-800/50">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ໄລຍະເວລາ</td>
+                        {% for plan in pricing_plans %}
+                        <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-400 {% if plan.is_popular %}bg-primary/5{% endif %}">
+                            {% if plan.duration_days == 0 %}
+                            ຕະຫຼອດຊີວິດ
+                            {% elif plan.duration_days == 30 %}
+                            30 ວັນ
+                            {% elif plan.duration_days == 365 %}
+                            1 ປີ
+                            {% else %}
+                            {{ plan.duration_days }} ວັນ
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <!-- Row: Course Access -->
+                    <tr class="bg-white dark:bg-gray-900">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ເຂົ້າເຖິງຄອດສຶກສາ</td>
+                        {% for plan in pricing_plans %}
+                        <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-400 {% if plan.is_popular %}bg-primary/5{% endif %}">
+                            {% if plan.plan_type == 'free' %}
+                            ຄອດຟຣີເທົ່ານັ້ນ
+                            {% elif plan.plan_type == 'single' %}
+                            1 ຄອດ
+                            {% else %}
+                            ທັງໝົດ
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <!-- Row: Certificate -->
+                    <tr class="bg-gray-50 dark:bg-gray-800/50">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ໃບຢັ້ງຢືນ</td>
+                        {% for plan in pricing_plans %}
+                        <td class="px-6 py-4 text-center {% if plan.is_popular %}bg-primary/5{% endif %}">
+                            {% if plan.plan_type == 'free' %}
+                            <svg class="w-5 h-5 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            {% else %}
+                            <svg class="w-5 h-5 text-green-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <!-- Row: Support -->
+                    <tr class="bg-white dark:bg-gray-900">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ການສະໜັບສະໜູນ</td>
+                        {% for plan in pricing_plans %}
+                        <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-400 {% if plan.is_popular %}bg-primary/5{% endif %}">
+                            {% if plan.plan_type == 'free' %}
+                            ຊຸມຊົນ
+                            {% elif plan.plan_type == 'single' %}
+                            Email
+                            {% else %}
+                            ອັນດັບໜຶ່ງ
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <!-- Row: CTA -->
+                    <tr class="bg-gray-50 dark:bg-gray-800/50">
+                        <td class="px-6 py-4"></td>
+                        {% for plan in pricing_plans %}
+                        <td class="px-6 py-4 text-center {% if plan.is_popular %}bg-primary/5{% endif %}">
+                            {% if plan.plan_type == 'free' %}
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'courses:course_list' %}?price=free" class="inline-block px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                                    ເລີ່ມຕົ້ນ
+                                </a>
+                                {% else %}
+                                <a href="{% url 'blog:register' %}" class="inline-block px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                                    ລົງທະບຽນ
+                                </a>
+                                {% endif %}
+                            {% elif plan.plan_type == 'single' %}
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'courses:course_list' %}" class="inline-block px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+                                    ເລືອກຄອດ
+                                </a>
+                                {% else %}
+                                <a href="{% url 'blog:register' %}" class="inline-block px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+                                    ລົງທະບຽນ
+                                </a>
+                                {% endif %}
+                            {% else %}
+                                {% if user.is_authenticated %}
+                                <button class="px-6 py-2 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+                                    ເລີ່ມທົດລອງ
+                                </button>
+                                {% else %}
+                                <a href="{% url 'blog:register' %}" class="inline-block px-6 py-2 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+                                    ລົງທະບຽນ
+                                </a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile Cards -->
+        <div class="md:hidden space-y-4">
+            {% for plan in pricing_plans %}
+            <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{{ plan.name }}</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-400">ລາຄາ:</span>
+                        <span class="font-bold text-gray-900 dark:text-white">
+                            {% if plan.price == 0 %}ຟຣີ{% else %}${{ plan.price|floatformat:0 }}{% endif %}
+                        </span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-400">ໄລຍະເວລາ:</span>
+                        <span class="text-gray-900 dark:text-white">
+                            {% if plan.duration_days == 0 %}ຕະຫຼອດຊີວິດ{% else %}{{ plan.duration_days }} ວັນ{% endif %}
+                        </span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-400">ເຂົ້າເຖິງຄອດສຶກສາ:</span>
+                        <span class="text-gray-900 dark:text-white">
+                            {% if plan.plan_type == 'free' %}ຄອດຟຣີເທົ່ານັ້ນ
+                            {% elif plan.plan_type == 'single' %}1 ຄອດ
+                            {% else %}ທັງໝົດ{% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Featured Courses -->
+{% if featured_courses %}
+<section class="py-20 bg-gray-50 dark:bg-gray-800/50">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                ຄອດສຶກສາແນະນຳ
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">
+                ເລີ່ມຮຽນດ້ວຍຄອດສຶກສາທີ່ດີທີ່ສຸດຂອງພວກເຮົາ
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for course in featured_courses %}
+            <a href="{% url 'courses:course_detail' course.slug %}" class="group">
+                <div class="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                    <div class="relative h-40 bg-gradient-secondary overflow-hidden">
+                        {% if course.cover_image %}
+                        <img src="{{ course.cover_image.url }}" alt="{{ course.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        {% else %}
+                        <div class="w-full h-full flex items-center justify-center">
+                            <svg class="w-16 h-16 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        {% endif %}
+
+                        <div class="absolute top-3 right-3">
+                            {% if course.is_free %}
+                            <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                                ຟຣີ
+                            </span>
+                            {% else %}
+                            <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                                ${{ course.price }}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
+                            {{ course.title }}
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+                            {{ course.short_description }}
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>{{ course.duration_hours }}h</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                                <span>{{ course.total_lessons }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{% url 'courses:course_list' %}" class="inline-block px-8 py-4 bg-gradient-primary text-white rounded-full font-bold text-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                ເບິ່ງຄອດສຶກສາທັງໝົດ
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- FAQ Section -->
+<section class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                ຄຳຖາມທີ່ພົບເລື້ອຍ
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">
+                ຄຳຕອບສຳລັບຄຳຖາມທີ່ພົບເລື້ອຍ
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                <button class="faq-question w-full flex items-center justify-between p-6 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <span class="font-bold text-gray-900 dark:text-white">ຂ້ອຍສາມາດທົດລອງຟຣີໄດ້ບໍ່?</span>
+                    <svg class="w-6 h-6 text-gray-400 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden px-6 pb-6">
+                    <p class="text-gray-600 dark:text-gray-400">
+                        ແມ່ນແລ້ວ! ທຸກແຜນການມີໄລຍະທົດລອງຟຣີ 7 ວັນ. ທ່ານສາມາດຍົກເລີກໄດ້ທຸກເວລາກ່ອນສິ້ນສຸດໄລຍະທົດລອງໂດຍບໍ່ມີຄ່າໃຊ້ຈ່າຍ.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                <button class="faq-question w-full flex items-center justify-between p-6 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <span class="font-bold text-gray-900 dark:text-white">ຂ້ອຍສາມາດປ່ຽນແຜນໄດ້ບໍ່?</span>
+                    <svg class="w-6 h-6 text-gray-400 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden px-6 pb-6">
+                    <p class="text-gray-600 dark:text-gray-400">
+                        ໄດ້ເລີຍ! ທ່ານສາມາດຍົກລະດັບ ຫຼື ປ່ຽນແຜນການຂອງທ່ານໄດ້ທຸກເວລາ. ຄ່າໃຊ້ຈ່າຍຈະຖືກປັບແບບ pro-rated.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                <button class="faq-question w-full flex items-center justify-between p-6 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <span class="font-bold text-gray-900 dark:text-white">ມີໃບຢັ້ງຢືນບໍ່?</span>
+                    <svg class="w-6 h-6 text-gray-400 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden px-6 pb-6">
+                    <p class="text-gray-600 dark:text-gray-400">
+                        ມີ! ເມື່ອທ່ານສຳເລັດຄອດສຶກສາໃດໜຶ່ງ ທ່ານຈະໄດ້ຮັບໃບຢັ້ງຢືນທີ່ສາມາດແບ່ງປັນໄດ້ (ຍົກເວັ້ນແຜນຟຣີ).
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                <button class="faq-question w-full flex items-center justify-between p-6 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <span class="font-bold text-gray-900 dark:text-white">ວິທີການຊຳລະເງິນມີແນວໃດແດ່?</span>
+                    <svg class="w-6 h-6 text-gray-400 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden px-6 pb-6">
+                    <p class="text-gray-600 dark:text-gray-400">
+                        ພວກເຮົາຮັບບັດເຄຣດິດ, PayPal, ແລະ ການໂອນເງິນຜ່ານທະນາຄານ. ການຊຳລະເງິນທັງໝົດປອດໄພ ແລະ ເຂົ້າລະຫັດ.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-primary text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            ພ້ອມທີ່ຈະເລີ່ມການເດີນທາງຂອງທ່ານບໍ່?
+        </h2>
+        <p class="text-xl text-blue-100 mb-8">
+            ເຂົ້າຮ່ວມກັບນັກພັດທະນາຫຼາຍພັນຄົນທີ່ກຳລັງຮຽນ Python ແລະ Django
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            {% if user.is_authenticated %}
+            <a href="{% url 'courses:course_list' %}?price=free" class="px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+                ເລີ່ມຟຣີ
+            </a>
+            {% else %}
+            <a href="{% url 'blog:register' %}" class="px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
+                ເລີ່ມຟຣີ
+            </a>
+            {% endif %}
+            
+            <a href="{% url 'courses:course_list' %}" class="px-8 py-4 bg-white/10 backdrop-blur-lg border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all">
+                ເບິ່ງຄອດສຶກສາ
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', function() {
+            const item = this.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const icon = this.querySelector('.faq-icon');
+
+            // Close all other FAQs
+            document.querySelectorAll('.faq-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.querySelector('.faq-answer').classList.add('hidden');
+                    otherItem.querySelector('.faq-icon').classList.remove('rotate-180');
+                }
+            });
+
+            // Toggle current FAQ
+            answer.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        });
+    });
+</script>
+
+<style>
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+{% endblock %}

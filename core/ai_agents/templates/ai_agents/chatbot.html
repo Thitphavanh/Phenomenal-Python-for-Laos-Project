@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}AI Assistant - Python for Laos{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+
+<style>
+    /* Markdown Styles */
+    .prose pre {
+        background-color: #1a1a1a !important;
+        border-radius: 0.75rem;
+        padding: 0;
+        margin: 1rem 0;
+        overflow: hidden;
+    }
+    .prose code {
+        background-color: transparent !important;
+        color: inherit !important;
+        font-size: 0.875rem !important;
+        padding: 0 !important;
+    }
+    .prose :not(pre) > code {
+        background-color: rgba(0, 0, 0, 0.1) !important;
+        padding: 0.2rem 0.4rem !important;
+        border-radius: 0.25rem;
+    }
+    .dark .prose :not(pre) > code {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    .prose h1, .prose h2, .prose h3 {
+        margin-top: 1.5rem !important;
+        margin-bottom: 0.5rem !important;
+        font-weight: 700 !important;
+    }
+    .prose ul, .prose ol {
+        margin-left: 1.5rem !important;
+        list-style-type: disc !important;
+    }
+    .prose li {
+        margin-bottom: 0.25rem !important;
+    }
+    .prose hr {
+        margin: 1.5rem 0 !important;
+        border-color: rgba(0, 0, 0, 0.1) !important;
+    }
+    .dark .prose hr {
+        border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+</style>
+<div class="min-h-[calc(100vh-4rem)] bg-gray-50 dark:bg-gray-900 flex flex-col">
+    <!-- Chat Header -->
+    <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-white">AI Python Assistant</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Powered by Python for Laos AI</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full border border-green-200 dark:border-green-800">
+                    Online
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="flex-1 overflow-y-auto p-4 md:p-6" id="chat-messages">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <!-- Welcome Message -->
+            <div class="flex gap-4">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex-shrink-0 flex items-center justify-center text-white text-xs">AI</div>
+                <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 dark:border-gray-700 max-w-[85%]">
+                    <p class="text-gray-800 dark:text-gray-200">
+                        ສະບາຍດີ! ຂ້ອຍແມ່ນ AI Assistant ທີ່ພ້ອມຈະຊ່ວຍເຈົ້າຮຽນຮູ້ Python ແລະ Django. ມີຫຍັງໃຫ້ຊ່ວຍມື້ນີ້?
+                    </p>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <button class="suggestion-btn text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
+                            🐍 ເລີ່ມຕົ້ນກັບ Python
+                        </button>
+                        <button class="suggestion-btn text-xs bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 px-3 py-1.5 rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors">
+                            🌐 Django Framework
+                        </button>
+                        <button class="suggestion-btn text-xs bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 px-3 py-1.5 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors">
+                            📚 ແນະນຳຫຼັກສູດ
+                        </button>   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
+        <div class="max-w-7xl mx-auto">
+            <form id="chat-form" class="relative">
+                <input 
+                    type="text" 
+                    id="user-input"
+                    class="w-full bg-gray-100 dark:bg-gray-900 border-0 rounded-xl px-4 py-4 pr-12 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 shadow-sm transition-all"
+                    placeholder="ພິມຄຳຖາມຂອງທ່ານທີ່ນີ້..."
+                    autocomplete="off"
+                >
+                <button 
+                    type="submit" 
+                    class="absolute right-2 top-2 p-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    <svg class="w-5 h-5 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </form>
+            <p class="text-center text-xs text-gray-400 dark:text-gray-500 mt-2">
+                AI ອາດຈະມີຄວາມຜິດພາດ. ກະລຸນາກວດສອບຂໍ້ມູນທີ່ສຳຄັນ.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Logic -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configure marked
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, { language: lang }).value;
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true,
+            gfm: true
+        });
+
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        // Initial scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Handle Suggestion Buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('suggestion-btn')) {
+                const query = e.target.innerText.trim();
+                userInput.value = query;
+                chatForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        function appendMessage(role, text, sources = []) {
+            const isUser = role === 'user';
+            
+            let messageHTML = '';
+            
+            if (isUser) {
+                messageHTML = `
+                    <div class="flex gap-4 flex-row-reverse">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex-shrink-0 flex items-center justify-center text-gray-500 text-xs">User</div>
+                        <div class="bg-blue-600 text-white p-4 rounded-2xl rounded-tr-none shadow-sm max-w-[85%]">
+                            <p>${text}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                let sourcesHTML = '';
+                if (sources && sources.length > 0) {
+                    sourcesHTML = `
+                        <div class="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+                            <p class="text-xs font-semibold text-gray-500 mb-1">ແຫຼ່ງຂໍ້ມູນ:</p>
+                            <ul class="space-y-1">
+                                ${sources.map(s => `
+                                    <li>
+                                        <a href="${s.url}" class="text-xs text-blue-500 hover:text-blue-600 flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                                            ${s.title}
+                                        </a>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                messageHTML = `
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex-shrink-0 flex items-center justify-center text-white text-xs">AI</div>
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 dark:border-gray-700 max-w-[85%]">
+                            <div class="text-gray-800 dark:text-gray-200 prose dark:prose-invert max-w-none text-sm leading-relaxed">
+                                ${marked.parse(text)}
+                            </div>
+                            ${sourcesHTML}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = messageHTML;
+            chatMessages.querySelector('.space-y-6').appendChild(messageDiv);
+            chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
+        }
+
+        function showTypingIndicator() {
+            const typingHTML = `
+                <div class="flex gap-4" id="typing-indicator">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex-shrink-0 flex items-center justify-center text-white text-xs">AI</div>
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div class="flex space-x-2">
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            const div = document.createElement('div');
+            div.innerHTML = typingHTML;
+            chatMessages.querySelector('.space-y-6').appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return div;
+        }
+
+        chatForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // 1. Show User Message
+            appendMessage('user', message);
+            userInput.value = '';
+            
+            // 2. Show Typing Indicator
+            const typingDiv = showTypingIndicator();
+
+            try {
+                // 3. Call API
+                const response = await fetch('/ai/api/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                
+                // 4. Remove Typing Indicator
+                typingDiv.remove();
+                
+                // 5. Show AI Response
+                appendMessage('assistant', data.response, data.sources);
+                
+            } catch (error) {
+                typingDiv.remove();
+                appendMessage('assistant', 'ຂໍອະໄພ, ເກີດຂໍ້ຜິດພາດໃນການເຊື່ອມຕໍ່. ກະລຸນາລອງໃໝ່ອີກຄັ້ງ.');
+                console.error('Error:', error);
+            }
+        });
+    });
+</script>
+{% endblock %}

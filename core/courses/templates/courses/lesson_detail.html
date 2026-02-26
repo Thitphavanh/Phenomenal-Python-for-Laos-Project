@@ -1,0 +1,699 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ lesson.title }} - {{ course.title }} - Python for Laos{% endblock %}
+
+{% block extra_css %}
+<!-- Highlight.js for syntax highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+<style>
+    /* Enhanced code block styling - Dark/Light Mode */
+    .prose pre {
+        position: relative;
+        overflow-x: auto;
+        background-color: #f5f5f5 !important;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        margin: 1.5rem 0;
+    }
+
+    .dark .prose pre {
+        background-color: #1f2937 !important;
+        border-color: #374151;
+    }
+
+    .prose code {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9em;
+    }
+
+    .prose pre code {
+        display: block;
+        padding: 1.25rem;
+        line-height: 1.6;
+        background: transparent !important;
+    }
+
+    .prose :not(pre) > code {
+        color: #001868 !important;
+        padding: 0.2em 0.4em;
+        font-size: 0.875em;
+    }
+
+    .dark .prose :not(pre) > code {
+        color: #0078D4 !important;
+    }
+
+    /* Highlight.js adjustments */
+    .hljs {
+        background: #f5f5f5 !important;
+        color: #1f2937;
+        padding: 0;
+    }
+
+    .dark .hljs {
+        background: #1f2937 !important;
+        color: #e5e7eb;
+    }
+
+    /* Copy Code Button - Claude/Gemini Style */
+    .copy-code-button {
+        position: absolute;
+        top: 0.625rem;
+        right: 0.625rem;
+        padding: 0.375rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.375rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.2s ease;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dark .copy-code-button {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .prose pre:hover .copy-code-button {
+        opacity: 1;
+    }
+
+    .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .dark .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .copy-code-button:active {
+        transform: scale(0.95);
+    }
+
+    .copy-code-button svg {
+        width: 1rem;
+        height: 1rem;
+        color: #6b7280;
+        transition: color 0.2s ease;
+    }
+
+    .dark .copy-code-button svg {
+        color: #9ca3af;
+    }
+
+    .copy-code-button:hover svg {
+        color: #374151;
+    }
+
+    .dark .copy-code-button:hover svg {
+        color: #e5e7eb;
+    }
+
+    .copy-code-button.copied {
+        background: rgba(34, 197, 94, 0.1);
+        border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .copy-code-button.copied svg {
+        color: #22C55E;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Lesson View -->
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-8xl mx-auto">
+        <div class="flex flex-col lg:flex-row">
+            <!-- Main Content Area -->
+            <div class="flex-1 lg:pr-6">
+            <!-- Lesson Header -->
+            <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+                <div class="px-4 sm:px-6 lg:px-8 py-4">
+                    <!-- Breadcrumb -->
+                    <nav class="flex items-center gap-2 text-sm mb-3">
+                        <a href="{% url 'courses:course_list' %}" class="text-gray-600 dark:text-gray-400 hover:text-primary">
+                            ຄອດສຶກສາ
+                        </a>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                        <a href="{% url 'courses:course_detail' course.slug %}" class="text-gray-600 dark:text-gray-400 hover:text-primary">
+                            {{ course.title }}
+                        </a>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                        <span class="text-gray-900 dark:text-white font-medium">{{ lesson.title }}</span>
+                    </nav>
+
+                    <!-- Lesson Title & Progress -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                                {{ lesson.title }}
+                            </h1>
+                            <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                                <span>ບົດທີ {{ lesson.order }}</span>
+                                {% if lesson.duration_minutes %}
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    {{ lesson.duration_minutes }} ນາທີ
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Mark Complete Button -->
+                        {% if enrollment and not lesson_progress.is_completed %}
+                        <form method="post" action="{% url 'courses:mark_lesson_complete' course.slug lesson.slug %}" class="hidden md:block">
+                            {% csrf_token %}
+                            <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                ໝາຍວ່າສຳເລັດ
+                            </button>
+                        </form>
+                        {% elif lesson_progress.is_completed %}
+                        <div class="hidden md:flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg font-semibold">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            ສຳເລັດແລ້ວ
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lesson Content -->
+            <div class="p-4 sm:p-6 lg:p-8">
+                <!-- Video Content -->
+                <!-- Video Content -->
+                {% with video_ctx=lesson.get_video_context %}
+                {% if lesson.content_type == 'video' and video_ctx %}
+                <div class="mb-8">
+                    <div class="aspect-video bg-gray-900 rounded-xl overflow-hidden shadow-xl">
+                        {% if video_ctx.type == 'youtube' or video_ctx.type == 'vimeo' %}
+                        <iframe
+                            src="{{ video_ctx.url }}"
+                            class="w-full h-full"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                        {% else %}
+                        <video controls class="w-full h-full">
+                            <source src="{{ video_ctx.url }}" type="video/mp4">
+                            ບຼາວເຊີຂອງທ່ານບໍ່ຮອງຮັບວິດີໂອ.
+                        </video>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- Text Content -->
+                {% if lesson.content %}
+                <div class="prose prose-lg dark:prose-invert max-w-none mb-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 md:p-8 border border-gray-200 dark:border-gray-700">
+                        {{ lesson.content|safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Quiz Content -->
+                {% if lesson.content_type == 'quiz' %}
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 mb-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">ແບບທົດສອບ</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">ທົດສອບຄວາມເຂົ້າໃຈຂອງທ່ານ</p>
+                        </div>
+                    </div>
+                    <div class="text-center py-8">
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">ຟັງຊັນແບບທົດສອບຈະພັດທະນາໃນເວີຊັນຕໍ່ໄປ</p>
+                        <button class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors">
+                            ເລີ່ມແບບທົດສອບ
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- File Download -->
+                {% if lesson.content_type == 'file' and lesson.file_url %}
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 mb-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">ເອກະສານປະກອບ</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">ດາວໂຫຼດເອກະສານປະກອບການຮຽນ</p>
+                        </div>
+                        <a href="{{ lesson.file_url }}" download class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors">
+                            ດາວໂຫຼດ
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Lesson Navigation -->
+                <div class="flex flex-col sm:flex-row gap-4 mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+                    {% if previous_lesson %}
+                    <a href="{% url 'courses:lesson_detail' course.slug previous_lesson.slug %}" class="flex-1 px-6 py-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:shadow-lg transition-all group">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">ກ່ອນໜ້າ</p>
+                                <p class="font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                                    {{ previous_lesson.title }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="flex-1"></div>
+                    {% endif %}
+
+                    {% if next_lesson %}
+                    <a href="{% url 'courses:lesson_detail' course.slug next_lesson.slug %}" class="flex-1 px-6 py-4 bg-gradient-primary text-white rounded-xl hover:shadow-xl transition-all group">
+                        <div class="flex items-center justify-end gap-3">
+                            <div class="text-right">
+                                <p class="text-xs text-blue-100">ຕໍ່ໄປ</p>
+                                <p class="font-semibold">{{ next_lesson.title }}</p>
+                            </div>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'courses:course_detail' course.slug %}" class="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl hover:shadow-xl transition-all group">
+                        <div class="flex items-center justify-end gap-3">
+                            <div class="text-right">
+                                <p class="text-xs text-green-100">ສຳເລັດຄອດສຶກສາ</p>
+                                <p class="font-semibold">ກັບໄປໜ້າຄອດສຶກສາ</p>
+                            </div>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar - Course Progress (Desktop) -->
+        <div class="hidden lg:block lg:w-80 flex-shrink-0">
+            <div class="sticky top-0 h-screen bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 overflow-y-auto">
+                <div class="p-6">
+                <!-- Course Info -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                        {{ course.title }}
+                    </h2>
+                    {% if enrollment %}
+                    <div class="mb-3">
+                        <div class="flex items-center justify-between text-sm mb-1">
+                            <span class="text-gray-600 dark:text-gray-400">ຄວາມຄືບໜ້າ</span>
+                            <span class="font-bold text-primary">{{ enrollment.progress_percentage|floatformat:0 }}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-gradient-primary h-2 rounded-full transition-all" style="width: {{ enrollment.progress_percentage }}%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {{ enrollment.completed_lessons.count }} / {{ course.total_lessons }} ບົດຮຽນ
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Chapters & Lessons -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                        </svg>
+                        ເນື້ອຫາຄອດສຶກສາ
+                    </h3>
+
+                    {% for chapter in chapters %}
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <button class="chapter-toggle w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-left flex items-center justify-between" data-chapter="{{ chapter.id }}">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-900 dark:text-white text-sm">
+                                    {{ chapter.title }}
+                                </h4>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                    {{ chapter.lessons.count }} ບົດຮຽນ
+                                </p>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400 transform transition-transform chapter-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div class="chapter-content" data-chapter="{{ chapter.id }}">
+                            {% for lesson_item in chapter.lessons.all %}
+                            <a href="{% url 'courses:lesson_detail' course.slug lesson_item.slug %}"
+                               class="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-200 dark:border-gray-700 {% if lesson_item.slug == lesson.slug %}bg-blue-50 dark:bg-blue-900/20{% endif %}">
+                                <div class="flex items-center gap-3">
+                                    <!-- Lesson Icon -->
+                                    <div class="flex-shrink-0">
+                                        {% if lesson_item in enrollment.completed_lessons.all %}
+                                        <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        {% elif lesson_item.slug == lesson.slug %}
+                                        <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        {% else %}
+                                        <div class="w-6 h-6 border-2 border-gray-300 dark:border-gray-600 rounded-full"></div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Lesson Info -->
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white truncate {% if lesson_item.slug == lesson.slug %}text-primary{% endif %}">
+                                            {{ lesson_item.title }}
+                                        </p>
+                                        <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                            {% if lesson_item.content_type == 'video' %}
+                                            <span class="flex items-center gap-1">
+                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                                ວິດີໂອ
+                                            </span>
+                                            {% elif lesson_item.content_type == 'quiz' %}
+                                            <span class="flex items-center gap-1">
+                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                                ແບບທົດສອບ
+                                            </span>
+                                            {% else %}
+                                            <span class="flex items-center gap-1">
+                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                                ເອກະສານ
+                                            </span>
+                                            {% endif %}
+                                            {% if lesson_item.duration_minutes %}
+                                            <span>{{ lesson_item.duration_minutes }} ນາທີ</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Bar -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 z-20">
+        <div class="flex items-center gap-3">
+            <!-- Course Menu Toggle -->
+            <button id="mobileCourseMenuBtn" class="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                </svg>
+                ເນື້ອຫາ
+            </button>
+
+            <!-- Mark Complete Button -->
+            {% if enrollment and not lesson_progress.is_completed %}
+            <form method="post" action="{% url 'courses:mark_lesson_complete' course.slug lesson.slug %}" class="flex-1">
+                {% csrf_token %}
+                <button type="submit" class="w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    ສຳເລັດ
+                </button>
+            </form>
+            {% elif lesson_progress.is_completed %}
+            <div class="flex-1 px-4 py-3 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg font-semibold flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                ສຳເລັດແລ້ວ
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Mobile Course Menu Overlay -->
+    <div id="mobileCourseMenu" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden">
+        <div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-2xl max-h-[80vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">ເນື້ອຫາຄອດສຶກສາ</h3>
+                <button id="closeMobileCourseMenu" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="p-4">
+                <!-- Progress -->
+                {% if enrollment %}
+                <div class="mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between text-sm mb-2">
+                        <span class="text-gray-600 dark:text-gray-400">ຄວາມຄືບໜ້າ</span>
+                        <span class="font-bold text-primary">{{ enrollment.progress_percentage|floatformat:0 }}%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-gradient-primary h-2 rounded-full" style="width: {{ enrollment.progress_percentage }}%"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {{ enrollment.completed_lessons.count }} / {{ course.total_lessons }} ບົດຮຽນ
+                    </p>
+                </div>
+                {% endif %}
+
+                <!-- Chapters (same as desktop sidebar) -->
+                <div class="space-y-3">
+                    {% for chapter in chapters %}
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <button class="chapter-toggle-mobile w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 text-left flex items-center justify-between" data-chapter="{{ chapter.id }}">
+                            <div>
+                                <h4 class="font-semibold text-gray-900 dark:text-white text-sm">{{ chapter.title }}</h4>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ chapter.lessons.count }} ບົດຮຽນ</p>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400 transform transition-transform chapter-icon-mobile" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="chapter-content-mobile hidden" data-chapter="{{ chapter.id }}">
+                            {% for lesson_item in chapter.lessons.all %}
+                            <a href="{% url 'courses:lesson_detail' course.slug lesson_item.slug %}"
+                               class="block px-4 py-3 border-t border-gray-200 dark:border-gray-700 {% if lesson_item.slug == lesson.slug %}bg-blue-50 dark:bg-blue-900/20{% endif %}">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex-shrink-0">
+                                        {% if lesson_item in enrollment.completed_lessons.all %}
+                                        <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        {% elif lesson_item.slug == lesson.slug %}
+                                        <div class="w-6 h-6 bg-primary rounded-full"></div>
+                                        {% else %}
+                                        <div class="w-6 h-6 border-2 border-gray-300 dark:border-gray-600 rounded-full"></div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ lesson_item.title }}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                                            {% if lesson_item.duration_minutes %}{{ lesson_item.duration_minutes }} ນາທີ{% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/html.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+
+<script>
+    // Initialize syntax highlighting and add copy buttons
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+        });
+
+        // Add copy button to all code blocks
+        document.querySelectorAll('pre').forEach((preBlock) => {
+            // Create copy button
+            const button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.type = 'button';
+            button.setAttribute('aria-label', 'Copy code to clipboard');
+
+            // Copy icon SVG
+            button.innerHTML = `
+                <svg class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <svg class="check-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            `;
+
+            // Add click event
+            button.addEventListener('click', async () => {
+                const code = preBlock.querySelector('code');
+                const text = code.innerText || code.textContent;
+
+                try {
+                    await navigator.clipboard.writeText(text);
+
+                    // Show success state
+                    button.classList.add('copied');
+                    const copyIcon = button.querySelector('.copy-icon');
+                    const checkIcon = button.querySelector('.check-icon');
+                    copyIcon.classList.add('hidden');
+                    checkIcon.classList.remove('hidden');
+
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        copyIcon.classList.remove('hidden');
+                        checkIcon.classList.add('hidden');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy code:', err);
+                }
+            });
+
+            preBlock.appendChild(button);
+        });
+    });
+
+    // Desktop Chapter Toggle
+    document.querySelectorAll('.chapter-toggle').forEach(button => {
+        button.addEventListener('click', function() {
+            const chapterId = this.getAttribute('data-chapter');
+            const content = document.querySelector(`.chapter-content[data-chapter="${chapterId}"]`);
+            const icon = this.querySelector('.chapter-icon');
+
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        });
+    });
+
+    // Mobile Chapter Toggle
+    document.querySelectorAll('.chapter-toggle-mobile').forEach(button => {
+        button.addEventListener('click', function() {
+            const chapterId = this.getAttribute('data-chapter');
+            const content = document.querySelector(`.chapter-content-mobile[data-chapter="${chapterId}"]`);
+            const icon = this.querySelector('.chapter-icon-mobile');
+
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        });
+    });
+
+    // Mobile Course Menu
+    const mobileCourseMenuBtn = document.getElementById('mobileCourseMenuBtn');
+    const mobileCourseMenu = document.getElementById('mobileCourseMenu');
+    const closeMobileCourseMenu = document.getElementById('closeMobileCourseMenu');
+
+    if (mobileCourseMenuBtn) {
+        mobileCourseMenuBtn.addEventListener('click', () => {
+            mobileCourseMenu.classList.remove('hidden');
+        });
+    }
+
+    if (closeMobileCourseMenu) {
+        closeMobileCourseMenu.addEventListener('click', () => {
+            mobileCourseMenu.classList.add('hidden');
+        });
+    }
+
+    // Close menu when clicking overlay
+    if (mobileCourseMenu) {
+        mobileCourseMenu.addEventListener('click', (e) => {
+            if (e.target === mobileCourseMenu) {
+                mobileCourseMenu.classList.add('hidden');
+            }
+        });
+    }
+
+    // Open current lesson's chapter by default
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentLesson = document.querySelector('.bg-blue-50, .dark\\:bg-blue-900\\/20');
+        if (currentLesson) {
+            const chapterContent = currentLesson.closest('.chapter-content, .chapter-content-mobile');
+            if (chapterContent) {
+                const chapterId = chapterContent.getAttribute('data-chapter');
+                const desktopToggle = document.querySelector(`.chapter-toggle[data-chapter="${chapterId}"]`);
+                const mobileToggle = document.querySelector(`.chapter-toggle-mobile[data-chapter="${chapterId}"]`);
+
+                if (desktopToggle) {
+                    chapterContent.classList.remove('hidden');
+                    desktopToggle.querySelector('.chapter-icon').classList.add('rotate-180');
+                }
+
+                const mobileContent = document.querySelector(`.chapter-content-mobile[data-chapter="${chapterId}"]`);
+                if (mobileToggle && mobileContent) {
+                    mobileContent.classList.remove('hidden');
+                    mobileToggle.querySelector('.chapter-icon-mobile').classList.add('rotate-180');
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

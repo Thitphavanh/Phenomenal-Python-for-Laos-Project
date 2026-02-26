@@ -1,0 +1,718 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<!-- Highlight.js for code syntax highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+<style>
+    /* Nuxt.com inspired clean blog styling */
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Code blocks - Enhanced */
+    .article-content pre {
+        background: #f9fafb !important;
+        border-radius: 8px;
+        padding: 1.25rem;
+        overflow-x: auto;
+        margin: 2rem 0;
+        border: 1px solid #e5e7eb;
+        position: relative;
+        font-size: 0.875rem;
+    }
+
+    .dark .article-content pre {
+        background: #1f2937 !important;
+        border-color: #374151;
+    }
+
+    /* Copy Code Button */
+    .copy-code-button {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        padding: 0.375rem 0.625rem;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.2s ease;
+        font-size: 0.75rem;
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    .dark .copy-code-button {
+        background: rgba(31, 41, 55, 0.9);
+        border-color: #374151;
+        color: #9ca3af;
+    }
+
+    .article-content pre:hover .copy-code-button {
+        opacity: 1;
+    }
+
+    .copy-code-button:hover {
+        background: #ffffff;
+        border-color: #0078D4;
+        color: #0078D4;
+    }
+
+    .dark .copy-code-button:hover {
+        background: #374151;
+        border-color: #60a5fa;
+        color: #60a5fa;
+    }
+
+    .copy-code-button.copied {
+        background: #ecfdf5;
+        border-color: #10b981;
+        color: #10b981;
+    }
+
+    .dark .copy-code-button.copied {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: #10b981;
+        color: #10b981;
+    }
+
+    .article-content code {
+        font-family: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+        font-size: 0.875rem;
+        line-height: 1.7;
+    }
+
+    .article-content pre code {
+        color: #1f2937;
+        background: transparent;
+        padding: 0;
+    }
+
+    .dark .article-content pre code {
+        color: #e5e7eb;
+    }
+
+    .article-content :not(pre) > code {
+        background: #f3f4f6;
+        color: #001868;
+        padding: 0.2em 0.4em;
+        border-radius: 6px;
+        font-size: 0.875em;
+        font-weight: 500;
+    }
+
+    .dark .article-content :not(pre) > code {
+        background: #1f2937;
+        color: #0078D4;
+    }
+
+    /* Article Content - Clean Typography */
+    .article-content {
+        font-size: 1.0625rem;
+        line-height: 1.75;
+        color: #374151;
+    }
+
+    .dark .article-content {
+        color: #d1d5db;
+    }
+
+    .article-content p {
+        margin: 1.5rem 0;
+    }
+
+    /* Headings - Nuxt Style */
+    .article-content h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-top: 3.5rem;
+        margin-bottom: 1.25rem;
+        scroll-margin-top: 6rem;
+        color: #111827;
+        letter-spacing: -0.025em;
+    }
+
+    .dark .article-content h2 {
+        color: #f9fafb;
+    }
+
+    .article-content h3 {
+        font-size: 1.375rem;
+        font-weight: 600;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        scroll-margin-top: 6rem;
+        color: #1f2937;
+        letter-spacing: -0.0125em;
+    }
+
+    .dark .article-content h3 {
+        color: #e5e7eb;
+    }
+
+    .article-content h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
+        color: #374151;
+    }
+
+    .dark .article-content h4 {
+        color: #d1d5db;
+    }
+
+    /* Links */
+    .article-content a {
+        color: #0078D4;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+    }
+
+    .article-content a:hover {
+        border-bottom-color: #0078D4;
+    }
+
+    .dark .article-content a {
+        color: #60a5fa;
+    }
+
+    .dark .article-content a:hover {
+        border-bottom-color: #60a5fa;
+    }
+
+    /* Lists - Clean style */
+    .article-content ul,
+    .article-content ol {
+        margin: 1.5rem 0;
+        padding-left: 1.75rem;
+    }
+
+    .article-content li {
+        margin: 0.75rem 0;
+        line-height: 1.75;
+        color: #4b5563;
+    }
+
+    .dark .article-content li {
+        color: #d1d5db;
+    }
+
+    .article-content ul li::marker {
+        color: #0078D4;
+    }
+
+    .dark .article-content ul li::marker {
+        color: #60a5fa;
+    }
+
+    .article-content ol li::marker {
+        color: #0078D4;
+        font-weight: 600;
+    }
+
+    .dark .article-content ol li::marker {
+        color: #60a5fa;
+    }
+
+    /* Blockquotes - Minimal style */
+    .article-content blockquote {
+        border-left: 4px solid #0078D4;
+        padding-left: 1.25rem;
+        margin: 2rem 0;
+        font-style: normal;
+        color: #4b5563;
+        font-size: 1.0625rem;
+    }
+
+    .dark .article-content blockquote {
+        color: #9ca3af;
+        border-left-color: #60a5fa;
+    }
+
+    /* Images - Clean with subtle shadow */
+    .article-content img {
+        border-radius: 8px;
+        margin: 2.5rem 0;
+        max-width: 100%;
+        height: auto;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    }
+
+    .dark .article-content img {
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    }
+
+    /* Table of Contents Sidebar - Nuxt.com Style */
+    #toc-sidebar {
+        position: sticky;
+        top: 5rem;
+        max-height: calc(100vh - 7rem);
+        overflow-y: auto;
+        padding-right: 1rem;
+    }
+
+    /* Custom scrollbar for TOC - Ultra minimal */
+    #toc-sidebar::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    #toc-sidebar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    #toc-sidebar::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 10px;
+    }
+
+    .dark #toc-sidebar::-webkit-scrollbar-thumb {
+        background: #374151;
+    }
+
+    #toc-sidebar::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+    }
+
+    .dark #toc-sidebar::-webkit-scrollbar-thumb:hover {
+        background: #4b5563;
+    }
+
+    /* TOC Container */
+    #toc-container {
+        position: relative;
+        padding-left: 1rem;
+    }
+
+    /* TOC Border Line */
+    #toc-container::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: #e5e7eb;
+    }
+
+    .dark #toc-container::before {
+        background: #374151;
+    }
+
+    /* TOC Links - Cleaner Nuxt Style */
+    .toc-link {
+        display: block;
+        padding: 0.375rem 0;
+        padding-left: 0.875rem;
+        margin-left: -1rem;
+        color: #6b7280;
+        text-decoration: none;
+        border-left: 2px solid transparent;
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        position: relative;
+    }
+
+    .dark .toc-link {
+        color: #9ca3af;
+    }
+
+    .toc-link:hover {
+        color: #111827;
+        border-left-color: #d1d5db;
+    }
+
+    .dark .toc-link:hover {
+        color: #f3f4f6;
+        border-left-color: #4b5563;
+    }
+
+    .toc-link.active {
+        color: #0078D4;
+        font-weight: 500;
+        border-left-color: #0078D4;
+    }
+
+    .dark .toc-link.active {
+        color: #60a5fa;
+        border-left-color: #60a5fa;
+    }
+
+    /* H3 links - Slightly indented */
+    .toc-link.toc-h3 {
+        font-size: 0.75rem;
+        padding-left: 1.5rem;
+        margin-left: -1rem;
+        opacity: 0.9;
+    }
+
+    .toc-link.toc-h3.active {
+        opacity: 1;
+    }
+
+    /* TOC Title */
+    .toc-title {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #9ca3af;
+        margin-bottom: 0.75rem;
+        padding-left: 0.875rem;
+    }
+
+    .dark .toc-title {
+        color: #6b7280;
+    }
+</style>
+{% endblock %}
+
+{% block title %}{{ post.title }} - Blog{% endblock %}
+
+{% block content %}
+<!-- Main Container - Nuxt.com Style -->
+<div class="min-h-screen bg-white dark:bg-gray-900">
+    <!-- Article Container -->
+    <article class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid lg:grid-cols-[8fr_2fr] gap-8 lg:gap-12">
+            <!-- Main Content (80%) -->
+            <div class="min-w-0">
+                <!-- Category Badge -->
+                {% if post.category %}
+                <div class="mb-6">
+                    <a href="{% url 'blog:category_posts' post.category.slug %}"
+                       class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                        {{ post.category.name }}
+                    </a>
+                </div>
+                {% endif %}
+
+                <!-- Title - Nuxt.com Style -->
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 leading-tight tracking-tight">
+                    {{ post.title }}
+                </h1>
+
+                <!-- Meta Information -->
+                <div class="flex flex-wrap items-center gap-3 mb-10 pb-8 border-b border-gray-200 dark:border-gray-800">
+                    <!-- Authors -->
+                    <div class="flex items-center gap-3">
+                        <div class="flex -space-x-2">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#001868] to-[#0078D4] flex items-center justify-center text-white font-bold ring-2 ring-white dark:ring-gray-900">
+                                {{ post.author.username|slice:":1"|upper }}
+                            </div>
+                        </div>
+                        <div class="text-sm">
+                            <div class="font-medium text-gray-900 dark:text-white">{{ post.author.username }}</div>
+                        </div>
+                    </div>
+
+                    <span class="text-gray-300 dark:text-gray-700">•</span>
+
+                    <!-- Date -->
+                    <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <time datetime="{{ post.published_at|date:'Y-m-d' }}">{{ post.published_at|date:"M d, Y" }}</time>
+                    </div>
+
+                    <!-- Reading Time -->
+                    <span class="text-gray-300 dark:text-gray-700">•</span>
+                    <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>5 min read</span>
+                    </div>
+                </div>
+
+                <!-- Excerpt -->
+                {% if post.excerpt %}
+                <div class="mb-8 p-6 bg-gray-100 dark:bg-gray-800 rounded-xl border-l-4 border-[#0078D4] text-lg text-gray-700 dark:text-gray-300">
+                    {{ post.excerpt }}
+                </div>
+                {% endif %}
+
+                <!-- Featured Image -->
+                {% if post.featured_image %}
+                <div class="mb-12 rounded-2xl overflow-hidden shadow-xl">
+                    <img src="{{ post.featured_image.url }}"
+                         alt="{{ post.title }}"
+                         class="w-full h-[600px] object-cover">
+                </div>
+                {% endif %}
+
+                <!-- Article Content -->
+                <div class="article-content">
+                    {{ post.content|safe }}
+                </div>
+
+                <!-- Tags Section -->
+                {% if post.tags.all %}
+                <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tags</h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for tag in post.tags.all %}
+                        <a href="#" class="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                            #{{ tag.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Author Info -->
+                <div class="mt-12 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">About the Author</h3>
+                    <div class="flex gap-4">
+                        <div class="w-16 h-16 bg-gradient-to-br from-[#001868] to-[#0078D4] rounded-full flex items-center justify-center text-white text-2xl font-bold shrink-0">
+                            {{ post.author.username|slice:":1"|upper }}
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 dark:text-white mb-1">{{ post.author.get_full_name|default:post.author.username }}</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">@{{ post.author.username }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="mt-12 p-8 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                        Comments ({{ comments.count }})
+                    </h3>
+
+                    <!-- Comment Form -->
+                    {% if user.is_authenticated %}
+                    <form method="POST" class="mb-8">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Leave a comment
+                            </label>
+                            <textarea name="content"
+                                      rows="4"
+                                      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#0078D4] focus:border-transparent outline-none transition"
+                                      placeholder="Share your thoughts..."
+                                      required></textarea>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                    class="px-6 py-3 bg-gradient-to-r from-[#001868] to-[#0078D4] text-white font-semibold rounded-xl hover:shadow-lg transition">
+                                Post Comment
+                            </button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6 text-center mb-8 border border-gray-200 dark:border-gray-600">
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">
+                            Sign in to join the conversation
+                        </p>
+                        <a href="{% url 'admin:login' %}"
+                           class="inline-block px-6 py-3 bg-gradient-to-r from-[#001868] to-[#0078D4] text-white font-semibold rounded-xl hover:shadow-lg transition">
+                            Sign In
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <!-- Comments List -->
+                    <div class="space-y-6">
+                        {% for comment in comments %}
+                        <div class="flex gap-4 pb-6 border-b border-gray-200 dark:border-gray-700 last:border-0">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold shrink-0">
+                                {{ comment.name|slice:":1"|upper }}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="font-semibold text-gray-900 dark:text-white">{{ comment.name }}</span>
+                                    <span class="text-gray-400 dark:text-gray-500">•</span>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">
+                                        {{ comment.created_at|timesince }} ago
+                                    </span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    {{ comment.content|linebreaksbr }}
+                                </p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="text-center py-12">
+                            <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            <p class="text-gray-500 dark:text-gray-400">No comments yet. Be the first to share your thoughts!</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar - Table of Contents (20%) -->
+            <aside class="hidden lg:block">
+                <div id="toc-sidebar">
+                    <h4 class="toc-title">On this page</h4>
+                    <nav id="toc-container">
+                        <!-- Populated via JS -->
+                    </nav>
+                </div>
+            </aside>
+        </div>
+    </article>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Highlight.js for syntax highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Initialize Syntax Highlighting
+        document.querySelectorAll('.article-content pre code').forEach((block) => {
+            hljs.highlightElement(block);
+        });
+
+        // Add Copy Buttons
+        document.querySelectorAll('.article-content pre').forEach((preBlock) => {
+            const button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.textContent = 'Copy';
+
+            button.addEventListener('click', async () => {
+                const code = preBlock.querySelector('code');
+                const text = code.textContent;
+
+                try {
+                    await navigator.clipboard.writeText(text);
+                    button.textContent = 'Copied!';
+                    button.classList.add('copied');
+
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                        button.classList.remove('copied');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                }
+            });
+
+            preBlock.appendChild(button);
+        });
+
+        // Generate Table of Contents with Smooth Scrolling
+        const content = document.querySelector('.article-content');
+        const tocContainer = document.getElementById('toc-container');
+        const tocSidebar = document.getElementById('toc-sidebar');
+
+        if (!content || !tocContainer) return;
+
+        const headings = content.querySelectorAll('h2, h3');
+
+        if (headings.length === 0) {
+            if (tocSidebar) tocSidebar.style.display = 'none';
+            return;
+        }
+
+        headings.forEach((heading, index) => {
+            if (!heading.innerText.trim()) return;
+
+            // Create unique ID if doesn't exist
+            if (!heading.id) {
+                const id = heading.innerText
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                heading.id = id || 'heading-' + index;
+            }
+
+            const link = document.createElement('a');
+            link.href = '#' + heading.id;
+            link.textContent = heading.innerText;
+            link.className = `toc-link ${heading.tagName === 'H3' ? 'toc-h3' : ''}`;
+
+            // Smooth scroll on click
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.getElementById(heading.id);
+                if (target) {
+                    const offset = 100; // Offset for fixed navbar
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update URL hash without jumping
+                    history.pushState(null, null, '#' + heading.id);
+                    // Update active state
+                    updateActiveLink(link);
+                }
+            });
+
+            tocContainer.appendChild(link);
+        });
+
+        // Function to update active link
+        function updateActiveLink(activeLink) {
+            tocContainer.querySelectorAll('.toc-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            activeLink.classList.add('active');
+        }
+
+        // Track active section on scroll
+        let currentActive = null;
+        const observerOptions = {
+            rootMargin: '-100px 0px -66%',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    const tocLink = tocContainer.querySelector(`a[href="#${id}"]`);
+                    if (tocLink && tocLink !== currentActive) {
+                        updateActiveLink(tocLink);
+                        currentActive = tocLink;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach(heading => {
+            if (heading.id) observer.observe(heading);
+        });
+
+        // Initial check for active hash
+        if (window.location.hash) {
+            const initialLink = tocContainer.querySelector(`a[href="${window.location.hash}"]`);
+            if (initialLink) {
+                updateActiveLink(initialLink);
+                currentActive = initialLink;
+                
+                // Optional: Scroll to it on load if needed (browser usually handles this)
+                // const target = document.querySelector(window.location.hash);
+                // if(target) {
+                //      const offset = 100;
+                //      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                //      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                // }
+            }
+        }
+    });
+</script>
+{% endblock %}
+```

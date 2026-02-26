@@ -1,0 +1,500 @@
+"""
+Views and API Endpoints for AI Agents
+Django REST Framework ViewSets and APIViews
+"""
+
+from rest_framework import viewsets, status
+from rest_framework.decorators import api_view, action, permission_classes
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.views import APIView
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import os
+import json
+import uuid
+import logging
+
+from .models import (
+    ChatConversation,
+    ChatMessage,
+    CourseAnalytics,
+    PaymentSlipAnalysis,
+    CourseRecommendation,
+)
+from .serializers import *
+from .services.chatbot import MultiProviderChatbot, PythonLaosChatbot
+from .services.analytics import CourseAnalyticsAgent, BusinessIntelligenceAgent
+from .services.payment_slip_processor import PaymentSlipProcessor
+from .services.recommendation import CourseRecommendationEngine
+
+logger = logging.getLogger(__name__)
+
+
+# ============================================
+# CHATBOT VIEWS
+# ============================================
+
+class ChatAPIView(APIView):
+    """API endpoint for chatbot"""
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        """Handle chat request"""
+        serializer = ChatRequestSerializer(data=request.data)
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        data = serializer.validated_data
+        message = data['message']
+        session_id = data.get('session_id') or str(uuid.uuid4())
+        use_rag = data.get('use_rag', True)
+        provider = data.get('provider', 'openai')
+        
+        try:
+            # Get or create conversation
+            conversation, created = ChatConversation.objects.get_or_create(
+                session_id=session_id,
+                defaults={'user': request.user if request.user.is_authenticated else None}
+            )
+            
+            # Save user message
+            ChatMessage.objects.create(
+                conversation=conversation,
+                role='user',
+                content=message
+            )
+            
+            # Get conversation history
+            history = list(conversation.messages.values('role', 'content').order_by('created_at'))
+            history_formatted = [{'role': m['role'], 'content': m['content']} for m in history[:-1]]
+            
+            # Get chatbot response
+            chatbot = MultiProviderChatbot()
+            response = chatbot.chat(
+                message=message,
+                provider=provider,
+                conversation_history=history_formatted,
+                use_rag=use_rag
+            )
+            
+            # Save assistant message
+            ChatMessage.objects.create(
+                conversation=conversation,
+                role='assistant',
+                content=response['response'],
+                metadata={
+                    'sources': response.get('sources', []),
+                    'tokens_used': response.get('tokens_used'),
+                    'model': response.get('model'),
+                    'provider': response.get('provider')
+                }
+            )
+            
+            # Prepare response
+            response_data = {
+                'response': response['response'],
+                'session_id': session_id,
+                'sources': response.get('sources', []),
+                'tokens_used': response.get('tokens_used'),
+                'model': response.get('model'),
+                'provider': response.get('provider')
+            }
+            
+            return Response(response_data, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            logger.error(f"Chat API error: {e}")
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+def chatbot_page(request):
+    """Render chatbot UI page"""
+    return render(request, 'ai_agents/chatbot.html')
+
+
+# ============================================
+# ANALYTICS VIEWS
+# ============================================
+
+class CourseAnalyticsViewSet(viewsets.ReadOnlyModelViewSet):
+    """ViewSet for course analytics"""
+    queryset = CourseAnalytics.objects.all()
+    serializer_class = CourseAnalyticsSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
+    @action(detail=False, methods=['post'])
+    def generate(self, request):
+        """Generate analytics for a course"""
+        serializer = AnalyticsRequestSerializer(data=request.data)
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        course_id = serializer.validated_data['course_id']
+        
+        try:
+            agent = CourseAnalyticsAgent()
+            analytics = agent.analyze_course(course_id)
+            
+            if 'error' in analytics:
+                return Response(analytics, status=status.HTTP_404_NOT_FOUND)
+            
+            # Save to database
+            from courses.models import Course
+            course = Course.objects.get(id=course_id)
+            
+            # Mark previous analytics as not current
+            CourseAnalytics.objects.filter(course=course).update(is_current=False)
+            
+            # Create new analytics
+            analytics_obj = CourseAnalytics.objects.create(
+                course=course,
+                enrollment_prediction=analytics.get('predictions'),
+                performance_insights=analytics.get('completion_analysis'),
+                student_engagement_score=analytics.get('engagement_score', 0),
+                completion_rate_prediction=analytics.get('basic_stats', {}).get('completion_rate', 0),
+                recommendations='\n'.join(analytics.get('recommendations', [])),
+                suggested_improvements=analytics.get('enrollment_trends'),
+                is_current=True
+            )
+            
+            response_serializer = CourseAnalyticsSerializer(analytics_obj)
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            logger.error(f"Analytics generation error: {e}")
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticatedOrReadOnly])
+def get_course_analytics(request, course_id):
+    """Get analytics for a specific course"""
+    try:
+        # Check if course exists
+        from courses.models import Course
+        course = get_object_or_404(Course, id=course_id)
+        
+        # Try to get existing latest analytics
+        analytics = CourseAnalytics.objects.filter(
+            course=course, 
+            is_current=True
+        ).first()
+        
+        # If no analytics or force refresh (optional), generate new
+        if not analytics:
+            agent = CourseAnalyticsAgent()
+            result = agent.analyze_course(course_id)
+            
+            if 'error' in result:
+                return Response(result, status=status.HTTP_404_NOT_FOUND)
+                
+            # Create new analytics object
+            analytics = CourseAnalytics.objects.create(
+                course=course,
+                enrollment_prediction=result.get('enrollment_prediction'),
+                student_engagement_score=result.get('engagement_score', 0),
+                recommendations=result.get('recommendations', ''),
+                is_current=True
+            )
+            
+        serializer = CourseAnalyticsSerializer(analytics)
+        return Response(serializer.data)
+        
+    except Exception as e:
+        logger.error(f"Error fetching course analytics: {e}")
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+def business_intelligence_report(request):
+    """Generate monthly BI report"""
+    try:
+        agent = BusinessIntelligenceAgent()
+        report = agent.generate_monthly_report()
+        return Response(report, status=status.HTTP_200_OK)
+    except Exception as e:
+        logger.error(f"BI report error: {e}")
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# ============================================
+# PAYMENT SLIP VIEWS
+# ============================================
+
+class PaymentSlipAnalysisViewSet(viewsets.ModelViewSet):
+    """ViewSet for payment slip analysis"""
+    queryset = PaymentSlipAnalysis.objects.all()
+    serializer_class = PaymentSlipAnalysisSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        """Filter by user"""
+        if self.request.user.is_staff:
+            return PaymentSlipAnalysis.objects.all()
+        return PaymentSlipAnalysis.objects.filter(user=self.request.user)
+    
+    @action(detail=False, methods=['post'])
+    def analyze(self, request):
+        """Analyze uploaded payment slip"""
+        serializer = PaymentSlipUploadSerializer(data=request.data)
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        image = serializer.validated_data['image']
+        event_registration_id = serializer.validated_data.get('event_registration_id')
+        
+        try:
+            # Save image
+            analysis = PaymentSlipAnalysis.objects.create(
+                image=image,
+                user=request.user,
+                status='processing'
+            )
+            
+            # Process slip
+            processor = PaymentSlipProcessor()
+            result = processor.process_slip(analysis.image.path)
+            
+            # Update analysis
+            analysis.extracted_data = result.get('extracted_data', {})
+            analysis.amount = result.get('extracted_data', {}).get('amount')
+            analysis.transaction_id = result.get('extracted_data', {}).get('transaction_id')
+            analysis.payment_date = result.get('extracted_data', {}).get('payment_date')
+            analysis.sender_name = result.get('extracted_data', {}).get('sender_name')
+            analysis.confidence_score = result.get('confidence_score', 0)
+            analysis.status = result.get('status', 'completed')
+            
+            if event_registration_id:
+                from events.models import EventRegistration
+                analysis.event_registration_id = event_registration_id
+            
+            analysis.save()
+            
+            response_serializer = PaymentSlipAnalysisSerializer(analysis)
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            logger.error(f"Payment slip analysis error: {e}")
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# ============================================
+# RECOMMENDATION VIEWS
+# ============================================
+
+class CourseRecommendationViewSet(viewsets.ReadOnlyModelViewSet):
+    """ViewSet for course recommendations"""
+    queryset = CourseRecommendation.objects.all()
+    serializer_class = CourseRecommendationSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        """Filter by user"""
+        return CourseRecommendation.objects.filter(
+            user=self.request.user,
+            is_active=True
+        )
+    
+    @action(detail=False, methods=['post'])
+    def generate(self, request):
+        """Generate recommendations for current user"""
+        serializer = RecommendationRequestSerializer(data=request.data)
+        
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        limit = serializer.validated_data.get('limit', 5)
+        
+        try:
+            engine = CourseRecommendationEngine()
+            recommendations = engine.recommend_for_user(request.user, limit=limit)
+            
+            # Save recommendations to database
+            CourseRecommendation.objects.filter(user=request.user).update(is_active=False)
+            
+            for rec in recommendations:
+                CourseRecommendation.objects.create(
+                    user=request.user,
+                    recommended_course=rec['course'],
+                    relevance_score=rec['score'],
+                    reason=rec['reason'],
+                    based_on={'method': rec['method']},
+                    is_active=True
+                )
+            
+            # Get fresh data
+            saved_recs = CourseRecommendation.objects.filter(
+                user=request.user,
+                is_active=True
+            ).order_by('-relevance_score')
+            
+            response_serializer = CourseRecommendationSerializer(saved_recs, many=True)
+            return Response(response_serializer.data, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            logger.error(f"Recommendation generation error: {e}")
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# ============================================
+# UTILITY VIEWS
+# ============================================
+
+@api_view(['GET'])
+def ai_status(request):
+    """Check AI services status"""
+    chatbot = MultiProviderChatbot()
+    
+    return Response({
+        'available_providers': chatbot.get_available_providers(),
+        'vector_db_status': 'active',
+        'services': {
+            'chatbot': True,
+            'analytics': True,
+            'payment_processor': True,
+            'recommendations': True
+        }
+    })
+
+
+@login_required
+def analytics_dashboard(request):
+    """Render analytics dashboard"""
+    return render(request, 'ai_agents/analytics_dashboard.html')
+
+
+# ============================================
+# WHATSAPP WEBHOOK VIEWS
+# ============================================
+
+from .services.whatsapp import WhatsAppService
+
+class WhatsAppWebhookView(APIView):
+    """Webhook for receiving and responding to WhatsApp messages"""
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        """Handle Webhook Verification requested by Meta"""
+        verify_token = os.getenv('WHATSAPP_VERIFY_TOKEN')
+        
+        mode = request.GET.get('hub.mode')
+        token = request.GET.get('hub.verify_token')
+        challenge = request.GET.get('hub.challenge')
+        
+        if mode and token:
+            if mode == 'subscribe' and token == verify_token:
+                logger.info("WhatsApp WEBHOOK_VERIFIED")
+                return HttpResponse(challenge, status=200)
+            else:
+                return HttpResponseForbidden()
+                
+        return HttpResponse("Invalid Request", status=400)
+        
+    def post(self, request):
+        """Handle incoming WhatsApp messages"""
+        try:
+            body = request.data
+            
+            # Check if this is a WhatsApp API event
+            if body.get('object') == 'whatsapp_business_account':
+                for entry in body.get('entry', []):
+                    for change in entry.get('changes', []):
+                        value = change.get('value', {})
+                        messages = value.get('messages', [])
+                        
+                        if messages:
+                            # We got a message!
+                            message = messages[0]
+                            phone_number = message['from']  # Sender's phone number
+                            message_type = message.get('type')
+                            
+                            if message_type == 'text':
+                                message_text = message['text']['body']
+                                
+                                # Process with AI Chatbot
+                                chatbot = MultiProviderChatbot()
+                                response = chatbot.chat(
+                                    message=message_text,
+                                    provider='gemini' # Fallback default
+                                )
+                                
+                                ai_response = response.get('response', 'ຂໍອະໄພ, ຂ້ອຍບໍ່ສາມາດຕອບໄດ້ໃນຂະນະນີ້.')
+                                
+                                # Send response back via WhatsApp
+                                wa_service = WhatsAppService()
+                                wa_service.send_message(phone_number, ai_response)
+                                
+                return HttpResponse("EVENT_RECEIVED", status=200)
+            
+            return HttpResponse("Not a WhatsApp API event", status=404)
+            
+        except Exception as e:
+            logger.error(f"WhatsApp Webhook error: {e}")
+            return HttpResponse("Error processing request", status=500)
+
+
+# ============================================
+# LINE INTEGRATION VIEWS
+# ============================================
+
+from .services.line import LineService
+
+def line_login_page(request):
+    """Render LINE Login/LIFF UI page"""
+    return render(request, 'ai_agents/line_login.html')
+
+class LineWebhookView(APIView):
+    """Webhook for receiving and responding to LINE messages"""
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        """Handle incoming LINE messages"""
+        line_service = LineService()
+        
+        # Security: Verify that the request is actually from LINE
+        signature = request.META.get('HTTP_X_LINE_SIGNATURE', '')
+        body = request.body.decode('utf-8')
+        
+        if not line_service.verify_webhook(body, signature):
+            logger.warning("Invalid LINE webhook signature")
+            return HttpResponseForbidden("Invalid LINE signature")
+            
+        try:
+            events = request.data.get('events', [])
+            
+            for event in events:
+                # Handle text messages
+                if event.get('type') == 'message' and event.get('message', {}).get('type') == 'text':
+                    reply_token = event.get('replyToken')
+                    user_id = event.get('source', {}).get('userId')
+                    message_text = event.get('message', {}).get('text')
+                    
+                    if reply_token and message_text:
+                        # Process user message with AI
+                        chatbot = MultiProviderChatbot()
+                        response = chatbot.chat(
+                            message=message_text,
+                            provider='gemini' # Default fallback
+                        )
+                        
+                        ai_response = response.get('response', 'ຂໍອະໄພ, ຂ້ອຍບໍ່ສາມາດຕອບໄດ້ໃນຂະນະນີ້.')
+                        
+                        # Reply back to LINE user
+                        line_service.reply_message(reply_token, ai_response)
+                        
+            return HttpResponse("OK", status=200)
+            
+        except Exception as e:
+            logger.error(f"LINE Webhook error: {e}")
+            return HttpResponse("Error processing request", status=500)
+
+

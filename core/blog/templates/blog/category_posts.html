@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} - ບລັອກຂອງຂ້ອຍ{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1>{{ category.name }}</h1>
+    {% if category.description %}
+    <p class="text-muted">{{ category.description }}</p>
+    {% endif %}
+</div>
+
+<div class="row">
+    {% for post in page_obj %}
+    <div class="col-md-6 mb-4">
+        <div class="card post-card h-100">
+            {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">
+                    <a href="{% url 'blog:post_detail' post.slug %}" class="text-decoration-none text-dark">
+                        {{ post.title }}
+                    </a>
+                </h5>
+                <p class="card-text">{{ post.excerpt }}</p>
+                <div class="text-muted small mb-2">
+                    {{ post.author.username }} | {{ post.published_at|date:"d/m/Y" }}
+                </div>
+                <div class="mt-auto">
+                    <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary btn-sm">
+                        ອ່ານຕໍ່
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            ບໍ່ມີບົດຄວາມໃນໝວດໝູ່ນີ້
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">ກັບໄປໜ້າຫລັກ</a>
+</div>
+{% endblock %}

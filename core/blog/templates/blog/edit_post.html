@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}ແກ້ໄຂ: {{ post.title }} - ບລັອກຂອງຂ້ອຍ{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-edit"></i> ແກ້ໄຂບົດຄວາມ: {{ post.title }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">ຫົວຂໍ້:</label>
+                        {{ form.title }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.slug.id_for_label }}" class="form-label">Slug (URL):</label>
+                        {{ form.slug }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.excerpt.id_for_label }}" class="form-label">ສະຫຼຸບຫຍໍ້:</label>
+                        {{ form.excerpt }}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.category.id_for_label }}" class="form-label">ໝວດໝູ່:</label>
+                            {{ form.category }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.status.id_for_label }}" class="form-label">ສະຖານະ:</label>
+                            {{ form.status }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.featured_image.id_for_label }}" class="form-label">ຮູບປົກ:</label>
+                        {{ form.featured_image }}
+                        {% if post.featured_image %}
+                        <div class="mt-2">
+                            <img src="{{ post.featured_image.url }}" class="img-thumbnail" style="max-width: 200px;">
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">ແທັກ:</label>
+                        <div class="row">
+                            {% for checkbox in form.tags %}
+                            <div class="col-md-4 mb-2">
+                                {{ checkbox }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.content.id_for_label }}" class="form-label">ເນື້ອຫາ:</label>
+                        {{ form.content }}
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> ອັບເດດ
+                        </button>
+                        <a href="#" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> ຍົກເລີກ
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

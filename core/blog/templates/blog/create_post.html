@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+
+{% block title %}ສ້າງບົດຄວາມໃໝ່ - PythonForLaos{% endblock %}
+
+{% block content %}
+<div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-title mb-2 dark:text-title-dark">ສ້າງບົດຄວາມໃໝ່</h1>
+            <p class="text-text-dimmed dark:text-text-dimmed-dark">ແບ່ງປັນຄວາມຮູ້ ແລະ ປະສົບການຂອງທ່ານກັບຊຸມຊົນ Python ລາວ</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-body border border-border rounded-lg p-6 dark:bg-body-dark dark:border-border-dark">
+            <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Title -->
+                <div>
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-title mb-2 dark:text-title-dark">
+                        ຫົວຂໍ້ບົດຄວາມ <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" name="title" id="id_title" required
+                        class="w-full px-4 py-2.5 bg-body border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-body-dark dark:border-border-dark dark:text-text-dark"
+                        placeholder="ຕົວຢ່າງ: Python Programming: ຄູ່ມືສຳລັບຜູ້ເລີ່ມຕົ້ນ">
+                </div>
+
+                <!-- Slug -->
+                <div>
+                    <label for="{{ form.slug.id_for_label }}" class="block text-sm font-medium text-title mb-2 dark:text-title-dark">
+                        URL Slug <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" name="slug" id="id_slug" required
+                        class="w-full px-4 py-2.5 bg-body border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-body-dark dark:border-border-dark dark:text-text-dark"
+                        placeholder="python-programming-guide">
+                    <p class="mt-1.5 text-xs text-text-dimmed dark:text-text-dimmed-dark">
+                        ໃຊ້ຕົວອັກສອນພາສາອັງກິດຕົວນ້ອຍ, ຕົວເລກ ແລະ ເຄື່ອງໝາຍ "-" ເທົ່ານັ້ນ (ຈະຖືກສ້າງອັດຕະໂນມັດຈາກຫົວຂໍ້)
+                    </p>
+                </div>
+
+                <!-- Post Type -->
+                <div>
+                    <label for="{{ form.post_type.id_for_label }}" class="block text-sm font-medium text-title mb-2 dark:text-title-dark">
+                        ປະເພດບົດຄວາມ <span class="text-red-500">*</span>
+                    </label>
+                    <select name="post_type" id="id_post_type"
+                        class="w-full px-4 py-2.5 bg-body border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-body-dark dark:border-border-dark dark:text-text-dark">
+                        <option value="blog">📝 Blog - ບົດຄວາມເຕັມ</option>
+                        <option value="post">💬 Post - ການສົນທະນາ</option>
+                    </select>
+                </div>
+
+                <!-- Excerpt -->
+                <div>
+                    <label for="{{ form.excerpt.id_for_label }}" class="block text-sm font-medium text-title mb-2 dark:text-title-dark">
+                        ສະຫຼຸບຫຍໍ້
+                    </label>
+                    <textarea name="excerpt" id="id_excerpt" rows="3"
+                        class="w-full px-4 py-2.5 bg-body border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none dark:bg-body-dark dark:border-border-dark dark:text-text-dark"
+                        placeholder="ສະຫຼຸບສັ້ນໆກ່ຽວກັບເນື້ອຫາຂອງບົດຄວາມ..."></textarea>
+                </div>
+
+                <!-- Category & Status Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Category -->
+                    <div>
+                        <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-title mb-2 dark:text-title-dark">
+                            ໝວດໝູ່
+                        </label>
+                        <select name="category" id="id_category"
+                            class="w-full px-4 py-2.5 bg-body border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-body-dark dark:border-border-dark dark:text-text-dark">
+                            <option value="">-- ເລືອກໝວດໝູ່ --</option>
+                            {{ form.category }}
+                        </select>
+                    </div>
+
+                    <!-- Status -->
+                    <div>
+                        <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-title mb-2 dark:text-title-dark">
+                            ສະຖານະ <span class="text-red-500">*</span>
+                        </label>
+                        <select name="status" id="id_status"
+                            class="w-full px-4 py-2.5 bg-body border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-body-dark dark:border-border-dark dark:text-text-dark">
+                            {{ form.status }}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div>
+                    <label for="{{ form.featured_image.id_for_label }}" class="block text-sm font-medium text-title mb-2 dark:text-title-dark">
+                        ຮູບປົກ
+                    </label>
+                    <div class="flex items-center gap-4">
+                        <label for="id_featured_image"
+                            class="px-6 py-2.5 bg-gray-100 border border-border rounded-lg text-text cursor-pointer hover:bg-gray-200 transition-colors dark:bg-gray-800 dark:border-border-dark dark:text-text-dark dark:hover:bg-gray-700">
+                            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            ເລືອກຮູບພາບ
+                        </label>
+                        <input type="file" name="featured_image" id="id_featured_image" accept="image/*" class="hidden">
+                        <span id="file-name" class="text-sm text-text-dimmed dark:text-text-dimmed-dark">ຍັງບໍ່ໄດ້ເລືອກໄຟລ໌</span>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div>
+                    <label class="block text-sm font-medium text-title mb-3 dark:text-title-dark">
+                        ແທັກ
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                        {% for checkbox in form.tags %}
+                        <label class="flex items-center space-x-2 cursor-pointer group">
+                            <input type="checkbox" name="tags" value="{{ checkbox.data.value }}"
+                                class="w-4 h-4 text-primary border-border rounded focus:ring-2 focus:ring-primary dark:border-border-dark">
+                            <span class="text-sm text-text group-hover:text-primary transition-colors dark:text-text-dark">{{ checkbox.choice_label }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div>
+                    <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-title mb-2 dark:text-title-dark">
+                        ເນື້ອຫາ <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mb-2 flex items-center gap-2 text-xs text-text-dimmed dark:text-text-dimmed-dark">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>ສະໜັບສະໜູນ HTML Tags: &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;pre&gt;&lt;code&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;</span>
+                    </div>
+                    <textarea name="content" id="id_content" rows="20" required
+                        class="w-full px-4 py-3 bg-body border border-border rounded-lg text-text font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-y dark:bg-body-dark dark:border-border-dark dark:text-text-dark"
+                        placeholder="<h2>ຫົວຂໍ້ໃຫຍ່</h2>
+<p>ເນື້ອຫາຂອງທ່ານ...</p>
+
+<h3>ຫົວຂໍ້ຍ່ອຍ</h3>
+<pre><code class=&quot;language-python&quot;>
+# ຕົວຢ່າງໂຄ້ດ
+print(&quot;Hello, Laos!&quot;)
+</code></pre>"></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-between pt-6 border-t border-border dark:border-border-dark">
+                    <a href="{% url 'blog:post_list' %}"
+                        class="px-6 py-2.5 text-text-dimmed hover:text-text hover:bg-gray-100 rounded-lg transition-colors dark:text-text-dimmed-dark dark:hover:text-text-dark dark:hover:bg-gray-800">
+                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        ຍົກເລີກ
+                    </a>
+                    <button type="submit"
+                        class="px-8 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors">
+                        <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        ເຜີຍແຜ່ບົດຄວາມ
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Tips Card -->
+        <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6 dark:bg-blue-900/20 dark:border-blue-800">
+            <h3 class="text-lg font-semibold text-primary mb-3 dark:text-secondary">💡 ຄຳແນະນຳການຂຽນບົດຄວາມ</h3>
+            <ul class="space-y-2 text-sm text-text dark:text-text-dark">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">•</span>
+                    <span>ໃຊ້ຫົວຂໍ້ທີ່ຊັດເຈນ ແລະ ໜ້າສົນໃຈ</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">•</span>
+                    <span>ແບ່ງເນື້ອຫາເປັນສ່ວນໆດ້ວຍ &lt;h2&gt; ແລະ &lt;h3&gt;</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">•</span>
+                    <span>ໃຊ້ຕົວຢ່າງໂຄ້ດເພື່ອສະແດງໃຫ້ເຫັນແນວຄວາມຄິດ</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">•</span>
+                    <span>ເພີ່ມຮູບປົກເພື່ອດຶງດູດຄວາມສົນໃຈ</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">•</span>
+                    <span>ໃຊ້ແທັກທີ່ກ່ຽວຂ້ອງເພື່ອໃຫ້ຜູ້ອ່ານຊອກຫາໄດ້ງ່າຍ</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Custom scrollbar for content textarea */
+#id_content::-webkit-scrollbar {
+    width: 8px;
+}
+
+#id_content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#id_content::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 4px;
+}
+
+#id_content::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}
+
+.dark #id_content::-webkit-scrollbar-thumb {
+    background: #4a5568;
+}
+
+.dark #id_content::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+}
+</style>
+
+<script>
+// Auto-generate slug from title
+document.getElementById('id_title').addEventListener('input', function() {
+    const title = this.value;
+    const slug = title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim()
+        .replace(/^-+|-+$/g, '');
+    document.getElementById('id_slug').value = slug;
+});
+
+// Show selected file name
+document.getElementById('id_featured_image').addEventListener('change', function() {
+    const fileName = this.files[0] ? this.files[0].name : 'ຍັງບໍ່ໄດ້ເລືອກໄຟລ໌';
+    document.getElementById('file-name').textContent = fileName;
+});
+
+// Handle form fields rendering (remove Django's default rendering)
+document.addEventListener('DOMContentLoaded', function() {
+    // Hide Django's auto-generated select options wrapper if needed
+    const categorySelect = document.getElementById('id_category');
+    const statusSelect = document.getElementById('id_status');
+
+    if (categorySelect && categorySelect.options.length === 0) {
+        // If no options, you may need to manually populate or handle
+        console.log('Category select needs population');
+    }
+});
+</script>
+{% endblock %}

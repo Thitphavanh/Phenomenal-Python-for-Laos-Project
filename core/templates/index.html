@@ -1,0 +1,785 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Python for Laos - ຮຽນ Python & Django ເປັນພາສາລາວ{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Modern Gradient Backgrounds - Nuxt Style */
+    .gradient-bg-1 {
+        background: linear-gradient(135deg, #001868 0%, #0033a0 100%);
+    }
+
+    .gradient-bg-2 {
+        background: linear-gradient(135deg, #0078D4 0%, #2196F3 100%);
+    }
+
+    .gradient-bg-3 {
+        background: linear-gradient(135deg, #2196F3 0%, #64B5F6 100%);
+    }
+
+    .gradient-text {
+        background: linear-gradient(135deg, #001868 0%, #0078D4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Hero Section - Apple Style */
+    .hero-section {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 50% 0%, rgba(0, 24, 104, 0.15), transparent 50%),
+                    radial-gradient(circle at 0% 100%, rgba(0, 120, 212, 0.15), transparent 50%);
+        z-index: 0;
+    }
+
+    .dark .hero-section::before {
+        background: radial-gradient(circle at 50% 0%, rgba(0, 24, 104, 0.25), transparent 50%),
+                    radial-gradient(circle at 0% 100%, rgba(0, 120, 212, 0.25), transparent 50%);
+    }
+
+    /* Floating Animation */
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .float {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    /* Fade In Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    /* Card Hover Effects - Modern */
+    .feature-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .feature-card {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .feature-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Button Styles - Apple Inspired */
+    .btn-primary {
+        background: linear-gradient(135deg, #001868 0%, #0033a0 100%);
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: 1.125rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 24, 104, 0.4);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 24, 104, 0.6);
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #333;
+        padding: 1rem 2.5rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: 1.125rem;
+        transition: all 0.3s ease;
+    }
+
+    .dark .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    /* Code Block Styling */
+    .code-preview {
+        background: #1e1e1e;
+        border-radius: 12px;
+        padding: 2rem;
+        font-family: 'Monaco', 'Courier New', monospace;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        overflow-x: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Stats Counter Animation */
+    @keyframes countUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stat-number {
+        animation: countUp 0.8s ease-out forwards;
+    }
+
+    /* Blob Animation Background */
+    .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.15;
+        animation: blob 20s infinite;
+    }
+
+    @keyframes blob {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(100px, -50px) scale(1.1); }
+        50% { transform: translate(-50px, 100px) scale(0.9); }
+        75% { transform: translate(100px, 100px) scale(1.05); }
+    }
+
+    .dark .blob {
+        opacity: 0.25;
+    }
+
+    /* Section Spacing */
+    .section {
+        padding: 6rem 0;
+    }
+
+    @media (max-width: 768px) {
+        .section {
+            padding: 3rem 0;
+        }
+    }
+
+    /* Smooth Scroll */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Glass morphism effect */
+    .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .dark .glass {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+</style>
+{% endblock %}
+{% block extra_head %}
+<!-- JSON-LD for Organization & WebSite -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://pythonforlaos.com/#organization",
+      "name": "Phenomenal Python for Laos",
+      "url": "https://pythonforlaos.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pythonforlaos.com{% static 'images/python-for-laos.png' %}",
+        "width": 512,
+        "height": 512
+      },
+      "sameAs": [
+        "https://facebook.com/pythonforlaos",
+        "https://twitter.com/pythonforlaos"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://pythonforlaos.com/#website",
+      "url": "https://pythonforlaos.com",
+      "name": "Python for Laos",
+      "publisher": {
+        "@id": "https://pythonforlaos.com/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://pythonforlaos.com/posts/?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section relative">
+    <!-- Animated Blobs -->
+    <div class="blob" style="width: 500px; height: 500px; background: linear-gradient(135deg, #001868, #0033a0); top: 10%; left: 10%;"></div>
+    <div class="blob" style="width: 400px; height: 400px; background: linear-gradient(135deg, #0078D4, #2196F3); bottom: 10%; right: 10%; animation-delay: -5s;"></div>
+
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-5lxl mx-auto">
+            <!-- Main Heading -->
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 fade-in-up text-gray-900 dark:text-white">
+                ຮຽນ <span class="gradient-text">Python & Django</span>
+                <br>ເປັນພາສາລາວ
+            </h1>
+
+            <!-- Subheading -->
+            <p class="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-12 fade-in-up max-w-3xl mx-auto" style="animation-delay: 0.2s;">
+                ເລີ່ມຕົ້ນການເດີນທາງໃນໂລກຂອງ Programming ດ້ວຍບົດຮຽນທີ່ງ່າຍ, ມີຕົວຢ່າງທີ່ຈະແຈ້ງ ແລະ ເປັນພາສາລາວທັງໝົດ
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-up" style="animation-delay: 0.4s;">
+                <a href="{% url 'docs:doc_list' %}" class="btn-primary inline-block">
+                    ເລີ່ມຮຽນດຽວນີ້
+                </a>
+                <a href="{% url 'blog:post_list' %}?type=blog" class="btn-secondary inline-block">
+                    ອ່ານບລັອກ
+                </a>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-8 mt-16 fade-in-up" style="animation-delay: 0.6s;">
+                <div class="text-center">
+                    <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2">50+</div>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">ບົດຮຽນ</div>
+                </div>
+                <div class="text-center">
+                    <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2" style="animation-delay: 0.1s;">1.2k+</div>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">ນັກຮຽນ</div>
+                </div>
+                <div class="text-center">
+                    <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2" style="animation-delay: 0.2s;">100%</div>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">ຟຣີ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="section bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+                ເປັນຫຍັງຕ້ອງເລືອກເຮົາ?
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                ເຮົາມີທຸກສິ່ງທີ່ທ່ານຕ້ອງການເພື່ອກາຍເປັນ Python Developer ທີ່ດີ
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-8">
+                <div class="w-16 h-16 gradient-bg-1 rounded-2xl flex items-center justify-center mb-6 float">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">ພາສາລາວທັງໝົດ</h3>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    ບົດຮຽນທຸກບົດເປັນພາສາລາວ ງ່າຍຕໍ່ການເຂົ້າໃຈ ບໍ່ມີອຸປະສັກໃນການຮຽນຮູ້
+                </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-8" style="animation-delay: 0.1s;">
+                <div class="w-16 h-16 gradient-bg-2 rounded-2xl flex items-center justify-center mb-6 float" style="animation-delay: 1s;">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">ຕົວຢ່າງຈິງ</h3>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Code ຕົວຢ່າງທີ່ສາມາດລອງໃຊ້ໄດ້ຈິງ ພ້ອມຄຳອະທິບາຍລະອຽດ
+                </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-8" style="animation-delay: 0.2s;">
+                <div class="w-16 h-16 gradient-bg-3 rounded-2xl flex items-center justify-center mb-6 float" style="animation-delay: 2s;">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">ອັບເດດສະເໝີ</h3>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    ເນື້ອຫາໃໝ່ທຸກອາທິດ ອັບເດດຕາມ Technology ລ້າສຸດ
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Code Preview Section -->
+<section class="section">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Left: Text -->
+            <div>
+                <h2 class="text-4xl sm:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
+                    ງ່າຍດາຍ<br>
+                    <span class="gradient-text">ແບບບໍ່ເຄີຍມີມາກ່ອນ</span>
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                    Python ແມ່ນພາສາທີ່ງ່າຍທີ່ສຸດສຳລັບຜູ້ເລີ່ມຕົ້ນ. ທ່ານສາມາດຂຽນ Code ທີ່ອ່ານງ່າຍຄືພາສາອັງກິດ ແລະ ເຮັດວຽກໄດ້ຫຼາຍຢ່າງ
+                </p>
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">Syntax ທີ່ອ່ານງ່າຍ ເຂົ້າໃຈໄວ</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">ຕົວຢ່າງ Code ທີ່ສາມາດ Copy ໄດ້</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">ເນື້ອຫາຈາກງ່າຍໄປຫາຍາກ</span>
+                    </li>
+                </ul>
+                <a href="{% url 'docs:doc_list' %}" class="btn-primary inline-block">
+                    ເບິ່ງບົດຮຽນທັງໝົດ
+                </a>
+            </div>
+
+            <!-- Right: Code Preview -->
+            <div class="relative">
+                <div class="code-preview">
+<pre class="text-gray-300"><span class="text-purple-400"># ຕົວຢ່າງ Python ງ່າຍໆ</span>
+<span class="text-blue-400">def</span> <span class="text-yellow-300">say_hello</span>(name):
+    <span class="text-green-400">"""ຟັງຊັນທັກທາຍ"""</span>
+    message = <span class="text-orange-300">f"ສະບາຍດີ, {name}!"</span>
+    <span class="text-pink-400">print</span>(message)
+
+<span class="text-purple-400"># ເອີ້ນໃຊ້ຟັງຊັນ</span>
+<span class="text-yellow-300">say_hello</span>(<span class="text-orange-300">"ສົມໃຈ"</span>)
+<span class="text-purple-400"># Output: ສະບາຍດີ, ສົມໃຈ!</span>
+</pre>
+                </div>
+                <!-- Decorative element -->
+                <div class="absolute -bottom-4 -right-4 w-32 h-32 gradient-bg-1 rounded-full blur-3xl opacity-20"></div>
+                <div class="absolute -top-4 -left-4 w-32 h-32 gradient-bg-2 rounded-full blur-3xl opacity-20"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Learning Path Section -->
+<section class="section bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+                ເສັ້ນທາງການຮຽນຮູ້
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                ລຳດັບການຮຽນທີ່ເໝາະສົມ ຈາກພື້ນຖານຈົນເຖິງຂັ້ນສູງ
+            </p>
+        </div>
+
+        <div class="max-w-3xl mx-auto space-y-6">
+            <!-- Step 1 -->
+            <div class="glass rounded-2xl p-6 flex items-start gap-6">
+                <div class="w-12 h-12 gradient-bg-1 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-white font-bold text-xl">1</span>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Python Basics</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">ຮຽນພື້ນຖານ Python: ຕົວແປ, ປະເພດຂໍ້ມູນ, Control Flow</p>
+                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">ເລີ່ມຮຽນ →</a>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="glass rounded-2xl p-6 flex items-start gap-6">
+                <div class="w-12 h-12 gradient-bg-2 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-white font-bold text-xl">2</span>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Functions & OOP</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">ຮຽນການຂຽນ Functions ແລະ Object-Oriented Programming</p>
+                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">ເລີ່ມຮຽນ →</a>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="glass rounded-2xl p-6 flex items-start gap-6">
+                <div class="w-12 h-12 gradient-bg-3 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-white font-bold text-xl">3</span>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Django Framework</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">ສ້າງ Web Application ດ້ວຍ Django Framework</p>
+                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">ເລີ່ມຮຽນ →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Courses Section -->
+<section class="section">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+                ຄອດສ໌ຮຽນແນະນຳ
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                ເລືອກຮຽນຕາມຄວາມສົນໃຈຂອງທ່ານ
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for course in courses %}
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden flex flex-col">
+                <div class="aspect-video relative overflow-hidden">
+                    {% if course.cover_image %}
+                    <img src="{{ course.cover_image.url }}" alt="{{ course.title }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                    <div class="w-full h-full gradient-bg-1 flex items-center justify-center">
+                        <span class="text-white font-bold text-2xl">Python</span>
+                    </div>
+                    {% endif %}
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-bold text-blue-900">
+                        {% if course.is_free %}ຟຣີ{% else %}₭{{ course.price }}{% endif %}
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                    <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white line-clamp-2">
+                        <a href="{{ course.get_absolute_url }}" class="hover:underline">{{ course.title }}</a>
+                    </h3>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
+                             <span class="text-xs font-bold text-gray-500">{{ course.instructor.username|slice:":1"|upper }}</span>
+                        </div>
+                        <span class="text-sm text-gray-600 dark:text-gray-400">{{ course.instructor.username }}</span>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                        <span class="text-sm text-gray-500">{{ course.total_lessons }} ບົດຮຽນ</span>
+                        <a href="{{ course.get_absolute_url }}" class="text-blue-600 font-semibold hover:underline">ລາຍລະອຽດ →</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+             <div class="col-span-3 text-center text-gray-500">
+                ກຳລັງກະກຽມຄອດສ໌ໃໝ່...
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-12">
+            <a href="{% url 'courses:course_list' %}" class="btn-secondary inline-block text-gray-900 dark:text-white border-gray-300 dark:border-gray-700">
+                ເບິ່ງຄອດສ໌ທັງໝົດ
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Events Section -->
+<section class="section bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+                ກິດຈະກຳທີ່ຈະມາເຖິງ
+            </h2>
+             <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                ຢ່າພາດໂອກາດທີ່ຈະໄດ້ພົບປະກັບນັກພັດທະນາຄົນອື່ນໆ
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+             {% for event in upcoming_events %}
+             <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-6 border-l-4 border-blue-600 relative overflow-hidden">
+                <div class="text-sm font-bold text-blue-600 mb-2 uppercase tracking-wide">
+                    {{ event.start_datetime|date:"M d, Y" }}
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+                    <a href="{{ event.get_absolute_url }}" class="hover:underline">{{ event.title }}</a>
+                </h3>
+                <div class="text-gray-600 dark:text-gray-400 mb-6 text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    {{ event.venue|default:"Online" }}
+                </div>
+                <a href="{{ event.get_absolute_url }}" class="btn-secondary px-6 py-2 text-sm inline-block w-full text-center hover:bg-blue-50 dark:hover:bg-gray-700">
+                    ລົງທະບຽນ
+                </a>
+             </div>
+             {% empty %}
+             <div class="col-span-3 text-center text-gray-500">
+                ຍັງບໍ່ມີກິດຈະກຳໃນໄວໆນີ້
+             </div>
+             {% endfor %}
+        </div>
+        <div class="text-center mt-12">
+            <a href="{% url 'events:event_list' %}" class="btn-secondary inline-block text-gray-900 dark:text-white border-gray-300 dark:border-gray-700">
+                ເບິ່ງກິດຈະກຳທັງໝົດ
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section relative overflow-hidden">
+    <!-- Background Gradient -->
+    <div class="absolute inset-0" style="background: linear-gradient(135deg, #001868 0%, #0078D4 100%);"></div>
+    <div class="absolute inset-0 opacity-20">
+        <div class="blob" style="width: 600px; height: 600px; background: white; top: -20%; right: -10%;"></div>
+        <div class="blob" style="width: 400px; height: 400px; background: white; bottom: -10%; left: -5%; animation-delay: -3s;"></div>
+    </div>
+
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto text-white">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-6">
+                ພ້ອມທີ່ຈະເລີ່ມຕົ້ນແລ້ວບໍ?
+            </h2>
+            <p class="text-xl mb-10 opacity-90">
+                ເຂົ້າຮ່ວມກັບນັກຮຽນຫຼາຍພັນຄົນທີ່ກຳລັງຮຽນ Python ແລະ Django ເປັນພາສາລາວ
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'docs:doc_list' %}" class="inline-block bg-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105" style="color: #001868;">
+                    ເລີ່ມຮຽນຟຣີ
+                </a>
+                <a href="{% url 'blog:post_list' %}?type=blog" class="inline-block bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white transition-all hover:text-[#001868]">
+                    ອ່ານບລັອກ
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Community & Docs Section -->
+<section class="section">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12">
+            <!-- Community Topics -->
+            <div>
+                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-gray-900 dark:text-white flex items-center gap-3">
+                    <span class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                    </span>
+                    ຊຸມຊົນຖາມ-ຕອບ
+                </h2>
+                <div class="space-y-4">
+                    {% for topic in recent_topics %}
+                    <div class="glass p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-700">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-900 dark:text-white mb-1">
+                                    <a href="{{ topic.get_absolute_url }}" class="hover:underline">{{ topic.title }}</a>
+                                </h3>
+                                <div class="text-sm text-gray-500 flex items-center gap-3">
+                                    <span>{{ topic.author.username }}</span>
+                                    <span>•</span>
+                                    <span>{{ topic.created_at|timesince }} ຜ່ານມາ</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center justify-center min-w-[3rem] px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <span class="font-bold text-gray-700 dark:text-gray-300">{{ topic.replies.count }}</span>
+                                <span class="text-xs text-gray-500">ຄຳຕອບ</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                     <p class="text-gray-500 italic">ຍັງບໍ່ມີຫົວຂໍ້ສົນທະນາ</p>
+                    {% endfor %}
+                </div>
+                <div class="mt-6">
+                    <a href="{% url 'community:index' %}" class="font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-2">
+                        ເຂົ້າຮ່ວມການສົນທະນາ <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Documentation/Resources -->
+            <div>
+                 <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-gray-900 dark:text-white flex items-center gap-3">
+                    <span class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600">
+                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </span>
+                    ເອກະສານປະກອບ
+                </h2>
+                <div class="space-y-4">
+                     {% for doc in recent_docs %}
+                     <div class="glass p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-700">
+                        <div class="flex items-center gap-4">
+                             <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0 text-xl font-bold text-gray-400">
+                                 📄
+                             </div>
+                             <div>
+                                 <h3 class="font-bold text-gray-900 dark:text-white mb-1">
+                                    <a href="{{ doc.get_absolute_url }}" class="hover:underline">{{ doc.title }}</a>
+                                </h3>
+                                <div class="text-sm text-gray-500">
+                                    {% if doc.category %}
+                                    <span class="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-xs">{{ doc.category.name }}</span>
+                                    {% endif %}
+                                </div>
+                             </div>
+                        </div>
+                     </div>
+                     {% empty %}
+                     <p class="text-gray-500 italic">ກຳລັງອັບເດດເອກະສານ...</p>
+                     {% endfor %}
+                </div>
+                 <div class="mt-6">
+                    <a href="{% url 'docs:doc_list' %}" class="font-semibold text-purple-600 hover:text-purple-700 flex items-center gap-2">
+                        ອ່ານເອກະສານທັງໝົດ <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Posts Section -->
+<section class="section bg-white dark:bg-gray-800">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+                ບົດຄວາມຫຼ້າສຸດ
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">
+                ອ່ານບົດຄວາມ ແລະ ບົດສອນຫຼ້າສຸດຈາກຊຸມຊົນ
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {% for post in page_obj|slice:":3" %}
+            <article class="feature-card bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden">
+                {% if post.featured_image %}
+                <div class="aspect-video overflow-hidden">
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                </div>
+                {% else %}
+                <div class="aspect-video flex items-center justify-center" style="background: linear-gradient(135deg, #001868 0%, #0078D4 100%);">
+                    <svg class="w-16 h-16 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    {% if post.category %}
+                    <div class="text-sm font-semibold mb-2" style="color: #001868;">
+                        {{ post.category.name }}
+                    </div>
+                    {% endif %}
+                    <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white line-clamp-2">
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="hover:underline">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    {% if post.excerpt %}
+                    <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">{{ post.excerpt }}</p>
+                    {% endif %}
+                    <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500">
+                        <span>{{ post.published_at|date:"M d, Y" }}</span>
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="font-semibold hover:underline" style="color: #001868;">
+                            ອ່ານຕໍ່ →
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="col-span-3 text-center py-12 text-gray-500 dark:text-gray-400">
+                ບໍ່ມີບົດຄວາມໃນຂະນະນີ້
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'blog:post_list' %}" class="btn-primary inline-block">
+                ເບິ່ງບົດຄວາມທັງໝົດ
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Scroll reveal animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in-up');
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Observe all feature cards
+    document.querySelectorAll('.feature-card, .glass').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+
+// Parallax effect on scroll
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const parallaxElements = document.querySelectorAll('.blob');
+
+    parallaxElements.forEach((el, index) => {
+        const speed = 0.5 + (index * 0.2);
+        el.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+});
+</script>
+{% endblock %}

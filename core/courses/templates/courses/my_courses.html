@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ຄອດສຶກສາຂອງຂ້ອຍ - Python for Laos{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-gradient-primary text-white py-16">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                ຄອດສຶກສາຂອງຂ້ອຍ
+            </h1>
+            <p class="text-xl text-blue-100">
+                ຕິດຕາມຄວາມຄືບໜ້າການຮຽນຂອງທ່ານ
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- My Courses Content -->
+<section class="py-16 bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if enrollments %}
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">ທັງໝົດ</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ enrollments.count }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">ສຳເລັດແລ້ວ</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ enrollments|length|add:"-2" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">ກຳລັງຮຽນ</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ enrollments|length|add:"-2" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">ຄວາມຄືບໜ້າ</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">
+                            {% widthratio enrollments.0.progress_percentage 1 1 %}%
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="mb-8">
+            <div class="border-b border-gray-200 dark:border-gray-700">
+                <nav class="-mb-px flex gap-6">
+                    <button class="filter-tab active py-4 px-1 border-b-2 border-primary font-semibold text-primary" data-filter="all">
+                        ທັງໝົດ
+                    </button>
+                    <button class="filter-tab py-4 px-1 border-b-2 border-transparent font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600" data-filter="active">
+                        ກຳລັງຮຽນ
+                    </button>
+                    <button class="filter-tab py-4 px-1 border-b-2 border-transparent font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600" data-filter="completed">
+                        ສຳເລັດແລ້ວ
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Course Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for enrollment in enrollments %}
+            <div class="course-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700" data-status="{% if enrollment.status == 'completed' %}completed{% else %}active{% endif %}">
+                <!-- Course Image -->
+                <div class="relative h-40 bg-gradient-secondary overflow-hidden">
+                    {% if enrollment.course.cover_image %}
+                    <img src="{{ enrollment.course.cover_image.url }}" alt="{{ enrollment.course.title }}" class="w-full h-full object-cover">
+                    {% else %}
+                    <div class="w-full h-full flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+
+                    <!-- Status Badge -->
+                    <div class="absolute top-3 right-3">
+                        {% if enrollment.status == 'completed' %}
+                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                            ✓ ສຳເລັດ
+                        </span>
+                        {% else %}
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                            ກຳລັງຮຽນ
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Course Info -->
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                        {{ enrollment.course.title }}
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                        {{ enrollment.course.short_description }}
+                    </p>
+
+                    <!-- Progress Bar -->
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">ຄວາມຄືບໜ້າ</span>
+                            <span class="text-sm font-bold text-primary">{{ enrollment.progress_percentage|floatformat:0 }}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-gradient-primary h-2 rounded-full transition-all" style="width: {{ enrollment.progress_percentage }}%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {{ enrollment.completed_lessons.count }} / {{ enrollment.course.total_lessons }} ບົດຮຽນ
+                        </p>
+                    </div>
+
+                    <!-- Enrollment Info -->
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                        <p>ລົງທະບຽນ: {{ enrollment.enrolled_at|date:"d M Y" }}</p>
+                        {% if enrollment.completed_at %}
+                        <p>ສຳເລັດ: {{ enrollment.completed_at|date:"d M Y" }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Continue Button -->
+                    <a href="{% url 'courses:course_detail' enrollment.course.slug %}" class="block w-full px-4 py-3 bg-gradient-primary text-white text-center rounded-lg font-semibold hover:shadow-lg transition-all">
+                        {% if enrollment.status == 'completed' %}
+                        ທົບທວນຄືນ
+                        {% else %}
+                        ສືບຕໍ່ຮຽນ
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-16">
+            <svg class="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                ທ່ານຍັງບໍ່ໄດ້ລົງທະບຽນຄອດສຶກສາໃດໆ
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+                ເລີ່ມການເດີນທາງຮຽນຂອງທ່ານດ້ວຍຄອດສຶກສາຟຣີຂອງພວກເຮົາ
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="{% url 'courses:course_list' %}?price=free" class="px-8 py-3 bg-gradient-primary text-white rounded-full font-bold hover:shadow-lg transition-all">
+                    ເບິ່ງຄອດສຶກສາຟຣີ
+                </a>
+                <a href="{% url 'courses:course_list' %}" class="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-full font-bold hover:shadow-lg transition-all">
+                    ເບິ່ງຄອດສຶກສາທັງໝົດ
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Filter functionality
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const courseCards = document.querySelectorAll('.course-card');
+
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+
+            // Update active tab
+            filterTabs.forEach(t => {
+                t.classList.remove('active', 'border-primary', 'text-primary');
+                t.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+            });
+            this.classList.add('active', 'border-primary', 'text-primary');
+            this.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+
+            // Filter courses
+            courseCards.forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const status = card.getAttribute('data-status');
+                    if (status === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+{% endblock %}

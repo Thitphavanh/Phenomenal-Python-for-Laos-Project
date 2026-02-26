@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - PythonForLaos{% endblock %}
+
+{% block description %}{{ post.excerpt|default:post.content|striptags|truncatewords:30 }}{% endblock %}
+
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_description %}{{ post.excerpt|default:post.content|striptags|truncatewords:30 }}{% endblock %}
+{% block og_image %}{% if post.featured_image %}{{ post.featured_image.url }}{% else %}{% static 'images/python-for-laos.png' %}{% endif %}{% endblock %}
+
+{% block twitter_title %}{{ post.title }}{% endblock %}
+{% block twitter_description %}{{ post.excerpt|default:post.content|striptags|truncatewords:30 }}{% endblock %}
+{% block twitter_image %}{% if post.featured_image %}{{ post.featured_image.url }}{% else %}{% static 'images/python-for-laos.png' %}{% endif %}{% endblock %}
+
+{% block extra_head %}
+<!-- JSON-LD for Article -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ post.title }}",
+  "image": [
+    "{% if post.featured_image %}{{ post.featured_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/python-for-laos.png' %}{% endif %}"
+  ],
+  "datePublished": "{{ post.published_at|date:'Y-m-d\TH:i:s' }}",
+  "dateModified": "{{ post.updated_at|date:'Y-m-d\TH:i:s' }}",
+  "author": [{
+      "@type": "Person",
+      "name": "{{ post.author.username }}",
+      "url": "https://pythonforlaos.com"
+    }],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Phenomenal Python for Laos",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pythonforlaos.com/static/images/logo.png"
+    }
+  },
+  "description": "{{ post.excerpt|default:post.content|striptags|escapejs }}"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-body border border-border rounded flex overflow-hidden dark:bg-body-dark dark:border-border-dark">
+        <!-- Vote Column (Left) -->
+        <div class="w-10 bg-body-dimmed py-2 flex flex-col items-center border-r border-transparent dark:bg-body-dimmed-dark">
+            <button class="vote-btn vote-btn-upvote text-text-dimmed dark:text-text-dimmed-dark p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800" data-post-id="{{ post.id }}" data-vote-type="1">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                </svg>
+            </button>
+            <span class="text-xs font-bold my-1 text-title dark:text-title-dark" id="score-{{ post.id }}">{{ post.get_vote_score }}</span>
+            <button class="vote-btn vote-btn-downvote text-text-dimmed dark:text-text-dimmed-dark p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800" data-post-id="{{ post.id }}" data-vote-type="-1">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex-1 p-2 sm:p-4 bg-body dark:bg-body-dark">
+            <!-- Meta -->
+            <div class="flex items-center gap-1 mb-2 text-xs text-text-dimmed dark:text-text-dimmed-dark">
+                {% if post.category %}
+                <a href="{% url 'blog:category_posts' post.category.slug %}" class="font-bold text-title hover:underline dark:text-title-dark">r/{{ post.category.name }}</a>
+                <span>•</span>
+                {% endif %}
+                <span>Posted by u/{{ post.author.username }}</span>
+                <span>•</span>
+                <span>{{ post.published_at|timesince }} ago</span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-xl sm:text-2xl font-medium text-title mb-4 dark:text-title-dark">{{ post.title }}</h1>
+
+            <!-- Content -->
+            <div class="prose prose-sm sm:prose-base max-w-none text-text mb-6 dark:prose-invert dark:text-text-dark">
+                {% if post.featured_image %}
+                <div class="flex justify-center mb-4 bg-black rounded overflow-hidden">
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="max-h-[600px] object-contain">
+                </div>
+                {% endif %}
+                
+                <div class="whitespace-pre-wrap font-sans">{{ post.content|linebreaksbr }}</div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="flex gap-1 text-text-dimmed border-b border-border pb-4 mb-4 dark:text-text-dimmed-dark dark:border-border-dark">
+                <div class="flex items-center gap-1.5 p-2 rounded text-xs font-bold hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <span>💬</span> {{ comments.count }} Comments
+                </div>
+                <div class="flex items-center gap-1.5 p-2 rounded text-xs font-bold hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <span>↗</span> Share
+                </div>
+                <div class="flex items-center gap-1.5 p-2 rounded text-xs font-bold hover:bg-gray-200 dark:hover:bg-gray-800">
+                    <span>💾</span> Save
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div>
+                {% if user.is_authenticated %}
+                <div class="mb-8">
+                    <div class="text-xs mb-1">Comment as <span class="text-blue">{{ user.username }}</span></div>
+                    <form method="POST" class="border border-border rounded focus-within:border-black dark:border-border-dark dark:focus-within:border-gray-500">
+                        {% csrf_token %}
+                        <textarea name="content" rows="4" class="w-full p-2 bg-transparent outline-none text-sm dark:text-text-dark" placeholder="What are your thoughts?" required></textarea>
+                        <div class="bg-gray-100 p-2 flex justify-end dark:bg-gray-800">
+                            <button type="submit" class="px-4 py-1.5 rounded-full font-bold text-xs bg-primary text-white hover:bg-primary-hover disabled:opacity-50">Comment</button>
+                        </div>
+                    </form>
+                </div>
+                {% else %}
+                <div class="mb-8 p-4 border border-border rounded bg-gray-50 flex justify-between items-center dark:bg-gray-800 dark:border-border-dark">
+                    <span class="font-medium text-title dark:text-title-dark">Log in or sign up to leave a comment</span>
+                    <div class="space-x-2">
+                        <a href="{% url 'admin:login' %}" class="px-4 py-1.5 rounded-full font-bold text-sm bg-transparent border border-blue text-blue hover:bg-gray-100 dark:hover:bg-gray-700">Log In</a>
+                        <a href="#" class="px-4 py-1.5 rounded-full font-bold text-sm bg-primary text-white hover:bg-primary-hover">Sign Up</a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="space-y-4">
+                    {% for comment in comments %}
+                    <div class="flex gap-3">
+                        <div class="w-8 h-8 rounded-full bg-gray-300 shrink-0"></div> <!-- User Avatar Placeholder -->
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs font-bold text-title dark:text-title-dark">{{ comment.name }}</span>
+                                <span class="text-xs text-text-dimmed dark:text-text-dimmed-dark">{{ comment.created_at|timesince }} ago</span>
+                            </div>
+                            <div class="text-sm text-text dark:text-text-dark">
+                                {{ comment.content|linebreaksbr }}
+                            </div>
+                            <div class="flex items-center gap-2 mt-1">
+                                <!-- Comment Actions -->
+                                <button class="text-text-dimmed hover:bg-gray-200 p-1 rounded dark:hover:bg-gray-800">⬆</button>
+                                <button class="text-text-dimmed hover:bg-gray-200 p-1 rounded dark:hover:bg-gray-800">⬇</button>
+                                <button class="text-xs font-bold text-text-dimmed hover:bg-gray-200 px-2 py-1 rounded dark:hover:bg-gray-800">Reply</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-center text-text-dimmed dark:text-text-dimmed-dark italic py-10">No comments yet. Be the first to share what you think!</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Reddit-style voting functionality for post detail page
+document.addEventListener('DOMContentLoaded', function() {
+    const voteButtons = document.querySelectorAll('.vote-btn');
+
+    voteButtons.forEach(button => {
+        button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const postId = this.dataset.postId;
+            const voteType = this.dataset.voteType;
+
+            try {
+                const response = await fetch(`/vote/${postId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `vote_type=${voteType}`
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById(`score-${postId}`).textContent = data.score;
+
+                    // Visual feedback for active vote
+                    const upvoteBtn = document.querySelector('.vote-btn-upvote');
+                    const downvoteBtn = document.querySelector('.vote-btn-downvote');
+
+                    if (voteType === '1') {
+                        upvoteBtn.classList.toggle('active');
+                        downvoteBtn.classList.remove('active');
+                    } else {
+                        downvoteBtn.classList.toggle('active');
+                        upvoteBtn.classList.remove('active');
+                    }
+                }
+            } catch (error) {
+                console.error('Voting error:', error);
+            }
+        });
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

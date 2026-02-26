@@ -1,0 +1,541 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load markdown_extras %}
+
+{% block extra_css %}
+<!-- Highlight.js for syntax highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+<style>
+    /* Enhanced code block styling - Dark/Light Mode */
+    .prose pre {
+        position: relative;
+        overflow-x: auto;
+        background-color: #f5f5f5 !important;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        margin: 1.5rem 0;
+    }
+
+    .dark .prose pre {
+        background-color: #1f2937 !important;
+        border-color: #374151;
+    }
+
+    .prose code {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9em;
+    }
+
+    .prose pre code {
+        display: block;
+        padding: 1.25rem;
+        line-height: 1.6;
+        background: transparent !important;
+    }
+
+    .prose :not(pre) > code {
+        color: #001868 !important;
+        padding: 0.2em 0.4em;
+        font-size: 0.875em;
+    }
+
+    .dark .prose :not(pre) > code {
+        color: #0078D4 !important;
+    }
+
+    /* Highlight.js adjustments */
+    .hljs {
+        background: #f5f5f5 !important;
+        color: #1f2937;
+        padding: 0;
+    }
+
+    .dark .hljs {
+        background: #1f2937 !important;
+        color: #e5e7eb;
+    }
+
+    /* Copy Code Button - Claude/Gemini Style */
+    .copy-code-button {
+        position: absolute;
+        top: 0.625rem;
+        right: 0.625rem;
+        padding: 0.375rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.375rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.2s ease;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dark .copy-code-button {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .prose pre:hover .copy-code-button {
+        opacity: 1;
+    }
+
+    .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .dark .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .copy-code-button:active {
+        transform: scale(0.95);
+    }
+
+    .copy-code-button svg {
+        width: 1rem;
+        height: 1rem;
+        color: #6b7280;
+        transition: color 0.2s ease;
+    }
+
+    .dark .copy-code-button svg {
+        color: #9ca3af;
+    }
+
+    .copy-code-button:hover svg {
+        color: #374151;
+    }
+
+    .dark .copy-code-button:hover svg {
+        color: #e5e7eb;
+    }
+
+    .copy-code-button.copied {
+        background: rgba(34, 197, 94, 0.1);
+        border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .copy-code-button.copied svg {
+        color: #22C55E;
+    }
+
+    /* Image styling in prose */
+    .prose img {
+        border-radius: 0.5rem;
+        border: 1px solid #e5e7eb;
+        margin: 2rem 0;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .dark .prose img {
+        border-color: #374151;
+    }
+
+    .prose figure {
+        margin: 2rem 0;
+    }
+
+    .prose figcaption {
+        text-align: center;
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 0.5rem;
+        font-style: italic;
+    }
+
+    .dark .prose figcaption {
+        color: #9ca3af;
+    }
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Improved heading scroll margin */
+    .prose h2,
+    .prose h3 {
+        scroll-margin-top: 6rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{# Override the entire layout for docs - 3-column with Dark/Light Mode #}
+<div class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+ <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 lg:flex lg:gap-12">
+    <div class="flex flex-1">
+        <!-- Left Sidebar (Docs Navigation with Dropdown) -->
+        <aside id="docs-sidebar" class="fixed inset-y-0 left-0 z-40 w-72 pt-14 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform -translate-x-full transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:block overflow-y-auto">
+            <div class="px-4 py-6 space-y-2">
+                {% regroup all_docs by category as doc_categories %}
+
+                {% for cat in doc_categories %}
+                <div class="nav-section" data-section="{{ forloop.counter }}">
+                    <!-- Section Header (Collapsible) -->
+                    <button
+                        onclick="toggleSection({{ forloop.counter }})"
+                        class="w-full flex items-center justify-between px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:bg-gray-700/50 rounded-md transition-all group">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[#001868] dark:text-[#0078D4] group-hover:text-[#001868] dark:text-[#0078D4]">
+                                {% if cat.grouper %}{% else %}{% endif %}
+                            </span>
+                            <span>{{ cat.grouper|default:"Getting Started" }}</span>
+                        </div>
+                        <!-- Chevron Icon -->
+                        <svg class="w-4 h-4 transition-transform duration-200 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Section Content (Collapsible) -->
+                    <ul class="mt-1 space-y-0.5 section-content overflow-hidden transition-all duration-300" style="max-height: 1000px;">
+                        {% for item in cat.list %}
+                        <li>
+                            <a href="{% url 'docs:doc_detail' item.slug %}"
+                               class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-all ml-2 border-l-2 {% if item.slug == post.slug %}border-[#001868] dark:border-[#0078D4] bg-gray-200 dark:bg-gray-700 text-white font-medium{% else %}border-transparent text-gray-500 dark:text-gray-400 hover:border-[#001868] dark:hover:border-[#0078D4]/50 hover:bg-gray-200 dark:bg-gray-700 hover:text-gray-900 dark:hover:text-white{% endif %}">
+                                <span class="w-1.5 h-1.5 rounded-full {% if item.slug == post.slug %}bg-[#001868] dark:bg-[#0078D4]{% else %}bg-gray-400 dark:bg-gray-600{% endif %}"></span>
+                                <span class="flex-1">{{ item.title }}</span>
+                                <!-- Badge for difficulty or chapter -->
+                                {% if item.difficulty_level == 'beginner' %}
+                                <span class="text-xs px-1.5 py-0.5 rounded bg-green-900/30 text-green-400">New</span>
+                                {% elif item.difficulty_level == 'advanced' %}
+                                <span class="text-xs px-1.5 py-0.5 rounded bg-red-900/30 text-red-400">Pro</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </aside>
+        
+        <!-- Mobile Sidebar Overlay -->
+        <div id="docs-sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden" onclick="toggleDocsSidebar()"></div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 min-w-0 lg:pl-0">
+            <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:flex lg:gap-12">
+                <!-- Article Content -->
+                <article class="flex-1 min-w-0">
+                    <!-- Breadcrumb -->
+                    {% if post.category %}
+                    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
+                        <a href="{% url 'docs:doc_list' %}" class="hover:text-gray-900 dark:hover:text-white">Docs</a>
+                        <span>/</span>
+                        <span class="text-[#001868] dark:text-[#0078D4]">{{ post.category.name }}</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Title -->
+                    <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6">{{ post.title }}</h1>
+                    
+                    <!-- Meta Info -->
+                    <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                        <span class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            {{ post.updated_at|date:"M d, Y" }}
+                        </span>
+                        {% if post.difficulty_level %}
+                        <span class="px-2 py-0.5 rounded-full text-xs font-medium uppercase {% if post.difficulty_level == 'beginner' %}bg-green-900/50 text-green-400{% elif post.difficulty_level == 'intermediate' %}bg-yellow-900/50 text-yellow-400{% else %}bg-red-900/50 text-red-400{% endif %}">
+                            {{ post.difficulty_level }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Featured Image -->
+                    {% if post.featured_image %}
+                    <figure class="mb-8">
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full rounded-lg border border-gray-200 dark:border-gray-700">
+                        <figcaption class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">{{ post.title }}</figcaption>
+                    </figure>
+                    {% endif %}
+
+                    <!-- Prose Content -->
+                    <div class="prose prose-invert prose-lg max-w-none
+                        prose-headings:text-gray-900 dark:prose-headings:text-white prose-headings:font-bold prose-headings:tracking-tight
+                        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-gray-200 dark:border-gray-700
+                        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+                        prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed
+                        prose-a:text-[#001868] dark:text-[#0078D4] hover:prose-a:text-[#001868] dark:text-[#0078D4] prose-a:no-underline hover:prose-a:underline
+                        prose-code:text-[#001868] dark:text-[#0078D4] prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:before:content-none prose-code:after:content-none
+                        prose-pre:border prose-pre:border-gray-200 dark:border-gray-700 prose-pre:rounded-lg
+                        prose-strong:text-gray-900 dark:prose-strong:text-white
+                        prose-ul:text-gray-700 dark:prose-ul:text-gray-300 prose-li:marker:text-[#001868] dark:text-[#0078D4]
+                        prose-ol:text-gray-700 dark:prose-ol:text-gray-300
+                        prose-blockquote:border-l-[#001868] dark:prose-blockquote:border-l-[#0078D4] prose-blockquote:text-gray-700 dark:prose-blockquote:text-gray-300
+                        prose-table:text-gray-700 dark:prose-table:text-gray-300
+                        prose-img:rounded-lg prose-img:border prose-img:border-gray-200 dark:border-gray-700
+                    ">
+                        {{ post.content|markdown }}
+                    </div>
+
+                    <!-- Diagram Image -->
+                    {% if post.diagram_image %}
+                    <figure class="mt-8 mb-8">
+                        <img src="{{ post.diagram_image.url }}" alt="Diagram for {{ post.title }}" class="w-full rounded-lg border border-gray-200 dark:border-gray-700">
+                        <figcaption class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">Diagram: {{ post.title }}</figcaption>
+                    </figure>
+                    {% endif %}
+
+                    <!-- Prev/Next Navigation -->
+                    <nav class="grid sm:grid-cols-2 gap-4 mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+                        {% if prev_doc %}
+                        <a href="{% url 'docs:doc_detail' prev_doc.slug %}" class="group flex flex-col p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-[#001868] dark:hover:border-[#0078D4] hover:bg-gray-200 dark:bg-gray-700/50 transition-all">
+                            <span class="text-xs text-gray-500 dark:text-gray-400 mb-1">← Previous</span>
+                            <span class="font-medium text-gray-900 dark:text-white group-hover:text-[#001868] dark:group-hover:text-[#0078D4]">{{ prev_doc.title }}</span>
+                        </a>
+                        {% else %}
+                        <div></div>
+                        {% endif %}
+                        
+                        {% if next_doc %}
+                        <a href="{% url 'docs:doc_detail' next_doc.slug %}" class="group flex flex-col items-end p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-[#001868] dark:hover:border-[#0078D4] hover:bg-gray-200 dark:bg-gray-700/50 transition-all text-right">
+                            <span class="text-xs text-gray-500 dark:text-gray-400 mb-1">Next →</span>
+                            <span class="font-medium text-gray-900 dark:text-white group-hover:text-[#001868] dark:group-hover:text-[#0078D4]">{{ next_doc.title }}</span>
+                        </a>
+                        {% endif %}
+                    </nav>
+                </article>
+
+                <!-- Right Sidebar (Table of Contents) -->
+                <aside class="hidden xl:block w-64 shrink-0">
+                    <div class="sticky top-24">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">On this page</h4>
+                        <nav id="toc-container" class="space-y-1 text-sm border-l border-gray-200 dark:border-gray-700">
+                            <!-- Populated via JS -->
+                        </nav>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Highlight.js for syntax highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/html.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+
+<script>
+    // Initialize syntax highlighting and add copy buttons
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+        });
+
+        // Add copy button to all code blocks
+        document.querySelectorAll('pre').forEach((preBlock) => {
+            // Create copy button
+            const button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.type = 'button';
+            button.setAttribute('aria-label', 'Copy code to clipboard');
+
+            // Copy icon SVG
+            button.innerHTML = `
+                <svg class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <svg class="check-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            `;
+
+            // Add click event
+            button.addEventListener('click', async () => {
+                const code = preBlock.querySelector('code');
+                const text = code.innerText || code.textContent;
+
+                try {
+                    await navigator.clipboard.writeText(text);
+
+                    // Show success state
+                    button.classList.add('copied');
+                    const copyIcon = button.querySelector('.copy-icon');
+                    const checkIcon = button.querySelector('.check-icon');
+                    copyIcon.classList.add('hidden');
+                    checkIcon.classList.remove('hidden');
+
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        copyIcon.classList.remove('hidden');
+                        checkIcon.classList.add('hidden');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy code:', err);
+                }
+            });
+
+            preBlock.appendChild(button);
+        });
+    });
+
+    // Toggle Section Dropdown
+    function toggleSection(sectionId) {
+        const section = document.querySelector(`[data-section="${sectionId}"]`);
+        const content = section.querySelector('.section-content');
+        const chevron = section.querySelector('.chevron');
+
+        if (content.style.maxHeight === '0px' || content.style.maxHeight === '0') {
+            // Expand
+            content.style.maxHeight = '1000px';
+            chevron.style.transform = 'rotate(0deg)';
+        } else {
+            // Collapse
+            content.style.maxHeight = '0px';
+            chevron.style.transform = 'rotate(-90deg)';
+        }
+    }
+
+    // Initialize - Keep active section open
+    document.addEventListener('DOMContentLoaded', () => {
+        // Find the section with active link
+        const activeLink = document.querySelector('.section-content a.bg-gray-200, .section-content a.dark\\:bg-gray-700');
+        if (activeLink) {
+            const activeSection = activeLink.closest('.nav-section');
+            if (activeSection) {
+                // Keep this section expanded
+                const content = activeSection.querySelector('.section-content');
+                content.style.maxHeight = '1000px';
+            }
+        }
+    });
+
+    // Toggle Mobile Sidebar
+    function toggleDocsSidebar() {
+        const sidebar = document.getElementById('docs-sidebar');
+        const overlay = document.getElementById('docs-sidebar-overlay');
+
+        if (sidebar.classList.contains('-translate-x-full')) {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } else {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Generate Table of Contents with smooth scrolling
+    document.addEventListener('DOMContentLoaded', () => {
+        const content = document.querySelector('.prose');
+        const tocContainer = document.getElementById('toc-container');
+
+        if (!content || !tocContainer) return;
+
+        const headings = content.querySelectorAll('h2, h3');
+
+        if (headings.length === 0) {
+            tocContainer.parentElement.style.display = 'none';
+            return;
+        }
+
+        // Generate TOC links
+        headings.forEach((heading, index) => {
+            if (!heading.innerText.trim()) return;
+
+            // Create unique ID if doesn't exist
+            if (!heading.id) {
+                const id = heading.innerText
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                heading.id = id || 'section-' + index;
+            }
+
+            const link = document.createElement('a');
+            link.href = '#' + heading.id;
+            link.textContent = heading.innerText;
+            link.className = `block py-1.5 pl-4 -ml-px border-l border-transparent hover:border-[#001868] dark:hover:border-[#0078D4] hover:text-gray-900 dark:hover:text-white transition-colors ${heading.tagName === 'H3' ? 'pl-6 text-gray-500 dark:text-gray-400' : 'text-gray-500 dark:text-gray-400'}`;
+
+            // Smooth scroll on click
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.getElementById(heading.id);
+                if (target) {
+                    const offset = 100; // Offset for fixed navbar
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    // Update URL hash
+                    history.pushState(null, null, '#' + heading.id);
+                    // Update active state
+                    updateActiveLink(link);
+                }
+            });
+
+            tocContainer.appendChild(link);
+        });
+
+        // Update active link function
+        function updateActiveLink(activeLink) {
+            tocContainer.querySelectorAll('a').forEach(a => {
+                a.classList.remove('border-[#001868]', 'dark:border-[#0078D4]', 'text-gray-900', 'dark:text-white');
+            });
+            activeLink.classList.add('border-[#001868]', 'dark:border-[#0078D4]', 'text-gray-900', 'dark:text-white');
+        }
+
+        // Track active section on scroll
+        let currentActive = null;
+        const observerOptions = {
+            rootMargin: '-100px 0px -66%',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    const tocLink = tocContainer.querySelector(`a[href="#${id}"]`);
+                    if (tocLink && tocLink !== currentActive) {
+                        updateActiveLink(tocLink);
+                        currentActive = tocLink;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all headings
+        headings.forEach(heading => {
+            if (heading.id) {
+                observer.observe(heading);
+            }
+        });
+
+        // Set initial active state
+        if (window.location.hash) {
+            const initialLink = tocContainer.querySelector(`a[href="${window.location.hash}"]`);
+            if (initialLink) {
+                updateActiveLink(initialLink);
+                currentActive = initialLink;
+            }
+        } else if (headings.length > 0) {
+            const firstLink = tocContainer.querySelector('a');
+            if (firstLink) {
+                updateActiveLink(firstLink);
+                currentActive = firstLink;
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,67 @@
+════════════════════════════════════════════════════════════
+  ສະຫຼຸບການອັບເດດ Dark Mode ສຳລັບ Community & Events
+════════════════════════════════════════════════════════════
+
+✅ ໜ້າທີ່ອັບເດດສຳເລັດ:
+
+1. /community/ (Community List)
+   - ມີ Dark mode ແລ້ວ 100%
+   
+2. /community/topic/<slug>/ (Topic Detail)
+   - ✅ Fixed: Pinned/Solved badges
+   - ✅ Fixed: Accepted answer highlight
+   - ✅ Fixed: Reply cards colors
+   - ✅ Fixed: Form elements
+
+3. /events/ (Events List)
+   - ມີ Dark mode ແລ້ວ 100%
+   
+4. /events/<slug>/ (Event Detail)
+   - ✅ Fixed: Hero section background
+   - ✅ Fixed: Cover image opacity
+   - ✅ Fixed: Sidebar colors
+   - ✅ Fixed: Login prompt
+
+════════════════════════════════════════════════════════════
+ ໄຟລ໌ທີ່ແກ້ໄຂ:
+════════════════════════════════════════════════════════════
+
+1. community/templates/community/topic_detail.html
+   - Badges (Pinned, Solved, Accepted Answer)
+   - Reply cards borders
+   
+2. events/templates/events/event_detail.html
+   - Hero background gradient
+   - Image opacity
+   - Login prompt styling
+
+════════════════════════════════════════════════════════════
+ ວິທີທົດສອບ:
+════════════════════════════════════════════════════════════
+
+1. ເປີດ browser ໄປທີ່:
+   - http://localhost:8000/community/
+   - http://localhost:8000/events/
+   
+2. ກົດປຸ່ມ 🌙/☀️ ຢູ່ navbar ເພື່ອສະຫຼັບ Dark/Light mode
+
+3. ກວດສອບວ່າ:
+   ✅ ສີພື້ນຫຼັງປ່ຽນນິ່ມນວນ
+   ✅ ຂໍ້ຄວາມອ່ານໄດ້ຊັດເຈນ
+   ✅ Cards/borders ສະແດງຖືກຕ້ອງ
+   ✅ Badges ມີ contrast ດີ
+
+════════════════════════════════════════════════════════════
+ Pattern ທີ່ໃຊ້:
+════════════════════════════════════════════════════════════
+
+Background:   bg-white dark:bg-gray-800
+Text:         text-gray-900 dark:text-white
+Secondary:    text-gray-600 dark:text-gray-300
+Borders:      border-gray-200 dark:border-gray-700
+Badges:       bg-yellow-100 dark:bg-yellow-900
+              text-yellow-800 dark:text-yellow-200
+
+════════════════════════════════════════════════════════════
+ ສະຖານະ: ✅ ສຳເລັດສົມບູນ
+════════════════════════════════════════════════════════════
