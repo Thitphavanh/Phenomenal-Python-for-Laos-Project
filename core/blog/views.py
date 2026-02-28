@@ -259,4 +259,37 @@ def logout_view(request):
     """User logout view"""
     logout(request)
     messages.success(request, 'ທ່ານໄດ້ອອກຈາກລະບົບສຳເລັດແລ້ວ.')
-    return redirect('blog:index')
+    return redirect('blog:login')
+
+
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+import json as _json
+
+@csrf_exempt
+@require_POST
+def line_auth_view(request):
+    """Authenticate Django session after LINE LIFF login"""
+    try:
+        data = _json.loads(request.body)
+        line_user_id = data.get('userId', '').strip()
+        display_name = data.get('displayName', '').strip()
+    except Exception:
+        return JsonResponse({'success': False, 'error': 'Invalid JSON'}, status=400)
+
+    if not line_user_id:
+        return JsonResponse({'success': False, 'error': 'userId is required'}, status=400)
+
+    username = f'line_{line_user_id}'
+    user, created = User.objects.get_or_create(
+        username=username,
+        defaults={'first_name': display_name[:30] if display_name else ''}
+    )
+    
+    # Update displayName if it changed on LINE
+    if not created and display_name and user.first_name != display_name[:30]:
+        user.first_name = display_name[:30]
+        user.save(update_fields=['first_name'])
+        
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+    return JsonResponse({'success': True})

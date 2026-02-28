@@ -17,7 +17,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1"]
 
-
+# Allow CSRF POST requests from Ngrok URLs
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok-free.app",
+    "https://*.ngrok.io",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+]
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -33,6 +39,33 @@ DATABASES = {
 
 # Show detailed error pages
 DEBUG_PROPAGATE_EXCEPTIONS = True
+
+# ============================================================
+# SESSION & COOKIE SETTINGS
+# ============================================================
+
+# Session engine (database-backed)
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+# Session cookie age: 2 weeks (seconds)
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 14  # 14 days
+
+# Session expires when browser closes (False = persistent cookie)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Prevent JavaScript from reading the session cookie
+SESSION_COOKIE_HTTPONLY = True
+
+# SameSite policy: Lax protects against CSRF on cross-site requests
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# Do NOT require HTTPS in development (set True in production)
+SESSION_COOKIE_SECURE = False
+
+# CSRF cookie settings
+CSRF_COOKIE_HTTPONLY = False   # Must be False so JavaScript can read it
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SECURE = False     # Set True in production
 
 # Django Debug Toolbar (if installed)
 # INSTALLED_APPS += ["debug_toolbar"]

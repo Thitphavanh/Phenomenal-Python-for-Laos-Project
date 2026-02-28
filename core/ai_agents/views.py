@@ -16,6 +16,7 @@ import os
 import json
 import uuid
 import logging
+import re
 
 from .models import (
     ChatConversation,
@@ -481,15 +482,114 @@ class LineWebhookView(APIView):
                     if reply_token and message_text:
                         # Process user message with AI
                         chatbot = MultiProviderChatbot()
+                        # Set use_rag=False to speed up the response significantly 
+                        # avoiding the synchronous delay of downloading/processing models during webhook.
                         response = chatbot.chat(
                             message=message_text,
-                            provider='gemini' # Default fallback
+                            provider='gemini', # Default fallback
+                            use_rag=False
                         )
                         
                         ai_response = response.get('response', 'ຂໍອະໄພ, ຂ້ອຍບໍ່ສາມາດຕອບໄດ້ໃນຂະນະນີ້.')
                         
+                        # Clean up unsupported formatting for LINE Chat
+                        ai_response = re.sub(r'#{1,3}\s+', '', ai_response) # remove ### Headers
+                        ai_response = re.sub(r'\*\*(.*?)\*\*', r'\1', ai_response) # remove bold **text**
+                        ai_response = re.sub(r'_(.*?)_', r'\1', ai_response) # remove italics _text_
+                        ai_response = re.sub(r'-{3,}', '\n', ai_response) # remove --- separators
+                        
+                        messages_to_send = [
+                            {"type": "text", "text": ai_response}
+                        ]
+                        
+                        # ----------------------------------------------------
+                        # COURSE FLEX MESSAGE LOGIC
+                        # ----------------------------------------------------
+                        keywords = ['ຄອສ', 'ຮຽນ', 'course', 'ສົນໃຈ']
+                        if any(kw in message_text.lower() for kw in keywords):
+                            try:
+                                from courses.models import Course
+                                
+                                # Fetch latest 5 published courses
+                                courses = Course.objects.filter(status='published').order_by('-created_at')[:5]
+                                if courses:
+                                    host = request.get_host()
+                                    base_url = f"https://{host}"
+                                    
+                                    bubbles = []
+                                    for course in courses:
+                                        if course.cover_image:
+                                            # Using absolute URL
+                                            cover_url = f"{base_url}{course.cover_image.url}"
+                                        else:
+                                            cover_url = "https://via.placeholder.com/600x400.png?text=Python+Course"
+                                            
+                                        course_url = f"{base_url}{course.get_absolute_url()}"
+                                        
+                                        price_text = f"${course.price}" if course.price > 0 else "Free / ຟຣີ"
+                                        
+                                        bubbles.append({
+                                            "type": "bubble",
+                                            "hero": {
+                                                "type": "image",
+                                                "url": cover_url,
+                                                "size": "full",
+                                                "aspectRatio": "20:13",
+                                                "aspectMode": "cover"
+                                            },
+                                            "body": {
+                                                "type": "box",
+                                                "layout": "vertical",
+                                                "contents": [
+                                                    {
+                                                        "type": "text",
+                                                        "text": course.title[:40] + ("..." if len(course.title) > 40 else ""),
+                                                        "weight": "bold",
+                                                        "size": "md",
+                                                        "wrap": True
+                                                    },
+                                                    {
+                                                        "type": "text",
+                                                        "text": price_text,
+                                                        "color": "#1DB446",
+                                                        "size": "sm",
+                                                        "weight": "bold",
+                                                        "margin": "sm"
+                                                    }
+                                                ]
+                                            },
+                                            "footer": {
+                                                "type": "box",
+                                                "layout": "vertical",
+                                                "spacing": "sm",
+                                                "contents": [
+                                                    {
+                                                        "type": "button",
+                                                        "style": "primary",
+                                                        "color": "#1DB446",
+                                                        "action": {
+                                                            "type": "uri",
+                                                            "label": "ເບິ່ງລາຍລະອຽດ",
+                                                            "uri": course_url
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        })
+                                        
+                                    messages_to_send.append({
+                                        "type": "flex",
+                                        "altText": "ລາຍການຄອສຮຽນທັງໝົດແບບ Flex",
+                                        "contents": {
+                                            "type": "carousel",
+                                            "contents": bubbles
+                                        }
+                                    })
+                            except Exception as e:
+                                logger.error(f"Failed to generate course flex message: {e}")
+                        
                         # Reply back to LINE user
-                        line_service.reply_message(reply_token, ai_response)
+                        line_service.reply_message(reply_token, messages_to_send)
                         
             return HttpResponse("OK", status=200)
             
@@ -498,3 +598,44 @@ class LineWebhookView(APIView):
             return HttpResponse("Error processing request", status=500)
 
 
+class LinePushMessageView(APIView):
+    """API endpoint to push different types of messages to a specific LINE user"""
+    permission_classes = [AllowAny] # Allow testing without token (can be reverted later)
+    
+    def post(self, request):
+        to_user_id = request.data.get('to')
+        msg_type = request.data.get('type', 'text') # default to text message
+        
+        if not to_user_id:
+            return Response({'error': '"to" field is required.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        line_service = LineService()
+        result = {}
+        
+        if msg_type == 'text':
+            message_text = request.data.get('text')
+            if not message_text:
+                return Response({'error': '"text" field is required for text type.'}, status=status.HTTP_400_BAD_REQUEST)
+            result = line_service.push_message(to_user_id, message_text)
+            
+        elif msg_type == 'image':
+            original_url = request.data.get('original_content_url')
+            preview_url = request.data.get('preview_image_url')
+            if not original_url:
+                return Response({'error': '"original_content_url" field is required for image type.'}, status=status.HTTP_400_BAD_REQUEST)
+            result = line_service.push_image_message(to_user_id, original_url, preview_url)
+            
+        elif msg_type == 'flex':
+            alt_text = request.data.get('alt_text', 'You have a new message')
+            flex_contents = request.data.get('flex_contents')
+            if not flex_contents:
+                return Response({'error': '"flex_contents" field is required for flex type.'}, status=status.HTTP_400_BAD_REQUEST)
+            result = line_service.push_flex_message(to_user_id, alt_text, flex_contents)
+            
+        else:
+            return Response({'error': f'Unsupported message type: {msg_type}'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if 'error' in result:
+            return Response(result, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+        return Response(result, status=status.HTTP_200_OK)

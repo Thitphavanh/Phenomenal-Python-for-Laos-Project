@@ -39,12 +39,11 @@ class PythonLaosChatbot:
 - ເອກະສານ Documentation ແລະ Tutorial ຕ່າງໆ.
 - ກິດຈະກຳ ແລະ Event ທີ່ຈະເກີດຂຶ້ນ.
 
-ຄຳແນະນຳການຈັດຮູບແບບ (Markdown formatting):
-- ໃຊ້ Header (#, ##, ###) ເພື່ອແບ່ງຫົວຂໍ້ໃຫ້ຊັດເຈນ.
+ຄຳແນະນຳການຈັດຮູບແບບ (Formatting):
+- ຫຼີກລ່ຽງການໃຊ້ Markdown Headers (ເຊັ່ນ: #, ##, ###) ແລະ Separators (---) ເນື່ອງຈາກມັນບໍ່ສະແດງຜົນໄດ້ດີໃນແອັບແຊັດ.
+- ໃຊ້ການຂຶ້ນແຖວໃໝ່ແທນເພື່ອແບ່ງຫົວຂໍ້ໃຫ້ຊັດເຈນ.
 - ໃຊ້ Emoji (🌟, 📚, 💻, 🚀, 💬) ເພື່ອໃຫ້ເບິ່ງເປັນມິດ ແລະ ໜ້າອ່ານ.
-- ໃຊ້ Separator (---) ເພື່ອແບ່ງສ່ວນຂອງບົດຄວາມ.
-- ໃຊ້ Blockquote (>) ສຳລັບການອະທິບາຍກ່ອນໃຫ້ຕົວຢ່າງ code.
-- ໃຊ້ Code Block ພ້ອມ syntax highlighting (```python).
+- ໃຊ້ Code Block ພ້ອມ syntax highlighting (```python) ສຳລັບຕົວຢ່າງ code.
 
 ເນື້ອໃນການຕອບຄຳຖາມ:
 1. ຕອບເປັນພາສາລາວທີ່ສຸພາບ, ເປັນກັນເອງ ແລະ ເຂົ້າໃຈງ່າຍ.
@@ -161,34 +160,32 @@ class PythonLaosChatbot:
 
     def _get_gemini_response(self, messages: List[Dict[str, str]]) -> Dict[str, Any]:
         """Get response from Google Gemini (using google-genai SDK 2026)"""
-        
-        system_instruction = next((m['content'] for m in messages if m['role'] == 'system'), None)
-        last_message = messages[-1]['content']
-        
-        # Combine system prompt with the message if needed, or pass separately if supported
-        # The new SDK supports system instruction via 'config' in generate_content presumably, 
-        # but simple concatenation is robust.
-        
-        full_prompt = last_message
-        if system_instruction:
-            full_prompt = f"System: {system_instruction}\n\nUser: {last_message}"
+        try:
+            from google import genai
             
-        # Add history if available (not implemented fully here for brevity, focusing on single turn + context)
-        # Detailed history handling would require mapping roles 'user'/'model'
-        
-        response = self.client.models.generate_content(
-            model=self.model,
-            contents=full_prompt,
-            config={
-                'temperature': self.temperature,
-                'max_output_tokens': self.max_tokens,
+            system_instruction = next((m['content'] for m in messages if m['role'] == 'system'), None)
+            last_message = messages[-1]['content']
+            
+            full_prompt = last_message
+            if system_instruction:
+                full_prompt = f"System: {system_instruction}\n\nUser: {last_message}"
+                
+            response = self.client.models.generate_content(
+                model=self.model,
+                contents=full_prompt,
+                config={
+                    'temperature': self.temperature,
+                    'max_output_tokens': self.max_tokens,
+                }
+            )
+            
+            return {
+                'content': response.text,
+                'tokens_used': None 
             }
-        )
-        
-        return {
-            'content': response.text,
-            'tokens_used': None 
-        }
+        except Exception as e:
+            logger.error(f"Gemini API error: {e}")
+            raise
     
     def _build_messages(
         self, 
@@ -393,7 +390,7 @@ class MultiProviderChatbot:
                 continue
         
         return {
-            'response': f'ຂໍອະໄພ, ບໍ່ສາມາດປະມວນຜົນໄດ້ໃນຂະນະນີ້. (Error: {str(last_error)})',
+            'response': f'ຂໍອະໄພ, ບໍ່ສາມາດຕອບຄຳຖາມໄດ້ໃນຂະນະນີ້ເນື່ອງຈາກ AI API ຂັດຂ້ອງ. ກະລຸນາລອງໃໝ່ພາຍຫຼັງ ຫຼື ຕິດຕໍ່ແອດມິນ.',
             'error': str(last_error)
         }
     

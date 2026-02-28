@@ -103,7 +103,7 @@
             <div>
                 {% if user.is_authenticated %}
                 <div class="mb-8">
-                    <div class="text-xs mb-1">Comment as <span class="text-blue">{{ user.username }}</span></div>
+                    <div class="text-xs mb-1">Comment as <span class="text-blue">{{ user.first_name|default:user.username }}</span></div>
                     <form method="POST" class="border border-border rounded focus-within:border-black dark:border-border-dark dark:focus-within:border-gray-500">
                         {% csrf_token %}
                         <textarea name="content" rows="4" class="w-full p-2 bg-transparent outline-none text-sm dark:text-text-dark" placeholder="What are your thoughts?" required></textarea>

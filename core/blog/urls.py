@@ -27,4 +27,7 @@ urlpatterns = [
     path("register/", views.register_view, name="register"),
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
+
+    # LINE LIFF Authentication
+    path("line-auth/", views.line_auth_view, name="line_auth"),
 ]

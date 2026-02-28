@@ -224,11 +224,11 @@
                             </a>
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold text-sm">
-                                    {{ user.username|slice:":1"|upper }}
+                                    {{ user.first_name|default:user.username|slice:":1"|upper }}
                                 </div>
-                                <span class="text-sm font-medium">{{ user.username }}</span>
+                                <span class="text-sm font-medium">{{ user.first_name|default:user.username }}</span>
                             </div>
-                            <a href="{% url 'blog:logout' %}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+                            <a href="{% url 'blog:logout' %}" onclick="Object.keys(sessionStorage).filter(k=>k.startsWith('LIFF_STORE:')).forEach(k=>sessionStorage.removeItem(k))" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                                 ອອກ
                             </a>
                         </div>
@@ -293,17 +293,17 @@
                     <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
                         <div class="flex items-center gap-3 px-4 py-2">
                             <div class="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
-                                {{ user.username|slice:":1"|upper }}
+                                {{ user.first_name|default:user.username|slice:":1"|upper }}
                             </div>
                             <div>
-                                <div class="font-medium">{{ user.username }}</div>
+                                <div class="font-medium">{{ user.first_name|default:user.username }}</div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">ສະມາຊິກ</div>
                             </div>
                         </div>
                         <a href="{% url 'blog:create_post' %}" class="block mx-4 mt-2 px-4 py-2 bg-gradient-primary text-white text-center rounded-lg font-semibold text-sm">
                             ສ້າງບົດຄວາມ
                         </a>
-                        <a href="{% url 'blog:logout' %}" class="block mx-4 mt-2 px-4 py-2 border border-red-600 text-red-600 text-center rounded-lg font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                        <a href="{% url 'blog:logout' %}" onclick="Object.keys(sessionStorage).filter(k=>k.startsWith('LIFF_STORE:')).forEach(k=>sessionStorage.removeItem(k))" class="block mx-4 mt-2 px-4 py-2 border border-red-600 text-red-600 text-center rounded-lg font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                             ອອກຈາກລະບົບ
                         </a>
                     </div>
@@ -463,7 +463,74 @@
         });
     </script>
 
+    {% if request.user.is_authenticated and 'line_' in request.user.username %}
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutLinks = document.querySelectorAll('a[href*="/logout/"]');
+            logoutLinks.forEach(link => {
+                link.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const logoutUrl = this.href;
+                    try {
+                        await liff.init({ liffId: "2009239826-p8o2bktj" });
+                        if (liff.isLoggedIn()) {
+                            liff.logout();
+                        }
+                    } catch (err) {
+                        console.error("LIFF SDK Init failed during logout", err);
+                    }
+                    window.location.href = logoutUrl;
+                });
+            });
+        });
+    </script>
+    {% endif %}
+
     {% block extra_js %}{% endblock %}
+
+    {% if not request.user.is_authenticated %}
+    <script>
+        // Case 1: LINE just redirected back with ?code= (LIFF callback URL)
+        // Case 2: LIFF already processed ?code= and redirected to clean URL,
+        //         token is now stored in sessionStorage (LIFF_STORE:* keys)
+        // Skip auto-login on login/register pages so user can access them freely
+        const isAuthPage = ['/login/', '/register/'].includes(window.location.pathname);
+        const hasLiffCallback = window.location.search.includes('liffClientId=');
+        const hasLiffSession = !isAuthPage && Object.keys(sessionStorage).some(k => k.startsWith('LIFF_STORE:'));
+
+        if (hasLiffCallback || hasLiffSession) {
+            const script = document.createElement('script');
+            script.src = "https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js";
+            script.onload = async () => {
+                try {
+                    await liff.init({ liffId: "2009239826-p8o2bktj" });
+                    if (liff.isLoggedIn()) {
+                        const profile = await liff.getProfile();
+                        const res = await fetch("{% url 'blog:line_auth' %}", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ userId: profile.userId, displayName: profile.displayName })
+                        });
+                        const result = await res.json();
+                        if (result.success) {
+                            const nextUrl = localStorage.getItem('line_login_next');
+                            if (nextUrl) {
+                                localStorage.removeItem('line_login_next');
+                                window.location.href = nextUrl;
+                            } else {
+                                window.location.href = "{% url 'blog:index' %}";
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("Global LIFF Auth failed", e);
+                }
+            };
+            document.body.appendChild(script);
+        }
+    </script>
+    {% endif %}
 
 <!-- Dynamic Breadcrumb Schema -->
 <script type="application/ld+json">
@@ -488,5 +555,120 @@
   ]
 }
 </script>
+
+<!-- ============================================================ -->
+<!-- COOKIE CONSENT BANNER                                        -->
+<!-- ============================================================ -->
+<div id="cookie-banner"
+     class="fixed bottom-0 left-0 right-0 z-[9999] hidden"
+     role="dialog" aria-label="Cookie consent">
+    <div class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <!-- Icon + Text -->
+                <div class="flex items-start gap-3 flex-1">
+                    <div class="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-0.5">
+                            🍪 ເວັບໄຊນີ້ໃຊ້ Cookies
+                        </p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                            ພວກເຮົາໃຊ້ cookies ເພື່ອປັບປຸງປະສົບການການໃຊ້ງານ, ຈື່ການ login ຂອງທ່ານ
+                            ແລະ ວິເຄາະການໃຊ້ງານເວັບ.
+                            <a href="#" class="text-primary hover:underline font-medium">ນະໂຍບາຍ Cookies</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">
+                    <button id="cookie-essential"
+                            class="flex-1 sm:flex-none px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        ຈຳເປັນເທົ່ານັ້ນ
+                    </button>
+                    <button id="cookie-accept"
+                            class="flex-1 sm:flex-none px-5 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#001868] to-[#0033a0] rounded-lg hover:shadow-md hover:-translate-y-0.5 transform transition-all">
+                        ຍອມຮັບທັງໝົດ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const COOKIE_NAME = 'pp4l_cookie_consent';
+        const COOKIE_DAYS = 365;
+
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? decodeURIComponent(match[2]) : null;
+        }
+
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value) +
+                '; expires=' + expires +
+                '; path=/' +
+                '; SameSite=Lax';
+        }
+
+        function hideBanner() {
+            const banner = document.getElementById('cookie-banner');
+            if (banner) {
+                banner.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                banner.style.transform = 'translateY(100%)';
+                banner.style.opacity = '0';
+                setTimeout(() => banner.classList.add('hidden'), 320);
+            }
+        }
+
+        function showBanner() {
+            const banner = document.getElementById('cookie-banner');
+            if (!banner) return;
+            banner.classList.remove('hidden');
+            banner.style.transform = 'translateY(100%)';
+            banner.style.opacity = '0';
+            // Animate in
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    banner.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+                    banner.style.transform = 'translateY(0)';
+                    banner.style.opacity = '1';
+                });
+            });
+        }
+
+        // Show banner only if consent not yet given
+        if (!getCookie(COOKIE_NAME)) {
+            document.addEventListener('DOMContentLoaded', showBanner);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnAccept = document.getElementById('cookie-accept');
+            const btnEssential = document.getElementById('cookie-essential');
+
+            if (btnAccept) {
+                btnAccept.addEventListener('click', function () {
+                    setCookie(COOKIE_NAME, 'all', COOKIE_DAYS);
+                    hideBanner();
+                });
+            }
+
+            if (btnEssential) {
+                btnEssential.addEventListener('click', function () {
+                    setCookie(COOKIE_NAME, 'essential', COOKIE_DAYS);
+                    hideBanner();
+                });
+            }
+        });
+    })();
+</script>
+
 </body>
 </html>
