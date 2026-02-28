@@ -1,0 +1,77 @@
+Blog
+Community
+Courses
+Docs
+Events
+ເຂົ້າສູ່ລະບົບ
+ລົງທະບຽນ
+Blog
+Community
+Courses
+Docs
+Events
+ເຂົ້າສູ່ລະບົບ
+ລົງທະບຽນ
+Discover.
+The latest updates, discussions, and articles from the community.
+All
+Articles
+Discussions
+Python Tutorials
+Python Programming: ຄູ່ມືສຳລັບຜູ້ເລີ່ມຕົ້ນ - ພາສາລາວ
+ຄູ່ມືການຮຽນ Python ແບບສົມບູນເປັນພາສາລາວ - ຕັ້ງແຕ່ພື້ນຖານຈົນເຖິງຂັ້ນສູງ ລວມເອົາ Variables, Functions, Classes, File Handling, ແລະ Popular Libraries
+admin
+•
+Jan 01
+ປັນຍາປະດິດ (AI)
+ChatGPT ແລະ Large Language Models: ການປ່ຽນແປງວິທີການຄິດເຖິງ AI
+ການເກີດຂື້ນຂອງ ChatGPT ໄດ້ເຮັດໃຫ້ຄົນທົ່ວໂລກຮູ້ຈັກ AI ໃນຮູບແບບໃໝ່ ແລະ ເຫັນທ່າແຮງຂອງເທັກໂນໂລຊີ
+admin
+•
+Jul 12
+ລົດໄຟຟ້າ (EV)
+ການປະວັດລົດໄຟຟ້າ: ຈາກເລີ່ມຕົ້ນຈົນເຖິງ Tesla
+ການເດີນທາງອັນຍາວນານຂອງລົດໄຟຟ້າ ແຕ່ການທົດລອງທໍາອິດໃນສະຕະວັດທີ 19 ຈົນເຖິງການນໍາພາຂອງ Tesla ໃນປະຈຸບັນ
+admin
+•
+Jul 12
+ຮາດແວ
+5G Technology: ການປະວັດການເຊື່ອມຕໍ່ແບບໃໝ່
+5G ຈະປ່ຽນແປງວິທີທີ່ພວກເຮົາໃຊ້ອິນເຕີເນັດ ແລະ ເຊື່ອມຕໍ່ອຸປະກອນຕ່າງໆ
+admin
+•
+Jul 12
+ເທັກໂນໂລຊີໃນລາວ
+Blockchain ແລະ Cryptocurrency ໃນລາວ
+ຄວາມເປັນໄປໄດ້ຂອງການນໍາໃຊ້ Blockchain ແລະ Cryptocurrency ໃນການພັດທະນາເສດຖະກິດດິຈິຕອນຂອງລາວ
+admin
+•
+Jul 12
+ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຟຣີທັງໝົດ
+ແຫຼ່ງຮຽນຮູ້
+ເອກະສານ
+ບລັອກ
+ວິດີໂອ
+ຕົວຢ່າງໂປຣເຈັກ
+ຊຸມຊົນ
+ກະດານສົນທະນາ
+Discord
+Facebook Group
+ມາເປັນພາກສ່ວນ
+ກ່ຽວກັບ
+ກ່ຽວກັບພວກເຮົາ
+ຕິດຕໍ່ພວກເຮົາ
+ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ
+ເງື່ອນໄຂການໃຊ້ງານ
+© 2024
+PythonForLaos
+. ສະຫງວນລິຂະສິດທັງໝົດ.
+ແຜນທີ່ເວັບໄຊທ໌
+RSS
+ສະໜັບສະໜູນ
+🍪 ເວັບໄຊນີ້ໃຊ້ Cookies
+ພວກເຮົາໃຊ້ cookies ເພື່ອປັບປຸງປະສົບການການໃຊ້ງານ, ຈື່ການ login ຂອງທ່ານ
+                            ແລະ ວິເຄາະການໃຊ້ງານເວັບ.
+ນະໂຍບາຍ Cookies
+ຈຳເປັນເທົ່ານັ້ນ
+ຍອມຮັບທັງໝົດ

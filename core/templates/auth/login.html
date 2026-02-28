@@ -1,24 +1,23 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 {% load socialaccount %}
 
-{% block title %}ເຂົ້າສູ່ລະບົບ - Python for Laos{% endblock %}
+{% block title %}{% trans "ເຂົ້າສູ່ລະບົບ" %} - Python for Laos{% endblock %}
 
 {% block content %}
 <section class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
     <div class="max-w-md w-full space-y-8">
         <!-- Logo & Title -->
         <div class="text-center">
-            <a href="{% url 'blog:index' %}" class="inline-block mb-6">
+            <a href="{% url 'home:index' %}" class="inline-block mb-6">
                 <div class="w-16 h-16 mx-auto rounded-2xl overflow-hidden shadow-lg">
                     <img src="{% static 'images/python-for-laos.png' %}" alt="Python for Laos Logo" class="w-full h-full object-cover">
                 </div>
             </a>
-            <h2 class="text-3xl font-bold gradient-text mb-2">
-                ເຂົ້າສູ່ລະບົບ
-            </h2>
+            <h2 class="text-3xl font-bold gradient-text mb-2">{% trans "ເຂົ້າສູ່ລະບົບ" %}</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                ຍິນດີຕ້ອນຮັບກັບຄືນສູ່ PythonForLaos
+                {% trans "ຍິນດີຕ້ອນຮັບກັບຄືນສູ່ PythonForLaos" %}
             </p>
         </div>
 
@@ -38,9 +37,7 @@
 
                 <!-- Username -->
                 <div>
-                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        ຊື່ຜູ້ໃຊ້
-                    </label>
+                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{% trans "ຊື່ຜູ້ໃຊ້" %}</label>
                     {{ form.username }}
                     {% if form.username.errors %}
                     <div class="mt-2">
@@ -53,9 +50,7 @@
 
                 <!-- Password -->
                 <div>
-                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        ລະຫັດຜ່ານ
-                    </label>
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{% trans "ລະຫັດຜ່ານ" %}</label>
                     {{ form.password }}
                     {% if form.password.errors %}
                     <div class="mt-2">
@@ -70,21 +65,17 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
-                        <label for="remember-me" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                            ຈື່ຂ້ອຍໄວ້
-                        </label>
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">{% trans "ຈື່ຂ້ອຍໄວ້" %}</label>
                     </div>
                     <div class="text-sm">
                         <a href="#" class="font-medium text-primary hover:underline">
-                            ລືມລະຫັດຜ່ານ?
+                            {% trans "ລືມລະຫັດຜ່ານ?" %}
                         </a>
                     </div>
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full bg-gradient-primary text-white rounded-full py-3 px-4 font-bold text-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
-                    ເຂົ້າສູ່ລະບົບ
-                </button>
+                <button type="submit" class="w-full bg-gradient-primary text-white rounded-full py-3 px-4 font-bold text-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">{% trans "ເຂົ້າສູ່ລະບົບ" %}</button>
             </form>
 
             <!-- Divider -->
@@ -94,9 +85,7 @@
                         <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                            ຫຼື
-                        </span>
+                        <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">{% trans "ຫຼື" %}</span>
                     </div>
                 </div>
             </div>
@@ -140,37 +129,31 @@
             <div id="lineprofile" class="hidden mt-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 text-center shadow-sm">
                 <img id="profileImage" src="" alt="Profile Image" class="w-24 h-24 rounded-full mx-auto object-cover border-4 border-[#06C755] mb-4 shadow-md" />
                 <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-1">
-                    ສະບາຍດີ, <span id="profileName">Name</span>
+                    {% trans "ສະບາຍດີ" %}, <span id="profileName">Name</span>
                 </h3>
                 <p class="text-xs text-gray-500 mb-5 break-all">
                     UID: <span id="profileUID">UID</span>
                 </p>
                 <div class="flex flex-col gap-2">
-                    <button type="button" onclick="lineLogOut()" class="w-full border border-red-500 text-red-600 rounded-lg py-2 px-4 shadow-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition font-bold">
-                        ອອກຈາກລະບົບ
-                    </button>
+                    <button type="button" onclick="lineLogOut()" class="w-full border border-red-500 text-red-600 rounded-lg py-2 px-4 shadow-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition font-bold">{% trans "ອອກຈາກລະບົບ" %}</button>
                 </div>
             </div>
 
             <!-- Register Link -->
             <div id="auth-link" class="mt-6 text-center">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    ຍັງບໍ່ມີບັນຊີບໍ່?
-                    <a href="{% url 'blog:register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="font-semibold text-primary hover:underline">
-                        ລົງທະບຽນທີ່ນີ້
-                    </a>
+                    {% trans "ຍັງບໍ່ມີບັນຊີບໍ່?" %}
+                    <a href="{% url 'home:register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="font-semibold text-primary hover:underline">{% trans "ລົງທະບຽນທີ່ນີ້" %}</a>
                 </p>
             </div>
         </div>
 
         <!-- Back to Home -->
         <div class="text-center">
-            <a href="{% url 'blog:index' %}" class="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+            <a href="{% url 'home:index' %}" class="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                ກັບໄປໜ້າຫຼັກ
-            </a>
+                </svg>{% trans "ກັບໄປໜ້າຫຼັກ" %}</a>
         </div>
     </div>
 </section>
@@ -228,7 +211,7 @@
 
                 // Authenticate Django session so navbar shows Logout
                 try {
-                    const res = await fetch("{% url 'blog:line_auth' %}", {
+                    const res = await fetch("{% url 'home:line_auth' %}", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ userId: profile.userId, displayName: profile.displayName })
@@ -237,7 +220,7 @@
                     if (result.success) {
                         const urlParams = new URLSearchParams(window.location.search);
                         const nextUrl = urlParams.get('next');
-                        window.location.href = nextUrl ? nextUrl : "{% url 'blog:index' %}";
+                        window.location.href = nextUrl ? nextUrl : "{% url 'home:index' %}";
                     }
                 } catch (e) {
                     console.error("Django LINE auth failed", e);

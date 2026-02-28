@@ -21,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic.base import TemplateView
+from django.conf.urls.i18n import i18n_patterns
 from .sitemaps import PostSitemap, CourseSitemap, EventSitemap, TopicSitemap, DocumentSitemap, StaticViewSitemap
 
 sitemaps = {
@@ -33,17 +34,29 @@ sitemaps = {
 }
 
 urlpatterns = [
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+]
+
+urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
-    path("", include("blog.urls")),
+    path("", include("home.urls")),
+    path("blog/", include("blog.urls")),
     path("docs/", include("docs.urls")),
     path("courses/", include("courses.urls")),
     path("events/", include("events.urls")),
     path("community/", include("community.urls")),
     path("ai/", include("ai_agents.urls")),  # AI Agents URLs
     path("accounts/", include("allauth.urls")),
-    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
-    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
-]
+    path("i18n/", include("django.conf.urls.i18n")),
+    # Apps
+    prefix_default_language=False,
+)
+
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        path('rosetta/', include('rosetta.urls'))
+    ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

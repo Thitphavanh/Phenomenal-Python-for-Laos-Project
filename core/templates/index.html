@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block title %}Python for Laos - ຮຽນ Python & Django ເປັນພາສາລາວ{% endblock %}
+{% block title %}{% trans "Python for Laos - ຮຽນ Python & Django ເປັນພາສາລາວ" %}{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -259,22 +260,22 @@
         <div class="text-center max-w-5lxl mx-auto">
             <!-- Main Heading -->
             <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 fade-in-up text-gray-900 dark:text-white">
-                ຮຽນ <span class="gradient-text">Python & Django</span>
-                <br>ເປັນພາສາລາວ
+                {% trans "ຮຽນ" %} <span class="gradient-text">Python & Django</span>
+                <br>{% trans "ເປັນພາສາລາວ" %}
             </h1>
 
             <!-- Subheading -->
             <p class="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-12 fade-in-up max-w-3xl mx-auto" style="animation-delay: 0.2s;">
-                ເລີ່ມຕົ້ນການເດີນທາງໃນໂລກຂອງ Programming ດ້ວຍບົດຮຽນທີ່ງ່າຍ, ມີຕົວຢ່າງທີ່ຈະແຈ້ງ ແລະ ເປັນພາສາລາວທັງໝົດ
+                {% trans "ເລີ່ມຕົ້ນການເດີນທາງໃນໂລກຂອງ Programming ດ້ວຍບົດຮຽນທີ່ງ່າຍ, ມີຕົວຢ່າງທີ່ຈະແຈ້ງ ແລະ ເປັນພາສາລາວທັງໝົດ" %}
             </p>
 
             <!-- CTA Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-up" style="animation-delay: 0.4s;">
                 <a href="{% url 'docs:doc_list' %}" class="btn-primary inline-block">
-                    ເລີ່ມຮຽນດຽວນີ້
+                    {% trans "ເລີ່ມຮຽນດຽວນີ້" %}
                 </a>
-                <a href="{% url 'blog:post_list' %}?type=blog" class="btn-secondary inline-block">
-                    ອ່ານບລັອກ
+                <a href="{% url 'blog:post_list' %}" class="btn-secondary inline-block">
+                    {% trans "ອ່ານບລັອກ" %}
                 </a>
             </div>
 
@@ -282,15 +283,15 @@
             <div class="grid grid-cols-3 gap-8 mt-16 fade-in-up" style="animation-delay: 0.6s;">
                 <div class="text-center">
                     <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2">50+</div>
-                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">ບົດຮຽນ</div>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">{% trans "ບົດຮຽນ" %}</div>
                 </div>
                 <div class="text-center">
                     <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2" style="animation-delay: 0.1s;">1.2k+</div>
-                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">ນັກຮຽນ</div>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">{% trans "ນັກຮຽນ" %}</div>
                 </div>
                 <div class="text-center">
                     <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2" style="animation-delay: 0.2s;">100%</div>
-                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">ຟຣີ</div>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">{% trans "ຟຣີ" %}</div>
                 </div>
             </div>
         </div>
@@ -302,10 +303,10 @@
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-                ເປັນຫຍັງຕ້ອງເລືອກເຮົາ?
+                {% trans "ເປັນຫຍັງຕ້ອງເລືອກເຮົາ?" %}
             </h2>
             <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                ເຮົາມີທຸກສິ່ງທີ່ທ່ານຕ້ອງການເພື່ອກາຍເປັນ Python Developer ທີ່ດີ
+                {% trans "ເຮົາມີທຸກສິ່ງທີ່ທ່ານຕ້ອງການເພື່ອກາຍເປັນ Python Developer ທີ່ດີ" %}
             </p>
         </div>
 
@@ -315,9 +316,9 @@
                 <div class="w-16 h-16 gradient-bg-1 rounded-2xl flex items-center justify-center mb-6 float">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">ພາສາລາວທັງໝົດ</h3>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ພາສາລາວທັງໝົດ" %}</h3>
                 <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    ບົດຮຽນທຸກບົດເປັນພາສາລາວ ງ່າຍຕໍ່ການເຂົ້າໃຈ ບໍ່ມີອຸປະສັກໃນການຮຽນຮູ້
+                    {% trans "ບົດຮຽນທຸກບົດເປັນພາສາລາວ ງ່າຍຕໍ່ການເຂົ້າໃຈ ບໍ່ມີອຸປະສັກໃນການຮຽນຮູ້" %}
                 </p>
             </div>
 
@@ -326,9 +327,9 @@
                 <div class="w-16 h-16 gradient-bg-2 rounded-2xl flex items-center justify-center mb-6 float" style="animation-delay: 1s;">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">ຕົວຢ່າງຈິງ</h3>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ຕົວຢ່າງຈິງ" %}</h3>
                 <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    Code ຕົວຢ່າງທີ່ສາມາດລອງໃຊ້ໄດ້ຈິງ ພ້ອມຄຳອະທິບາຍລະອຽດ
+                    {% trans "Code ຕົວຢ່າງທີ່ສາມາດລອງໃຊ້ໄດ້ຈິງ ພ້ອມຄຳອະທິບາຍລະອຽດ" %}
                 </p>
             </div>
 
@@ -337,9 +338,9 @@
                 <div class="w-16 h-16 gradient-bg-3 rounded-2xl flex items-center justify-center mb-6 float" style="animation-delay: 2s;">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">ອັບເດດສະເໝີ</h3>
+                <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ອັບເດດສະເໝີ" %}</h3>
                 <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    ເນື້ອຫາໃໝ່ທຸກອາທິດ ອັບເດດຕາມ Technology ລ້າສຸດ
+                    {% trans "ເນື້ອຫາໃໝ່ທຸກອາທິດ ອັບເດດຕາມ Technology ລ້າສຸດ" %}
                 </p>
             </div>
         </div>
@@ -353,49 +354,47 @@
             <!-- Left: Text -->
             <div>
                 <h2 class="text-4xl sm:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-                    ງ່າຍດາຍ<br>
-                    <span class="gradient-text">ແບບບໍ່ເຄີຍມີມາກ່ອນ</span>
+                    {% trans "ງ່າຍດາຍ" %}<br>
+                    <span class="gradient-text">{% trans "ແບບບໍ່ເຄີຍມີມາກ່ອນ" %}</span>
                 </h2>
                 <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                    Python ແມ່ນພາສາທີ່ງ່າຍທີ່ສຸດສຳລັບຜູ້ເລີ່ມຕົ້ນ. ທ່ານສາມາດຂຽນ Code ທີ່ອ່ານງ່າຍຄືພາສາອັງກິດ ແລະ ເຮັດວຽກໄດ້ຫຼາຍຢ່າງ
+                    {% trans "Python ແມ່ນພາສາທີ່ງ່າຍທີ່ສຸດສຳລັບຜູ້ເລີ່ມຕົ້ນ. ທ່ານສາມາດຂຽນ Code ທີ່ອ່ານງ່າຍຄືພາສາອັງກິດ ແລະ ເຮັດວຽກໄດ້ຫຼາຍຢ່າງ" %}
                 </p>
                 <ul class="space-y-4 mb-8">
                     <li class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                         </svg>
-                        <span class="text-gray-700 dark:text-gray-300">Syntax ທີ່ອ່ານງ່າຍ ເຂົ້າໃຈໄວ</span>
+                        <span class="text-gray-700 dark:text-gray-300">{% trans "Syntax ທີ່ອ່ານງ່າຍ ເຂົ້າໃຈໄວ" %}</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                         </svg>
-                        <span class="text-gray-700 dark:text-gray-300">ຕົວຢ່າງ Code ທີ່ສາມາດ Copy ໄດ້</span>
+                        <span class="text-gray-700 dark:text-gray-300">{% trans "ຕົວຢ່າງ Code ທີ່ສາມາດ Copy ໄດ້" %}</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                         </svg>
-                        <span class="text-gray-700 dark:text-gray-300">ເນື້ອຫາຈາກງ່າຍໄປຫາຍາກ</span>
+                        <span class="text-gray-700 dark:text-gray-300">{% trans "ເນື້ອຫາຈາກງ່າຍໄປຫາຍາກ" %}</span>
                     </li>
                 </ul>
-                <a href="{% url 'docs:doc_list' %}" class="btn-primary inline-block">
-                    ເບິ່ງບົດຮຽນທັງໝົດ
-                </a>
+                <a href="{% url 'docs:doc_list' %}" class="btn-primary inline-block">{% trans "ເບິ່ງບົດຮຽນທັງໝົດ" %}</a>
             </div>
 
             <!-- Right: Code Preview -->
             <div class="relative">
                 <div class="code-preview">
-<pre class="text-gray-300"><span class="text-purple-400"># ຕົວຢ່າງ Python ງ່າຍໆ</span>
+<pre class="text-gray-300"><span class="text-purple-400"># {% trans "ຕົວຢ່າງ Python ງ່າຍໆ" %}</span>
 <span class="text-blue-400">def</span> <span class="text-yellow-300">say_hello</span>(name):
-    <span class="text-green-400">"""ຟັງຊັນທັກທາຍ"""</span>
-    message = <span class="text-orange-300">f"ສະບາຍດີ, {name}!"</span>
+    <span class="text-green-400">"""{% trans 'ຟັງຊັນທັກທາຍ' %}"""</span>
+    message = <span class="text-orange-300">f"{% trans "ສະບາຍດີ" %}, {name}!"</span>
     <span class="text-pink-400">print</span>(message)
 
-<span class="text-purple-400"># ເອີ້ນໃຊ້ຟັງຊັນ</span>
-<span class="text-yellow-300">say_hello</span>(<span class="text-orange-300">"ສົມໃຈ"</span>)
-<span class="text-purple-400"># Output: ສະບາຍດີ, ສົມໃຈ!</span>
+<span class="text-purple-400"># {% trans "ເອີ້ນໃຊ້ຟັງຊັນ" %}</span>
+<span class="text-yellow-300">say_hello</span>(<span class="text-orange-300">"{% trans 'ສົມໃຈ' %}"</span>)
+<span class="text-purple-400"># Output: {% trans "ສະບາຍດີ, ສົມໃຈ!" %}</span>
 </pre>
                 </div>
                 <!-- Decorative element -->
@@ -410,12 +409,8 @@
 <section class="section bg-gray-50 dark:bg-gray-900">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-                ເສັ້ນທາງການຮຽນຮູ້
-            </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                ລຳດັບການຮຽນທີ່ເໝາະສົມ ຈາກພື້ນຖານຈົນເຖິງຂັ້ນສູງ
-            </p>
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ເສັ້ນທາງການຮຽນຮູ້" %}</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ລຳດັບການຮຽນທີ່ເໝາະສົມ ຈາກພື້ນຖານຈົນເຖິງຂັ້ນສູງ" %}</p>
         </div>
 
         <div class="max-w-3xl mx-auto space-y-6">
@@ -426,8 +421,8 @@
                 </div>
                 <div class="flex-1">
                     <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Python Basics</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">ຮຽນພື້ນຖານ Python: ຕົວແປ, ປະເພດຂໍ້ມູນ, Control Flow</p>
-                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">ເລີ່ມຮຽນ →</a>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">{% trans "ຮຽນພື້ນຖານ Python: ຕົວແປ, ປະເພດຂໍ້ມູນ, Control Flow" %}</p>
+                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">{% trans "ເລີ່ມຮຽນ →" %}</a>
                 </div>
             </div>
 
@@ -438,8 +433,8 @@
                 </div>
                 <div class="flex-1">
                     <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Functions & OOP</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">ຮຽນການຂຽນ Functions ແລະ Object-Oriented Programming</p>
-                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">ເລີ່ມຮຽນ →</a>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">{% trans "ຮຽນການຂຽນ Functions ແລະ Object-Oriented Programming" %}</p>
+                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">{% trans "ເລີ່ມຮຽນ →" %}</a>
                 </div>
             </div>
 
@@ -450,8 +445,8 @@
                 </div>
                 <div class="flex-1">
                     <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Django Framework</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">ສ້າງ Web Application ດ້ວຍ Django Framework</p>
-                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">ເລີ່ມຮຽນ →</a>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">{% trans "ສ້າງ Web Application ດ້ວຍ Django Framework" %}</p>
+                    <a href="{% url 'docs:doc_list' %}" class="font-semibold hover:underline" style="color: #001868;">{% trans "ເລີ່ມຮຽນ →" %}</a>
                 </div>
             </div>
         </div>
@@ -462,12 +457,8 @@
 <section class="section">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-                ຄອດສ໌ຮຽນແນະນຳ
-            </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                ເລືອກຮຽນຕາມຄວາມສົນໃຈຂອງທ່ານ
-            </p>
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ຄອດສ໌ຮຽນແນະນຳ" %}</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ເລືອກຮຽນຕາມຄວາມສົນໃຈຂອງທ່ານ" %}</p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
@@ -482,7 +473,7 @@
                     </div>
                     {% endif %}
                     <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-bold text-blue-900">
-                        {% if course.is_free %}ຟຣີ{% else %}₭{{ course.price }}{% endif %}
+                        {% if course.is_free %}{% trans "ຟຣີ" %}{% else %}₭{{ course.price }}{% endif %}
                     </div>
                 </div>
                 <div class="p-6 flex-1 flex flex-col">
@@ -496,21 +487,19 @@
                         <span class="text-sm text-gray-600 dark:text-gray-400">{{ course.instructor.username }}</span>
                     </div>
                     <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                        <span class="text-sm text-gray-500">{{ course.total_lessons }} ບົດຮຽນ</span>
-                        <a href="{{ course.get_absolute_url }}" class="text-blue-600 font-semibold hover:underline">ລາຍລະອຽດ →</a>
+                        <span class="text-sm text-gray-500">{{ course.total_lessons }} {% trans "ບົດຮຽນ" %}</span>
+                        <a href="{{ course.get_absolute_url }}" class="text-blue-600 font-semibold hover:underline">{% trans "ລາຍລະອຽດ →" %}</a>
                     </div>
                 </div>
             </div>
             {% empty %}
              <div class="col-span-3 text-center text-gray-500">
-                ກຳລັງກະກຽມຄອດສ໌ໃໝ່...
+                {% trans "ກຳລັງກະກຽມຄອດສ໌ໃໝ່..." %}
             </div>
             {% endfor %}
         </div>
         <div class="text-center mt-12">
-            <a href="{% url 'courses:course_list' %}" class="btn-secondary inline-block text-gray-900 dark:text-white border-gray-300 dark:border-gray-700">
-                ເບິ່ງຄອດສ໌ທັງໝົດ
-            </a>
+            <a href="{% url 'courses:course_list' %}" class="btn-secondary inline-block text-gray-900 dark:text-white border-gray-300 dark:border-gray-700">{% trans "ເບິ່ງຄອດສ໌ທັງໝົດ" %}</a>
         </div>
     </div>
 </section>
@@ -519,12 +508,8 @@
 <section class="section bg-gray-50 dark:bg-gray-900">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-                ກິດຈະກຳທີ່ຈະມາເຖິງ
-            </h2>
-             <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                ຢ່າພາດໂອກາດທີ່ຈະໄດ້ພົບປະກັບນັກພັດທະນາຄົນອື່ນໆ
-            </p>
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ກິດຈະກຳທີ່ຈະມາເຖິງ" %}</h2>
+             <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ຢ່າພາດໂອກາດທີ່ຈະໄດ້ພົບປະກັບນັກພັດທະນາຄົນອື່ນໆ" %}</p>
         </div>
         
         <div class="grid md:grid-cols-3 gap-8">
@@ -540,20 +525,14 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     {{ event.venue|default:"Online" }}
                 </div>
-                <a href="{{ event.get_absolute_url }}" class="btn-secondary px-6 py-2 text-sm inline-block w-full text-center hover:bg-blue-50 dark:hover:bg-gray-700">
-                    ລົງທະບຽນ
-                </a>
+                <a href="{{ event.get_absolute_url }}" class="btn-secondary px-6 py-2 text-sm inline-block w-full text-center hover:bg-blue-50 dark:hover:bg-gray-700">{% trans "ລົງທະບຽນ" %}</a>
              </div>
              {% empty %}
-             <div class="col-span-3 text-center text-gray-500">
-                ຍັງບໍ່ມີກິດຈະກຳໃນໄວໆນີ້
-             </div>
+             <div class="col-span-3 text-center text-gray-500">{% trans "ຍັງບໍ່ມີກິດຈະກຳໃນໄວໆນີ້" %}</div>
              {% endfor %}
         </div>
         <div class="text-center mt-12">
-            <a href="{% url 'events:event_list' %}" class="btn-secondary inline-block text-gray-900 dark:text-white border-gray-300 dark:border-gray-700">
-                ເບິ່ງກິດຈະກຳທັງໝົດ
-            </a>
+            <a href="{% url 'events:event_list' %}" class="btn-secondary inline-block text-gray-900 dark:text-white border-gray-300 dark:border-gray-700">{% trans "ເບິ່ງກິດຈະກຳທັງໝົດ" %}</a>
         </div>
     </div>
 </section>
@@ -570,16 +549,12 @@
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center max-w-3xl mx-auto text-white">
             <h2 class="text-4xl sm:text-5xl font-bold mb-6">
-                ພ້ອມທີ່ຈະເລີ່ມຕົ້ນແລ້ວບໍ?
+                {% trans "ພ້ອມທີ່ຈະເລີ່ມຕົ້ນແລ້ວບໍ?" %}
             </h2>
-            <p class="text-xl mb-10 opacity-90">
-                ເຂົ້າຮ່ວມກັບນັກຮຽນຫຼາຍພັນຄົນທີ່ກຳລັງຮຽນ Python ແລະ Django ເປັນພາສາລາວ
-            </p>
+            <p class="text-xl mb-10 opacity-90">{% trans "ເຂົ້າຮ່ວມກັບນັກຮຽນຫຼາຍພັນຄົນທີ່ກຳລັງຮຽນ Python ແລະ Django ເປັນພາສາລາວ" %}</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{% url 'docs:doc_list' %}" class="inline-block bg-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105" style="color: #001868;">
-                    ເລີ່ມຮຽນຟຣີ
-                </a>
-                <a href="{% url 'blog:post_list' %}?type=blog" class="inline-block bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white transition-all hover:text-[#001868]">
+                <a href="{% url 'docs:doc_list' %}" class="inline-block bg-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105" style="color: #001868;">{% trans "ເລີ່ມຮຽນຟຣີ" %}</a>
+                <a href="{% url 'blog:post_list' %}" class="inline-block bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white transition-all hover:text-[#001868]">
                     ອ່ານບລັອກ
                 </a>
             </div>
@@ -596,9 +571,7 @@
                 <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-gray-900 dark:text-white flex items-center gap-3">
                     <span class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
-                    </span>
-                    ຊຸມຊົນຖາມ-ຕອບ
-                </h2>
+                    </span>{% trans "ຊຸມຊົນຖາມ-ຕອບ" %}</h2>
                 <div class="space-y-4">
                     {% for topic in recent_topics %}
                     <div class="glass p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-700">
@@ -610,22 +583,21 @@
                                 <div class="text-sm text-gray-500 flex items-center gap-3">
                                     <span>{{ topic.author.username }}</span>
                                     <span>•</span>
-                                    <span>{{ topic.created_at|timesince }} ຜ່ານມາ</span>
+                                    <span>{{ topic.created_at|timesince } {% trans "ຜ່ານມາ" %}</span>
                                 </div>
                             </div>
                             <div class="flex flex-col items-center justify-center min-w-[3rem] px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg">
                                 <span class="font-bold text-gray-700 dark:text-gray-300">{{ topic.replies.count }}</span>
-                                <span class="text-xs text-gray-500">ຄຳຕອບ</span>
+                                <span class="text-xs text-gray-500">{% trans "ຄຳຕອບ" %}</span>
                             </div>
                         </div>
                     </div>
                     {% empty %}
-                     <p class="text-gray-500 italic">ຍັງບໍ່ມີຫົວຂໍ້ສົນທະນາ</p>
+                     <p class="text-gray-500 italic">{% trans "ຍັງບໍ່ມີຫົວຂໍ້ສົນທະນາ" %}</p>
                     {% endfor %}
                 </div>
                 <div class="mt-6">
-                    <a href="{% url 'community:index' %}" class="font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-2">
-                        ເຂົ້າຮ່ວມການສົນທະນາ <span aria-hidden="true">&rarr;</span>
+                    <a href="{% url 'community:index' %}" class="font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-2">{% trans "ເຂົ້າຮ່ວມການສົນທະນາ" %}<span aria-hidden="true">&rarr;</span>
                     </a>
                 </div>
             </div>
@@ -635,9 +607,7 @@
                  <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-gray-900 dark:text-white flex items-center gap-3">
                     <span class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600">
                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    </span>
-                    ເອກະສານປະກອບ
-                </h2>
+                    </span>{% trans "ເອກະສານປະກອບ" %}</h2>
                 <div class="space-y-4">
                      {% for doc in recent_docs %}
                      <div class="glass p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-100 dark:border-gray-700">
@@ -658,12 +628,11 @@
                         </div>
                      </div>
                      {% empty %}
-                     <p class="text-gray-500 italic">ກຳລັງອັບເດດເອກະສານ...</p>
+                     <p class="text-gray-500 italic">{% trans "ກຳລັງອັບເດດເອກະສານ..." %}</p>
                      {% endfor %}
                 </div>
                  <div class="mt-6">
-                    <a href="{% url 'docs:doc_list' %}" class="font-semibold text-purple-600 hover:text-purple-700 flex items-center gap-2">
-                        ອ່ານເອກະສານທັງໝົດ <span aria-hidden="true">&rarr;</span>
+                    <a href="{% url 'docs:doc_list' %}" class="font-semibold text-purple-600 hover:text-purple-700 flex items-center gap-2">{% trans "ອ່ານເອກະສານທັງໝົດ" %}<span aria-hidden="true">&rarr;</span>
                     </a>
                 </div>
             </div>
@@ -675,12 +644,8 @@
 <section class="section bg-white dark:bg-gray-800">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-                ບົດຄວາມຫຼ້າສຸດ
-            </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400">
-                ອ່ານບົດຄວາມ ແລະ ບົດສອນຫຼ້າສຸດຈາກຊຸມຊົນ
-            </p>
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ບົດຄວາມຫຼ້າສຸດ" %}</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">{% trans "ອ່ານບົດຄວາມ ແລະ ບົດສອນຫຼ້າສຸດຈາກຊຸມຊົນ" %}</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
@@ -712,22 +677,18 @@
                     <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500">
                         <span>{{ post.published_at|date:"M d, Y" }}</span>
                         <a href="{% url 'blog:post_detail' post.slug %}" class="font-semibold hover:underline" style="color: #001868;">
-                            ອ່ານຕໍ່ →
+                            {% trans "ອ່ານຕໍ່" %} →
                         </a>
                     </div>
                 </div>
             </article>
             {% empty %}
-            <div class="col-span-3 text-center py-12 text-gray-500 dark:text-gray-400">
-                ບໍ່ມີບົດຄວາມໃນຂະນະນີ້
-            </div>
+            <div class="col-span-3 text-center py-12 text-gray-500 dark:text-gray-400">{% trans "ບໍ່ມີບົດຄວາມໃນຂະນະນີ້" %}</div>
             {% endfor %}
         </div>
 
         <div class="text-center">
-            <a href="{% url 'blog:post_list' %}" class="btn-primary inline-block">
-                ເບິ່ງບົດຄວາມທັງໝົດ
-            </a>
+            <a href="{% url 'blog:post_list' %}" class="btn-primary inline-block">{% trans "ເບິ່ງບົດຄວາມທັງໝົດ" %}</a>
         </div>
     </div>
 </section>

@@ -487,7 +487,7 @@ class LineWebhookView(APIView):
                         response = chatbot.chat(
                             message=message_text,
                             provider='gemini', # Default fallback
-                            use_rag=False
+                            use_rag=True
                         )
                         
                         ai_response = response.get('response', 'ຂໍອະໄພ, ຂ້ອຍບໍ່ສາມາດຕອບໄດ້ໃນຂະນະນີ້.')
@@ -513,8 +513,11 @@ class LineWebhookView(APIView):
                                 # Fetch latest 5 published courses
                                 courses = Course.objects.filter(status='published').order_by('-created_at')[:5]
                                 if courses:
-                                    host = request.get_host()
-                                    base_url = f"https://{host}"
+                                    from django.conf import settings
+                                    import os
+                                    
+                                    # Fallback base URL for local development/ngrok
+                                    base_url = os.getenv('SITE_URL', f"https://{request.get_host()}")
                                     
                                     bubbles = []
                                     for course in courses:
@@ -530,6 +533,7 @@ class LineWebhookView(APIView):
                                         
                                         bubbles.append({
                                             "type": "bubble",
+                                            "size": "mega",
                                             "hero": {
                                                 "type": "image",
                                                 "url": cover_url,
@@ -540,13 +544,15 @@ class LineWebhookView(APIView):
                                             "body": {
                                                 "type": "box",
                                                 "layout": "vertical",
+                                                "paddingAll": "20px",
                                                 "contents": [
                                                     {
                                                         "type": "text",
                                                         "text": course.title[:40] + ("..." if len(course.title) > 40 else ""),
                                                         "weight": "bold",
                                                         "size": "md",
-                                                        "wrap": True
+                                                        "wrap": True,
+                                                        "maxLines": 2
                                                     },
                                                     {
                                                         "type": "text",
@@ -554,7 +560,7 @@ class LineWebhookView(APIView):
                                                         "color": "#1DB446",
                                                         "size": "sm",
                                                         "weight": "bold",
-                                                        "margin": "sm"
+                                                        "margin": "md"
                                                     }
                                                 ]
                                             },
@@ -562,6 +568,7 @@ class LineWebhookView(APIView):
                                                 "type": "box",
                                                 "layout": "vertical",
                                                 "spacing": "sm",
+                                                "paddingAll": "20px",
                                                 "contents": [
                                                     {
                                                         "type": "button",

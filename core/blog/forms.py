@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 from .models import Post, Comment, Category, Tag
 
 class PostForm(forms.ModelForm):
@@ -34,28 +35,28 @@ class CustomUserCreationForm(UserCreationForm):
         required=True,
         widget=forms.EmailInput(attrs={
             'class': 'w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary transition-all',
-            'placeholder': 'ອີເມວຂອງທ່ານ'
+            'placeholder': _('ອີເມວຂອງທ່ານ')
         })
     )
 
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary transition-all',
-            'placeholder': 'ຊື່ຜູ້ໃຊ້'
+            'placeholder': _('ຊື່ຜູ້ໃຊ້')
         })
     )
 
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary transition-all',
-            'placeholder': 'ລະຫັດຜ່ານ'
+            'placeholder': _('ລະຫັດຜ່ານ')
         })
     )
 
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary transition-all',
-            'placeholder': 'ຢືນຢັນລະຫັດຜ່ານ'
+            'placeholder': _('ຢືນຢັນລະຫັດຜ່ານ')
         })
     )
 
@@ -76,13 +77,13 @@ class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary transition-all',
-            'placeholder': 'ຊື່ຜູ້ໃຊ້'
+            'placeholder': _('ຊື່ຜູ້ໃຊ້')
         })
     )
 
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'w-full bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary transition-all',
-            'placeholder': 'ລະຫັດຜ່ານ'
+            'placeholder': _('ລະຫັດຜ່ານ')
         })
     )

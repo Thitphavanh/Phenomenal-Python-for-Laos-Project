@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static humanize %}
 
 {% block title %}ແຜນລາຄາ - Python for Laos{% endblock %}
@@ -8,17 +9,13 @@
 <section class="bg-gradient-primary text-white py-20">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-bold mb-6">
-                ເລືອກແຜນທີ່ເໝາະກັບທ່ານ
-            </h1>
-            <p class="text-xl text-blue-100 mb-8">
-                ເລີ່ມຮຽນ Python ແລະ Django ດ້ວຍແຜນການທີ່ຍືດຫຍຸ່ນ ແລະ ລາຄາທີ່ເໝາະສົມ
-            </p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">{% trans "ເລືອກແຜນທີ່ເໝາະກັບທ່ານ" %}</h1>
+            <p class="text-xl text-blue-100 mb-8">{% trans "ເລີ່ມຮຽນ Python ແລະ Django ດ້ວຍແຜນການທີ່ຍືດຫຍຸ່ນ ແລະ ລາຄາທີ່ເໝາະສົມ" %}</p>
             <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-lg rounded-full px-6 py-3">
                 <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <span class="text-sm font-medium">ທົດລອງຟຣີ 7 ວັນ ສຳລັບທຸກແຜນການ</span>
+                <span class="text-sm font-medium">{% trans "ທົດລອງຟຣີ 7 ວັນ ສຳລັບທຸກແຜນການ" %}</span>
             </div>
         </div>
     </div>
@@ -56,7 +53,7 @@
                         <div class="mt-4">
                             <div class="flex items-baseline justify-center gap-2">
                                 {% if plan.price == 0 %}
-                                <span class="text-5xl font-bold">ຟຣີ</span>
+                                <span class="text-5xl font-bold">{% trans "ຟຣີ" %}</span>
                                 {% else %}
                                 <span class="text-2xl font-semibold {% if not plan.is_popular %}text-gray-500 dark:text-gray-400{% endif %}">$</span>
                                 <span class="text-5xl font-bold">{{ plan.price|floatformat:0 }}</span>
@@ -116,19 +113,15 @@
                                           bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
                                           {% else %}
                                           bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
-                                          {% endif %}">
-                                    ເລີ່ມຮຽນຟຣີ
-                                </a>
+                                          {% endif %}">{% trans "ເລີ່ມຮຽນຟຣີ" %}</a>
                                 {% else %}
-                                <a href="{% url 'blog:register' %}"
+                                <a href="{% url 'home:register' %}"
                                    class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
                                           {% if plan.is_popular %}
                                           bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
                                           {% else %}
                                           bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
-                                          {% endif %}">
-                                    ລົງທະບຽນຮຽນຟຣີ
-                                </a>
+                                          {% endif %}">{% trans "ລົງທະບຽນຮຽນຟຣີ" %}</a>
                                 {% endif %}
                             {% elif plan.plan_type == 'single' %}
                                 {% if user.is_authenticated %}
@@ -138,19 +131,15 @@
                                           bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
                                           {% else %}
                                           bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
-                                          {% endif %}">
-                                    ເລືອກຄອດສຶກສາ
-                                </a>
+                                          {% endif %}">{% trans "ເລືອກຄອດສຶກສາ" %}</a>
                                 {% else %}
-                                <a href="{% url 'blog:register' %}"
+                                <a href="{% url 'home:register' %}"
                                    class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
                                           {% if plan.is_popular %}
                                           bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
                                           {% else %}
                                           bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
-                                          {% endif %}">
-                                    ລົງທະບຽນເພື່ອຊື້
-                                </a>
+                                          {% endif %}">{% trans "ລົງທະບຽນເພື່ອຊື້" %}</a>
                                 {% endif %}
                             {% else %}
                                 {% if user.is_authenticated %}
@@ -160,9 +149,7 @@
                                           bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
                                           {% else %}
                                           bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
-                                          {% endif %}">
-                                    ເລີ່ມຕົ້ນຮຽນຮູ້
-                                </a>
+                                          {% endif %}">{% trans "ເລີ່ມຕົ້ນຮຽນຮູ້" %}</a>
                                 {% else %}
                                 <a href="{% url 'register' %}"
                                    class="block w-full px-6 py-4 rounded-full font-bold text-lg transition-all
@@ -170,18 +157,14 @@
                                           bg-gradient-primary text-white hover:shadow-xl transform hover:-translate-y-1
                                           {% else %}
                                           bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700
-                                          {% endif %}">
-                                    ລົງທະບຽນເລີ່ມຕົ້ນ
-                                </a>
+                                          {% endif %}">{% trans "ລົງທະບຽນເລີ່ມຕົ້ນ" %}</a>
                                 {% endif %}
                             {% endif %}
                         </div>
 
                         <!-- Note for VIP -->
                         {% if plan.plan_type == 'vip' %}
-                        <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
-                            ເຂົ້າເຖິງຄອດສຶກສາທັງໝົດ
-                        </p>
+                        <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">{% trans "ເຂົ້າເຖິງຄອດສຶກສາທັງໝົດ" %}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -194,12 +177,8 @@
             <svg class="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                ຍັງບໍ່ມີແຜນລາຄາ
-            </h3>
-            <p class="text-gray-600 dark:text-gray-400">
-                ກະລຸນາກັບມາໃໝ່ໃນພາຍຫຼັງ
-            </p>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{% trans "ຍັງບໍ່ມີແຜນລາຄາ" %}</h3>
+            <p class="text-gray-600 dark:text-gray-400">{% trans "ກະລຸນາກັບມາໃໝ່ໃນພາຍຫຼັງ" %}</p>
         </div>
         {% endif %}
     </div>
@@ -210,12 +189,8 @@
 <section class="py-20 bg-white dark:bg-gray-900">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                ປຽບທຽບແຜນການ
-            </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400">
-                ເລືອກແຜນທີ່ເໝາະສົມກັບເປົ້າໝາຍການຮຽນຂອງທ່ານ
-            </p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">{% trans "ປຽບທຽບແຜນການ" %}</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">{% trans "ເລືອກແຜນທີ່ເໝາະສົມກັບເປົ້າໝາຍການຮຽນຂອງທ່ານ" %}</p>
         </div>
 
         <!-- Desktop Table -->
@@ -223,7 +198,7 @@
             <table class="w-full border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
                 <thead class="bg-gray-50 dark:bg-gray-800">
                     <tr>
-                        <th class="px-6 py-4 text-left text-sm font-bold text-gray-900 dark:text-white">ຄຸນສົມບັດ</th>
+                        <th class="px-6 py-4 text-left text-sm font-bold text-gray-900 dark:text-white">{% trans "ຄຸນສົມບັດ" %}</th>
                         {% for plan in pricing_plans %}
                         <th class="px-6 py-4 text-center text-sm font-bold {% if plan.is_popular %}bg-primary/10{% endif %}">
                             <div class="{% if plan.is_popular %}text-primary{% else %}text-gray-900 dark:text-white{% endif %}">
@@ -236,7 +211,7 @@
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     <!-- Row: Price -->
                     <tr class="bg-white dark:bg-gray-900">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ລາຄາ</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{% trans "ລາຄາ" %}</td>
                         {% for plan in pricing_plans %}
                         <td class="px-6 py-4 text-center {% if plan.is_popular %}bg-primary/5{% endif %}">
                             <span class="text-2xl font-bold text-gray-900 dark:text-white">
@@ -248,7 +223,7 @@
 
                     <!-- Row: Access Duration -->
                     <tr class="bg-gray-50 dark:bg-gray-800/50">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ໄລຍະເວລາ</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{% trans "ໄລຍະເວລາ" %}</td>
                         {% for plan in pricing_plans %}
                         <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-400 {% if plan.is_popular %}bg-primary/5{% endif %}">
                             {% if plan.duration_days == 0 %}
@@ -266,7 +241,7 @@
 
                     <!-- Row: Course Access -->
                     <tr class="bg-white dark:bg-gray-900">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ເຂົ້າເຖິງຄອດສຶກສາ</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{% trans "ເຂົ້າເຖິງຄອດສຶກສາ" %}</td>
                         {% for plan in pricing_plans %}
                         <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-400 {% if plan.is_popular %}bg-primary/5{% endif %}">
                             {% if plan.plan_type == 'free' %}
@@ -282,7 +257,7 @@
 
                     <!-- Row: Certificate -->
                     <tr class="bg-gray-50 dark:bg-gray-800/50">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ໃບຢັ້ງຢືນ</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{% trans "ໃບຢັ້ງຢືນ" %}</td>
                         {% for plan in pricing_plans %}
                         <td class="px-6 py-4 text-center {% if plan.is_popular %}bg-primary/5{% endif %}">
                             {% if plan.plan_type == 'free' %}
@@ -300,7 +275,7 @@
 
                     <!-- Row: Support -->
                     <tr class="bg-white dark:bg-gray-900">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">ການສະໜັບສະໜູນ</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{% trans "ການສະໜັບສະໜູນ" %}</td>
                         {% for plan in pricing_plans %}
                         <td class="px-6 py-4 text-center text-sm text-gray-600 dark:text-gray-400 {% if plan.is_popular %}bg-primary/5{% endif %}">
                             {% if plan.plan_type == 'free' %}
@@ -321,33 +296,21 @@
                         <td class="px-6 py-4 text-center {% if plan.is_popular %}bg-primary/5{% endif %}">
                             {% if plan.plan_type == 'free' %}
                                 {% if user.is_authenticated %}
-                                <a href="{% url 'courses:course_list' %}?price=free" class="inline-block px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                                    ເລີ່ມຕົ້ນ
-                                </a>
+                                <a href="{% url 'courses:course_list' %}?price=free" class="inline-block px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">{% trans "ເລີ່ມຕົ້ນ" %}</a>
                                 {% else %}
-                                <a href="{% url 'blog:register' %}" class="inline-block px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                                    ລົງທະບຽນ
-                                </a>
+                                <a href="{% url 'home:register' %}" class="inline-block px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">{% trans "ລົງທະບຽນ" %}</a>
                                 {% endif %}
                             {% elif plan.plan_type == 'single' %}
                                 {% if user.is_authenticated %}
-                                <a href="{% url 'courses:course_list' %}" class="inline-block px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
-                                    ເລືອກຄອດ
-                                </a>
+                                <a href="{% url 'courses:course_list' %}" class="inline-block px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">{% trans "ເລືອກຄອດ" %}</a>
                                 {% else %}
-                                <a href="{% url 'blog:register' %}" class="inline-block px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
-                                    ລົງທະບຽນ
-                                </a>
+                                <a href="{% url 'home:register' %}" class="inline-block px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">{% trans "ລົງທະບຽນ" %}</a>
                                 {% endif %}
                             {% else %}
                                 {% if user.is_authenticated %}
-                                <button class="px-6 py-2 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
-                                    ເລີ່ມທົດລອງ
-                                </button>
+                                <button class="px-6 py-2 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">{% trans "ເລີ່ມທົດລອງ" %}</button>
                                 {% else %}
-                                <a href="{% url 'blog:register' %}" class="inline-block px-6 py-2 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
-                                    ລົງທະບຽນ
-                                </a>
+                                <a href="{% url 'home:register' %}" class="inline-block px-6 py-2 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">{% trans "ລົງທະບຽນ" %}</a>
                                 {% endif %}
                             {% endif %}
                         </td>
@@ -396,12 +359,8 @@
 <section class="py-20 bg-gray-50 dark:bg-gray-800/50">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                ຄອດສຶກສາແນະນຳ
-            </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400">
-                ເລີ່ມຮຽນດ້ວຍຄອດສຶກສາທີ່ດີທີ່ສຸດຂອງພວກເຮົາ
-            </p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">{% trans "ຄອດສຶກສາແນະນຳ" %}</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">{% trans "ເລີ່ມຮຽນດ້ວຍຄອດສຶກສາທີ່ດີທີ່ສຸດຂອງພວກເຮົາ" %}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -421,9 +380,7 @@
 
                         <div class="absolute top-3 right-3">
                             {% if course.is_free %}
-                            <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                                ຟຣີ
-                            </span>
+                            <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">{% trans "ຟຣີ" %}</span>
                             {% else %}
                             <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold">
                                 ${{ course.price }}
@@ -460,9 +417,7 @@
         </div>
 
         <div class="text-center mt-12">
-            <a href="{% url 'courses:course_list' %}" class="inline-block px-8 py-4 bg-gradient-primary text-white rounded-full font-bold text-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
-                ເບິ່ງຄອດສຶກສາທັງໝົດ
-            </a>
+            <a href="{% url 'courses:course_list' %}" class="inline-block px-8 py-4 bg-gradient-primary text-white rounded-full font-bold text-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">{% trans "ເບິ່ງຄອດສຶກສາທັງໝົດ" %}</a>
         </div>
     </div>
 </section>
@@ -472,12 +427,8 @@
 <section class="py-20 bg-white dark:bg-gray-900">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                ຄຳຖາມທີ່ພົບເລື້ອຍ
-            </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400">
-                ຄຳຕອບສຳລັບຄຳຖາມທີ່ພົບເລື້ອຍ
-            </p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">{% trans "ຄຳຖາມທີ່ພົບເລື້ອຍ" %}</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">{% trans "ຄຳຕອບສຳລັບຄຳຖາມທີ່ພົບເລື້ອຍ" %}</p>
         </div>
 
         <div class="space-y-4">
@@ -555,18 +506,12 @@
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
             {% if user.is_authenticated %}
-            <a href="{% url 'courses:course_list' %}?price=free" class="px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
-                ເລີ່ມຟຣີ
-            </a>
+            <a href="{% url 'courses:course_list' %}?price=free" class="px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">{% trans "ເລີ່ມຟຣີ" %}</a>
             {% else %}
-            <a href="{% url 'blog:register' %}" class="px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
-                ເລີ່ມຟຣີ
-            </a>
+            <a href="{% url 'home:register' %}" class="px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">{% trans "ເລີ່ມຟຣີ" %}</a>
             {% endif %}
             
-            <a href="{% url 'courses:course_list' %}" class="px-8 py-4 bg-white/10 backdrop-blur-lg border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all">
-                ເບິ່ງຄອດສຶກສາ
-            </a>
+            <a href="{% url 'courses:course_list' %}" class="px-8 py-4 bg-white/10 backdrop-blur-lg border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all">{% trans "ເບິ່ງຄອດສຶກສາ" %}</a>
         </div>
     </div>
 </section>

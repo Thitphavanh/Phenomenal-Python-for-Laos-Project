@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
 {% block title %}ຄອດສຶກສາຂອງຂ້ອຍ - Python for Laos{% endblock %}
@@ -8,12 +9,8 @@
 <section class="bg-gradient-primary text-white py-16">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">
-                ຄອດສຶກສາຂອງຂ້ອຍ
-            </h1>
-            <p class="text-xl text-blue-100">
-                ຕິດຕາມຄວາມຄືບໜ້າການຮຽນຂອງທ່ານ
-            </p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">{% trans "ຄອດສຶກສາຂອງຂ້ອຍ" %}</h1>
+            <p class="text-xl text-blue-100">{% trans "ຕິດຕາມຄວາມຄືບໜ້າການຮຽນຂອງທ່ານ" %}</p>
         </div>
     </div>
 </section>
@@ -32,7 +29,7 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">ທັງໝົດ</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "ທັງໝົດ" %}</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ enrollments.count }}</p>
                     </div>
                 </div>
@@ -46,7 +43,7 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">ສຳເລັດແລ້ວ</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "ສຳເລັດແລ້ວ" %}</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ enrollments|length|add:"-2" }}</p>
                     </div>
                 </div>
@@ -60,7 +57,7 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">ກຳລັງຮຽນ</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "ກຳລັງຮຽນ" %}</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ enrollments|length|add:"-2" }}</p>
                     </div>
                 </div>
@@ -74,7 +71,7 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">ຄວາມຄືບໜ້າ</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "ຄວາມຄືບໜ້າ" %}</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">
                             {% widthratio enrollments.0.progress_percentage 1 1 %}%
                         </p>
@@ -87,15 +84,9 @@
         <div class="mb-8">
             <div class="border-b border-gray-200 dark:border-gray-700">
                 <nav class="-mb-px flex gap-6">
-                    <button class="filter-tab active py-4 px-1 border-b-2 border-primary font-semibold text-primary" data-filter="all">
-                        ທັງໝົດ
-                    </button>
-                    <button class="filter-tab py-4 px-1 border-b-2 border-transparent font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600" data-filter="active">
-                        ກຳລັງຮຽນ
-                    </button>
-                    <button class="filter-tab py-4 px-1 border-b-2 border-transparent font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600" data-filter="completed">
-                        ສຳເລັດແລ້ວ
-                    </button>
+                    <button class="filter-tab active py-4 px-1 border-b-2 border-primary font-semibold text-primary" data-filter="all">{% trans "ທັງໝົດ" %}</button>
+                    <button class="filter-tab py-4 px-1 border-b-2 border-transparent font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600" data-filter="active">{% trans "ກຳລັງຮຽນ" %}</button>
+                    <button class="filter-tab py-4 px-1 border-b-2 border-transparent font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600" data-filter="completed">{% trans "ສຳເລັດແລ້ວ" %}</button>
                 </nav>
             </div>
         </div>
@@ -123,9 +114,7 @@
                             ✓ ສຳເລັດ
                         </span>
                         {% else %}
-                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                            ກຳລັງຮຽນ
-                        </span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold">{% trans "ກຳລັງຮຽນ" %}</span>
                         {% endif %}
                     </div>
                 </div>
@@ -142,15 +131,14 @@
                     <!-- Progress Bar -->
                     <div class="mb-4">
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">ຄວາມຄືບໜ້າ</span>
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{% trans "ຄວາມຄືບໜ້າ" %}</span>
                             <span class="text-sm font-bold text-primary">{{ enrollment.progress_percentage|floatformat:0 }}%</span>
                         </div>
                         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                             <div class="bg-gradient-primary h-2 rounded-full transition-all" style="width: {{ enrollment.progress_percentage }}%"></div>
                         </div>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            {{ enrollment.completed_lessons.count }} / {{ enrollment.course.total_lessons }} ບົດຮຽນ
-                        </p>
+                            {{ enrollment.completed_lessons.count }} / {{ enrollment.course.total_lessons } {% trans "ບົດຮຽນ" %}</p>
                     </div>
 
                     <!-- Enrollment Info -->
@@ -180,19 +168,11 @@
             <svg class="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
             </svg>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                ທ່ານຍັງບໍ່ໄດ້ລົງທະບຽນຄອດສຶກສາໃດໆ
-            </h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-6">
-                ເລີ່ມການເດີນທາງຮຽນຂອງທ່ານດ້ວຍຄອດສຶກສາຟຣີຂອງພວກເຮົາ
-            </p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">{% trans "ທ່ານຍັງບໍ່ໄດ້ລົງທະບຽນຄອດສຶກສາໃດໆ" %}</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">{% trans "ເລີ່ມການເດີນທາງຮຽນຂອງທ່ານດ້ວຍຄອດສຶກສາຟຣີຂອງພວກເຮົາ" %}</p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="{% url 'courses:course_list' %}?price=free" class="px-8 py-3 bg-gradient-primary text-white rounded-full font-bold hover:shadow-lg transition-all">
-                    ເບິ່ງຄອດສຶກສາຟຣີ
-                </a>
-                <a href="{% url 'courses:course_list' %}" class="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-full font-bold hover:shadow-lg transition-all">
-                    ເບິ່ງຄອດສຶກສາທັງໝົດ
-                </a>
+                <a href="{% url 'courses:course_list' %}?price=free" class="px-8 py-3 bg-gradient-primary text-white rounded-full font-bold hover:shadow-lg transition-all">{% trans "ເບິ່ງຄອດສຶກສາຟຣີ" %}</a>
+                <a href="{% url 'courses:course_list' %}" class="px-8 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-full font-bold hover:shadow-lg transition-all">{% trans "ເບິ່ງຄອດສຶກສາທັງໝົດ" %}</a>
             </div>
         </div>
         {% endif %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}Discover - Python for Laos{% endblock %}
 
@@ -7,26 +8,13 @@
     <!-- Header Section -->
     <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
         <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
-            Discover.
+            {% trans "Discover." %}
         </h1>
         <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-            The latest updates, discussions, and articles from the community.
+            {% trans "The latest updates, discussions, and articles from the community." %}
         </p>
         
-        <!-- Search & Filter -->
-        <div class="mt-8 flex justify-center gap-4">
-             <div class="inline-flex rounded-full bg-gray-200 dark:bg-gray-800 p-1">
-                <a href="{% url 'blog:post_list' %}" class="px-6 py-2 rounded-full text-sm font-medium transition-all {% if not filter_type %}bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm{% else %}text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white{% endif %}">
-                    All
-                </a>
-                <a href="?type=blog" class="px-6 py-2 rounded-full text-sm font-medium transition-all {% if filter_type == 'blog' %}bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm{% else %}text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white{% endif %}">
-                    Articles
-                </a>
-                <a href="?type=post" class="px-6 py-2 rounded-full text-sm font-medium transition-all {% if filter_type == 'post' %}bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm{% else %}text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white{% endif %}">
-                    Discussions
-                </a>
-            </div>
-        </div>
+        <!-- Navigation removed as we only use this for blog articles now -->
     </div>
 
     <!-- Bento Grid -->
@@ -119,8 +107,8 @@
                 <div class="inline-block p-4 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
                 </div>
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white">No posts published yet</h3>
-                <p class="text-gray-500 dark:text-gray-400 mt-2">Check back later for new content.</p>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{% trans "No posts published yet" %}</h3>
+                <p class="text-gray-500 dark:text-gray-400 mt-2">{% trans "Check back later for new content." %}</p>
             </div>
             {% endfor %}
             
@@ -132,17 +120,17 @@
             <nav class="flex items-center gap-2">
                 {% if page_obj.has_previous %}
                 <a href="?page={{ page_obj.previous_page_number }}{% if filter_type %}&type={{ filter_type }}{% endif %}" class="px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all text-sm font-medium">
-                    Previous
+                    {% trans "Previous" %}
                 </a>
                 {% endif %}
                 
                 <span class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400 font-medium">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    {% blocktrans with num=page_obj.number total=page_obj.paginator.num_pages %}Page {{ num }} of {{ total }}{% endblocktrans %}
                 </span>
                 
                 {% if page_obj.has_next %}
                 <a href="?page={{ page_obj.next_page_number }}{% if filter_type %}&type={{ filter_type }}{% endif %}" class="px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all text-sm font-medium">
-                    Next
+                    {% trans "Next" %}
                 </a>
                 {% endif %}
             </nav>

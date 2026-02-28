@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load static humanize %}
+{% load i18n %}
+{% load static humanize i18n %}
 
 {% block title %}{{ topic.title }} - Community{% endblock %}
 
@@ -48,7 +49,7 @@
 
         <!-- Breadcrumb -->
         <nav class="flex mb-6 text-sm text-gray-500 dark:text-gray-400">
-            <a href="{% url 'community:index' %}" class="hover:text-[#0078D4]">Community</a>
+            <a href="{% url 'community:index' %}" class="hover:text-[#0078D4]">{% trans "Community" %}</a>
             <span class="mx-2">/</span>
             {% if topic.category %}
             <a href="{% url 'community:index' %}?category={{ topic.category.slug }}" class="hover:text-[#0078D4]">{{ topic.category.name }}</a>
@@ -62,10 +63,10 @@
             <div class="p-6 border-b border-gray-100 dark:border-gray-700">
                 <div class="flex items-center gap-2 mb-4">
                     {% if topic.is_pinned %}
-                    <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Pinned</span>
+                    <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">{% trans "Pinned" %}</span>
                     {% endif %}
                     {% if topic.is_solved %}
-                    <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Solved</span>
+                    <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">{% trans "Solved" %}</span>
                     {% endif %}
                 </div>
                 <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-4">{{ topic.title }}</h1>
@@ -82,8 +83,8 @@
             </div>
             <div class="bg-gray-50 dark:bg-gray-900 px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
                 <div class="flex gap-4">
-                    <span>{{ topic.views_count }} views</span>
-                    <span>{{ topic.replies.count }} replies</span>
+                    <span>{{ topic.views_count }} {% trans "views" %}</span>
+                    <span>{{ topic.replies.count }} {% trans "replies" %}</span>
                 </div>
                 <!-- Controls for author/admin could go here -->
             </div>
@@ -91,14 +92,14 @@
 
         <!-- Replies List -->
         <div class="space-y-6 mb-8">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ topic.replies.count }} Replies</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ topic.replies.count }} {% trans "Replies" %}</h2>
 
             {% for reply in topic.replies.all %}
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 {% if reply.is_accepted_answer %}border-l-4 border-l-green-500 dark:border-l-green-400{% endif %}" id="reply-{{ reply.id }}">
                 {% if reply.is_accepted_answer %}
                 <div class="mb-4 flex items-center text-green-600 dark:text-green-400 font-bold text-sm uppercase tracking-wide">
                     <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Accepted Answer
+                    {% trans "Accepted Answer" %}
                 </div>
                 {% endif %}
 
@@ -122,22 +123,22 @@
         <!-- Reply Form -->
         {% if user.is_authenticated %}
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <h3 class="font-bold text-gray-900 dark:text-white mb-4">Post a Reply</h3>
+            <h3 class="font-bold text-gray-900 dark:text-white mb-4">{% trans "Post a Reply" %}</h3>
             <form action="{% url 'community:create_reply' topic.slug %}" method="post">
                 {% csrf_token %}
                 <div class="mb-4">
-                    <textarea name="content" rows="4" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-[#0078D4] focus:border-[#0078D4]" placeholder="What are your thoughts?" required></textarea>
+                    <textarea name="content" rows="4" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-[#0078D4] focus:border-[#0078D4]" placeholder="{% trans 'What are your thoughts?' %}" required></textarea>
                 </div>
                 <button type="submit" class="px-6 py-2 bg-[#0078D4] text-white font-bold rounded-lg hover:bg-[#006cbd] transition-colors">
-                    Submit Reply
+                    {% trans "Submit Reply" %}
                 </button>
             </form>
         </div>
         {% else %}
         <div class="bg-blue-50 dark:bg-gray-800 border border-blue-100 dark:border-gray-700 rounded-xl p-6 text-center">
-            <p class="text-blue-800 dark:text-gray-300 mb-4">Please log in to join the discussion.</p>
-            <a href="{% url 'blog:login' %}?next={{ request.path }}" class="inline-block px-6 py-2 bg-[#0078D4] text-white font-bold rounded-lg hover:bg-[#006cbd] transition-colors">
-                Log In
+            <p class="text-blue-800 dark:text-gray-300 mb-4">{% trans "Please log in to join the discussion." %}</p>
+            <a href="{% url 'home:login' %}?next={{ request.path }}" class="inline-block px-6 py-2 bg-[#0078D4] text-white font-bold rounded-lg hover:bg-[#006cbd] transition-colors">
+                {% trans "Log In" %}
             </a>
         </div>
         {% endif %}

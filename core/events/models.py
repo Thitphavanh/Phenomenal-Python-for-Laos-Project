@@ -349,8 +349,8 @@ class BCELOnePayPayment(models.Model):
         # 53: Transaction Currency (418 = LAK)
         components.append("5303418")
 
-        # 54: Transaction Amount (must be in format: XXXX.XX without leading zeros)
-        amount_str = f"{float(self.amount):.2f}"
+        # 54: Transaction Amount (must be in format: XXXX without decimals for LAK)
+        amount_str = str(int(self.amount))
         amount_length = str(len(amount_str)).zfill(2)
         components.append(f"54{amount_length}{amount_str}")
 
@@ -408,6 +408,95 @@ class BCELOnePayPayment(models.Model):
                     crc = crc << 1
                 crc &= 0xFFFF
         return f"{crc:04X}"
+
+
+class StripePayment(models.Model):
+    """Stripe credit/debit card payment tracking"""
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    registration = models.OneToOneField(
+        EventRegistration,
+        on_delete=models.CASCADE,
+        related_name='stripe_payment'
+    )
+    payment_intent_id = models.CharField(max_length=100, blank=True)
+    client_secret = models.CharField(max_length=500, blank=True)
+    amount_usd = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    currency = models.CharField(max_length=3, default='usd')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    payment_method_id = models.CharField(max_length=100, blank=True)
+    payment_response = models.JSONField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    paid_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Stripe {self.payment_intent_id} - {self.registration.user.username}"
+
+    def mark_as_paid(self):
+        self.status = 'completed'
+        self.paid_at = timezone.now()
+        self.save()
+
+        self.registration.status = 'confirmed'
+        self.registration.confirmed_at = timezone.now()
+        self.registration.transaction_id = self.payment_intent_id
+        self.registration.save()
+
+        from .utils import generate_event_ticket
+        generate_event_ticket(self.registration)
+
+
+class PayPalPayment(models.Model):
+    """PayPal payment tracking"""
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    registration = models.OneToOneField(
+        EventRegistration,
+        on_delete=models.CASCADE,
+        related_name='paypal_payment'
+    )
+    order_id = models.CharField(max_length=100, blank=True)
+    capture_id = models.CharField(max_length=100, blank=True)
+    amount_usd = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    currency = models.CharField(max_length=3, default='USD')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    payment_response = models.JSONField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    paid_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"PayPal {self.order_id} - {self.registration.user.username}"
+
+    def mark_as_paid(self):
+        self.status = 'completed'
+        self.paid_at = timezone.now()
+        self.save()
+
+        self.registration.status = 'confirmed'
+        self.registration.confirmed_at = timezone.now()
+        self.registration.transaction_id = self.capture_id or self.order_id
+        self.registration.save()
+
+        from .utils import generate_event_ticket
+        generate_event_ticket(self.registration)
 
 
 class EventTicket(models.Model):

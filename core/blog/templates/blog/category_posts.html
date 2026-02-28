@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}{{ category.name }} - ບລັອກຂອງຂ້ອຍ{% endblock %}
 
@@ -28,23 +29,19 @@
                     {{ post.author.username }} | {{ post.published_at|date:"d/m/Y" }}
                 </div>
                 <div class="mt-auto">
-                    <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary btn-sm">
-                        ອ່ານຕໍ່
-                    </a>
+                    <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary btn-sm">{% trans "ອ່ານຕໍ່" %}</a>
                 </div>
             </div>
         </div>
     </div>
     {% empty %}
     <div class="col-12">
-        <div class="alert alert-info text-center">
-            ບໍ່ມີບົດຄວາມໃນໝວດໝູ່ນີ້
-        </div>
+        <div class="alert alert-info text-center">{% trans "ບໍ່ມີບົດຄວາມໃນໝວດໝູ່ນີ້" %}</div>
     </div>
     {% endfor %}
 </div>
 
 <div class="mt-4">
-    <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">ກັບໄປໜ້າຫລັກ</a>
+    <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">{% trans "ກັບໄປໜ້າຫລັກ" %}</a>
 </div>
 {% endblock %}

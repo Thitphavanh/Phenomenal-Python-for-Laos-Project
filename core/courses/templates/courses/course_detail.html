@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static humanize %}
 
 {% block title %}{{ course.title }} - Python for Laos{% endblock %}
@@ -56,14 +57,14 @@
         <nav class="flex text-sm text-gray-500 dark:text-gray-400" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
-                    <a href="{% url 'blog:index' %}" class="hover:text-[#0078D4] transition-colors">Home</a>
+                    <a href="{% url 'home:index' %}" class="hover:text-[#0078D4] transition-colors">{% trans "Home" %}</a>
                 </li>
                 <li>
                     <div class="flex items-center">
                         <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                         </svg>
-                        <a href="{% url 'courses:course_list' %}" class="hover:text-[#0078D4] transition-colors">Courses</a>
+                        <a href="{% url 'courses:course_list' %}" class="hover:text-[#0078D4] transition-colors">{% trans "Courses" %}</a>
                     </div>
                 </li>
                 <li aria-current="page">
@@ -86,9 +87,9 @@
             <!-- Badges -->
             <div class="flex items-center gap-2 mb-4">
                 {% if course.is_free %}
-                <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">FREE</span>
+                <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{% trans "FREE" %}</span>
                 {% else %}
-                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">PREMIUM</span>
+                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{% trans "PREMIUM" %}</span>
                 {% endif %}
                 <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
                     {{ course.category.name|default:"General" }}
@@ -111,11 +112,11 @@
                     <div class="flex -space-x-2">
                         <img class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800" src="https://ui-avatars.com/api/?name={{ course.instructor.username }}&background=random" alt="{{ course.instructor.username }}">
                     </div>
-                    <span>ສອນໂດຍ <span class="font-medium text-gray-900 dark:text-white">{{ course.instructor.username }}</span></span>
+                    <span>{% trans "ສອນໂດຍ" %} <span class="font-medium text-gray-900 dark:text-white">{{ course.instructor.username }}</span></span>
                 </div>
                 <div class="flex items-center gap-1.5">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                    <span>{{ course.total_students }} ຜູ້ຮຽນ</span>
+                    <span>{{ course.total_students }} {% trans "ຜູ້ຮຽນ" %}</span>
                 </div>
                 <!-- Rating Placeholder -->
                 <div class="flex items-center gap-1 text-yellow-500">
@@ -125,11 +126,11 @@
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                     <span class="text-gray-900 dark:text-white font-semibold ml-1">5.0</span>
-                    <span class="text-gray-400">(42 ຣີວິວ)</span>
+                    <span class="text-gray-400">(42 {% trans "ຣີວິວ" %})</span>
                 </div>
                 <div class="flex items-center gap-1.5">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>ອັບເດດລ່າສຸດ: {{ course.updated_at|date:"M Y" }}</span>
+                    <span>{% trans "ອັບເດດລ່າສຸດ:" %} {{ course.updated_at|date:"M Y" }}</span>
                 </div>
             </div>
         </div>
@@ -146,7 +147,7 @@
             <!-- What You'll Learn -->
             {% if objectives_list %}
             <section class="border border-gray-200 dark:border-gray-700 rounded-2xl p-6 md:p-8 bg-white dark:bg-gray-800">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">ສິ່ງທີ່ທ່ານຈະໄດ້ຮຽນຮູ້</h2>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">{% trans "ສິ່ງທີ່ທ່ານຈະໄດ້ຮຽນຮູ້" %}</h2>
                 <div class="grid md:grid-cols-2 gap-4">
                     {% for objective in objectives_list %}
                     <div class="flex items-start gap-3">
@@ -160,18 +161,18 @@
 
             <!-- Description -->
             <section class="prose prose-blue max-w-none dark:prose-invert">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">ລາຍລະອຽດຄອດສຶກສາ</h2>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">{% trans "ລາຍລະອຽດຄອດສຶກສາ" %}</h2>
                 {{ course.description|safe|linebreaks }}
             </section>
 
             <!-- Curriculum -->
             <section>
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">ເນື້ອຫາບົດຮຽນ</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{% trans "ເນື້ອຫາບົດຮຽນ" %}</h2>
                     <div class="text-sm text-gray-500 dark:text-gray-400">
-                        <span class="font-medium text-gray-900 dark:text-white">{{ course.chapters.count }}</span> ພາກ • 
-                        <span class="font-medium text-gray-900 dark:text-white">{{ course.total_lessons }}</span> ບົດຮຽນ • 
-                        <span>{{ course.duration_hours }} ຊົ່ວໂມງ</span>
+                        <span class="font-medium text-gray-900 dark:text-white">{{ course.chapters.count }}</span> {% trans "ພາກ" %} •
+                        <span class="font-medium text-gray-900 dark:text-white">{{ course.total_lessons }}</span> {% trans "ບົດຮຽນ" %} •
+                        <span>{{ course.duration_hours }} {% trans "ຊົ່ວໂມງ" %}</span>
                     </div>
                 </div>
 
@@ -186,7 +187,7 @@
                                     {{ chapter.title }}
                                 </h3>
                             </div>
-                            <span class="text-xs text-gray-500 font-medium">{{ chapter.lessons.count }} ບົດ</span>
+                            <span class="text-xs text-gray-500 font-medium">{{ chapter.lessons.count }} {% trans "ບົດ" %}</span>
                         </button>
                         
                         <!-- Lessons List -->
@@ -210,7 +211,7 @@
                                     {% if lesson.is_preview and not is_enrolled %}
                                     <span class="text-[10px] font-bold text-green-600 border border-green-200 bg-green-50 px-2 py-0.5 rounded-full">Preview</span>
                                     {% endif %}
-                                    <span class="text-xs text-gray-500">{{ lesson.duration_minutes }}m</span>
+                                    <span class="text-xs text-gray-500">{{ lesson.duration_minutes }}{% trans "m" %}</span>
                                     {% if not lesson.is_preview and not is_enrolled %}
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                                     {% endif %}
@@ -226,7 +227,7 @@
              <!-- Prerequisites -->
              {% if prerequisites_list %}
              <section class="mt-8">
-                 <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">ຄວາມຕ້ອງການເບື້ອງຕົ້ນ</h2>
+                 <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{% trans "ຄວາມຕ້ອງການເບື້ອງຕົ້ນ" %}</h2>
                  <ul class="space-y-2 list-disc list-inside text-gray-600 dark:text-gray-300">
                      {% for pre in prerequisites_list %}
                      <li>{{ pre }}</li>
@@ -252,7 +253,7 @@
                                 <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform relative z-20 shadow-lg">
                                     <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                                 </div>
-                                <div class="absolute bottom-4 text-white font-medium text-sm z-20">Preview Course</div>
+                                <div class="absolute bottom-4 text-white font-medium text-sm z-20">{% trans "Preview Course" %}</div>
                             </div>
                         </template>
                         
@@ -262,7 +263,7 @@
                             {% else %}
                             <video controls autoplay class="w-full h-full">
                                 <source src="{{ video_ctx.url }}" type="video/mp4">
-                                Your browser does not support the video tag.
+                                {% trans "Your browser does not support the video tag." %}
                             </video>
                             {% endif %}
                         </template>
@@ -279,7 +280,7 @@
                         <div class="mb-6">
                             {% if course.is_free %}
                             <div class="flex items-end gap-3">
-                                <span class="text-3xl font-extrabold text-green-600 dark:text-green-500">ຟຣີ</span>
+                                <span class="text-3xl font-extrabold text-green-600 dark:text-green-500">{% trans "ຟຣີ" %}</span>
                                 <span class="text-gray-400 text-sm line-through mb-1">₭500,000</span>
                             </div>
                             {% else %}
@@ -293,41 +294,41 @@
                         <div class="space-y-3">
                             {% if is_enrolled %}
                             <a href="{% url 'courses:lesson_detail' course.slug chapters.first.lessons.first.slug %}" class="block w-full text-center py-3 px-6 rounded-lg bg-[#0078D4] hover:bg-[#006cbd] text-white font-bold text-lg shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-0.5">
-                                ເຂົ້າຮຽນຕໍ່
+                                {% trans "ເຂົ້າຮຽນຕໍ່" %}
                             </a>
                             {% else %}
                             <form action="{% url 'courses:enroll_course' course.slug %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="block w-full text-center py-3 px-6 rounded-lg bg-[#0078D4] hover:bg-[#006cbd] text-white font-bold text-lg shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-0.5">
-                                    {% if course.is_free %}ລົງທະບຽນຮຽນຟຣີ{% else %}ຊື້ຄອດສຶກສານີ້{% endif %}
+                                    {% if course.is_free %}{% trans "ລົງທະບຽນຮຽນຟຣີ" %}{% else %}{% trans "ຊື້ຄອດສຶກສານີ້" %}{% endif %}
                                 </button>
                             </form>
                             {% endif %}
                             
                             {% if not is_enrolled and not course.is_free %}
-                            <p class="text-center text-xs text-gray-500 mt-4">ຮັບປະກັນຄືນເງິນພາຍໃນ 30 ວັນ</p>
+                            <p class="text-center text-xs text-gray-500 mt-4">{% trans "ຮັບປະກັນຄືນເງິນພາຍໃນ 30 ວັນ" %}</p>
                             {% endif %}
                         </div>
 
                         <!-- Included Features -->
                         <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
-                            <h4 class="font-bold text-gray-900 dark:text-white mb-4 text-sm">ຄອດສຶກສານີ້ປະກອບດ້ວຍ:</h4>
+                            <h4 class="font-bold text-gray-900 dark:text-white mb-4 text-sm">{% trans "ຄອດສຶກສານີ້ປະກອບດ້ວຍ:" %}</h4>
                             <ul class="space-y-3 text-sm text-gray-600 dark:text-gray-300">
                                 <li class="flex items-center gap-3">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                    <span>{{ course.duration_hours }} ຊົ່ວໂມງ ວິດີໂອ</span>
+                                    <span>{{ course.duration_hours }} {% trans "ຊົ່ວໂມງ ວິດີໂອ" %}</span>
                                 </li>
                                 <li class="flex items-center gap-3">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                    <span>{{ course.total_lessons }} ບົດຮຽນ</span>
+                                    <span>{{ course.total_lessons }} {% trans "ບົດຮຽນ" %}</span>
                                 </li>
                                 <li class="flex items-center gap-3">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    <span>ຮອງຮັບການຮຽນຜ່ານມືຖື</span>
+                                    <span>{% trans "ຮອງຮັບການຮຽນຜ່ານມືຖື" %}</span>
                                 </li>
                                 <li class="flex items-center gap-3">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                                    <span>ເຂົ້າເຖິງໄດ້ຕະຫຼອດຊີວິດ</span>
+                                    <span>{% trans "ເຂົ້າເຖິງໄດ້ຕະຫຼອດຊີວິດ" %}</span>
                                 </li>
                             </ul>
                         </div>

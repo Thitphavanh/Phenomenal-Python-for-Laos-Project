@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-{% load static humanize %}
+{% load i18n %}
+{% load static humanize i18n %}
 
-{% block title %}Community - Python for Laos{% endblock %}
+{% block title %}{% trans "Community - Python for Laos" %}{% endblock %}
 
 {% block content %}
 <div class="bg-gray-50 dark:bg-gray-900 min-h-screen py-8">
@@ -12,16 +13,16 @@
             <div class="hidden lg:block space-y-6">
                 <!-- Create Topic Button -->
                 <a href="{% url 'community:create_topic' %}" class="block w-full text-center py-3 px-4 bg-[#0078D4] text-white rounded-lg font-bold hover:bg-[#006cbd] transition-colors shadow-sm">
-                    + ສ້າງຫົວຂໍ້ໃໝ່
+                    + {% trans "ສ້າງຫົວຂໍ້ໃໝ່" %}
                 </a>
 
                 <!-- Categories -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">Categories</h3>
+                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">{% trans "Categories" %}</h3>
                     <ul class="space-y-2">
                         <li>
                             <a href="{% url 'community:index' %}" class="flex items-center justify-between text-gray-600 dark:text-gray-300 hover:text-[#0078D4] dark:hover:text-[#0078D4] {% if not request.GET.category %}font-bold text-[#0078D4]{% endif %}">
-                                <span>All Topics</span>
+                                <span>{% trans "All Topics" %}</span>
                                 <span class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 py-0.5 rounded-full text-xs">{{ total_topics }}</span>
                             </a>
                         </li>
@@ -38,13 +39,13 @@
 
                 <!-- Stats -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">Stats</h3>
+                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">{% trans "Stats" %}</h3>
                     <div class="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
-                        <span>Topics</span>
+                        <span>{% trans "Topics" %}</span>
                         <span class="font-medium">{{ total_topics }}</span>
                     </div>
                     <div class="flex justify-between text-sm text-gray-600 dark:text-gray-300">
-                        <span>Replies</span>
+                        <span>{% trans "Replies" %}</span>
                         <span class="font-medium">{{ total_replies }}</span>
                     </div>
                 </div>
@@ -55,15 +56,15 @@
                 <!-- Mobile Create Button -->
                 <div class="lg:hidden mb-4">
                     <a href="{% url 'community:create_topic' %}" class="block w-full text-center py-3 px-4 bg-[#0078D4] text-white rounded-lg font-bold hover:bg-[#006cbd] transition-colors shadow-sm">
-                        + ສ້າງຫົວຂໍ້ໃໝ່
+                        + {% trans "ສ້າງຫົວຂໍ້ໃໝ່" %}
                     </a>
                 </div>
 
                 <!-- Filters -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <h1 class="text-xl font-bold text-gray-900 dark:text-white">Recent Discussions</h1>
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-white">{% trans "Recent Discussions" %}</h1>
                     <form method="get" class="relative">
-                        <input type="text" name="search" placeholder="Search topics..." value="{{ request.GET.search|default:'' }}" class="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-[#0078D4] focus:border-[#0078D4] text-sm w-full md:w-64 placeholder-gray-400 dark:placeholder-gray-500">
+                        <input type="text" name="search" placeholder="{% trans 'Search topics...' %}" value="{{ request.GET.search|default:'' }}" class="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-[#0078D4] focus:border-[#0078D4] text-sm w-full md:w-64 placeholder-gray-400 dark:placeholder-gray-500">
                          <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </form>
                 </div>
@@ -81,10 +82,10 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center gap-2 mb-1">
                                     {% if topic.is_pinned %}
-                                    <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Pinned</span>
+                                    <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">{% trans "Pinned" %}</span>
                                     {% endif %}
                                     {% if topic.is_solved %}
-                                    <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Solved</span>
+                                    <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">{% trans "Solved" %}</span>
                                     {% endif %}
                                     {% if topic.category %}
                                     <a href="?category={{ topic.category.slug }}" class="text-xs font-medium text-[#0078D4] dark:text-[#4db8ff] hover:underline">{{ topic.category.name }}</a>
@@ -105,11 +106,11 @@
                                 <div class="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400">
                                     <div class="flex items-center gap-1.5">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                                        <span>{{ topic.replies.count }} replies</span>
+                                        <span>{{ topic.replies.count }} {% trans "replies" %}</span>
                                     </div>
                                     <div class="flex items-center gap-1.5">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                        <span>{{ topic.views_count }} views</span>
+                                        <span>{{ topic.views_count }} {% trans "views" %}</span>
                                     </div>
                                 </div>
                             </div>
@@ -118,10 +119,10 @@
                     {% empty %}
                     <div class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                         <svg class="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">No topics found</h3>
-                        <p class="text-gray-500 dark:text-gray-400 mb-6">Be the first to start a conversation!</p>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">{% trans "No topics found" %}</h3>
+                        <p class="text-gray-500 dark:text-gray-400 mb-6">{% trans "Be the first to start a conversation!" %}</p>
                         <a href="{% url 'community:create_topic' %}" class="inline-flex items-center px-4 py-2 bg-[#0078D4] text-white rounded-lg font-bold hover:bg-[#006cbd] transition-colors">
-                            Start a Discussion
+                            {% trans "Start a Discussion" %}
                         </a>
                     </div>
                     {% endfor %}
@@ -132,11 +133,11 @@
                 <div class="mt-8 flex justify-center">
                     <nav class="flex items-center gap-1">
                         {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">Previous</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">{% trans "Previous" %}</a>
                         {% endif %}
-                        <span class="px-3 py-1 font-medium text-gray-900 dark:text-white">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                        <span class="px-3 py-1 font-medium text-gray-900 dark:text-white">{% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}</span>
                         {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">Next</a>
+                        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 rounded bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">{% trans "Next" %}</a>
                         {% endif %}
                     </nav>
                 </div>

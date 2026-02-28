@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static humanize %}
+{% load i18n static humanize %}
 
-{% block title %}Confirm Purchase - {{ event.title }} - Python for Laos{% endblock %}
+{% block title %}{% trans "Confirm Purchase" %} - {{ event.title }} - Python for Laos{% endblock %}
 
 {% block content %}
 <div class="bg-gray-50 dark:bg-gray-900 min-h-screen py-12">
@@ -9,7 +9,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
             <!-- Header -->
             <div class="bg-gradient-primary px-8 py-6">
-                <h1 class="text-2xl font-bold text-white">Confirm Your Registration</h1>
+                <h1 class="text-2xl font-bold text-white">{% trans "Confirm Your Registration" %}</h1>
                 <p class="text-blue-100 dark:text-blue-200 mt-1">{{ event.title }}</p>
             </div>
 
@@ -41,38 +41,38 @@
                     <!-- User Info (Read Only) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Name" %}</label>
                             <input type="text" value="{{ user.get_full_name|default:user.first_name|default:user.username }}" disabled class="w-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-600 dark:text-gray-300 cursor-not-allowed">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Email" %}</label>
                             <input type="text" value="{{ user.email }}" disabled class="w-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 text-gray-600 dark:text-gray-300 cursor-not-allowed">
                         </div>
                     </div>
 
                     <!-- Ticket Quantity -->
                     <div>
-                        <label for="ticket_quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Number of Tickets</label>
+                        <label for="ticket_quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Number of Tickets" %}</label>
                         <select name="ticket_quantity" id="ticket_quantity" class="w-full md:w-1/3 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg shadow-sm focus:ring-primary focus:border-primary">
-                            <option value="1" {% if registration.ticket_quantity == 1 %}selected{% endif %}>1 Ticket</option>
-                            <option value="2" {% if registration.ticket_quantity == 2 %}selected{% endif %}>2 Tickets</option>
-                            <option value="3" {% if registration.ticket_quantity == 3 %}selected{% endif %}>3 Tickets</option>
-                            <option value="4" {% if registration.ticket_quantity == 4 %}selected{% endif %}>4 Tickets</option>
-                            <option value="5" {% if registration.ticket_quantity == 5 %}selected{% endif %}>5 Tickets</option>
+                            <option value="1" {% if registration.ticket_quantity == 1 %}selected{% endif %}>1 {% trans "Ticket" %}</option>
+                            <option value="2" {% if registration.ticket_quantity == 2 %}selected{% endif %}>2 {% trans "Tickets" %}</option>
+                            <option value="3" {% if registration.ticket_quantity == 3 %}selected{% endif %}>3 {% trans "Tickets" %}</option>
+                            <option value="4" {% if registration.ticket_quantity == 4 %}selected{% endif %}>4 {% trans "Tickets" %}</option>
+                            <option value="5" {% if registration.ticket_quantity == 5 %}selected{% endif %}>5 {% trans "Tickets" %}</option>
                         </select>
                     </div>
 
                     <!-- Notes -->
                     <div>
-                        <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Additional Notes (Optional)</label>
-                        <textarea name="notes" id="notes" rows="3" class="w-full bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg shadow-sm focus:ring-primary focus:border-primary placeholder-gray-400 dark:placeholder-gray-500" placeholder="Dietary restrictions, accessibility needs, etc.">{{ registration.notes }}</textarea>
+                        <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Additional Notes (Optional)" %}</label>
+                        <textarea name="notes" id="notes" rows="3" class="w-full bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg shadow-sm focus:ring-primary focus:border-primary placeholder-gray-400 dark:placeholder-gray-500" placeholder="{% trans 'Dietary restrictions, accessibility needs, etc.' %}">{{ registration.notes }}</textarea>
                     </div>
 
                     <!-- Actions -->
                     <div class="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-gray-700">
-                        <a href="{% url 'events:event_detail' event.slug %}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Cancel</a>
+                        <a href="{% url 'events:event_detail' event.slug %}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">{% trans "Cancel" %}</a>
                         <button type="submit" class="px-8 py-3 bg-gradient-primary text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
-                            Continue to Payment
+                            {% trans "Continue to Payment" %}
                         </button>
                     </div>
                 </form>
@@ -84,17 +84,17 @@
             <div class="flex items-center gap-4">
                 <div class="flex items-center text-primary font-bold">
                     <span class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm mr-2">1</span>
-                    <span class="dark:text-white">Confirm</span>
+                    <span class="dark:text-white">{% trans "Confirm" %}</span>
                 </div>
                 <div class="w-12 h-1 bg-gray-200 dark:bg-gray-700"></div>
                 <div class="flex items-center text-gray-400 dark:text-gray-500 font-medium">
                     <span class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 flex items-center justify-center text-sm mr-2">2</span>
-                    Payment
+                    {% trans "Payment" %}
                 </div>
                 <div class="w-12 h-1 bg-gray-200 dark:bg-gray-700"></div>
                 <div class="flex items-center text-gray-400 dark:text-gray-500 font-medium">
                     <span class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 flex items-center justify-center text-sm mr-2">3</span>
-                    Status
+                    {% trans "Status" %}
                 </div>
             </div>
         </div>

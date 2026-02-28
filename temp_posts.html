@@ -1,0 +1,863 @@
+
+<!DOCTYPE html>
+<html lang="lo" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover - Python for Laos</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຕົວຢ່າງທີ່ຊັດເຈນ ແລະ ຟຣີທັງໝົດ">
+    <meta name="keywords" content="Python, Django, Laos, ລາວ, Programming, Web Development">
+    <meta name="author" content="Phenomenal Python for Laos">
+    <link rel="canonical" href="http://localhost:8000/posts/">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Python for Laos" href="/feed/">
+
+    <!-- Pagination SEO -->
+    
+    
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/images/python-for-laos.png">
+    <link rel="shortcut icon" type="image/png" href="/static/images/python-for-laos.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:8000/posts/">
+    <meta property="og:title" content="Python for Laos - ຮຽນ Python & Django ເປັນພາສາລາວ">
+    <meta property="og:description" content="ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ">
+    <meta property="og:image" content="/static/images/python-for-laos.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="http://localhost:8000/posts/">
+    <meta property="twitter:title" content="Python for Laos">
+    <meta property="twitter:description" content="ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ">
+    <meta property="twitter:image" content="/static/images/python-for-laos.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+        tailwind.config = {
+          darkMode: 'class', // Changed to 'class' for manual toggle
+          theme: {
+            extend: {
+              colors: {
+                primary: {
+                    DEFAULT: '#001868',
+                    dark: '#0033a0',
+                },
+                secondary: {
+                    DEFAULT: '#0078D4',
+                    dark: '#2196F3',
+                },
+                accent: {
+                    DEFAULT: '#2196F3',
+                    dark: '#64B5F6',
+                }
+              },
+              fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+              },
+              maxWidth: {
+                '8xl': '88rem',
+              },
+              backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-primary': 'linear-gradient(135deg, #001868 0%, #0033a0 100%)',
+                'gradient-secondary': 'linear-gradient(135deg, #0078D4 0%, #2196F3 100%)',
+                'gradient-accent': 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+              }
+            }
+          }
+        }
+    </script>
+
+    <style>
+        /* Smooth transitions for theme switching */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Navbar blur effect - Apple style */
+        .navbar-blur {
+            backdrop-filter: saturate(180%) blur(20px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .dark .navbar-blur {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #001868 0%, #0078D4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #001868, #0078D4);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #0078D4, #2196F3);
+        }
+
+        /* Mobile menu animation */
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Footer gradient border */
+        .footer-border {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(to bottom, transparent, rgba(0, 24, 104, 0.05));
+        }
+
+        .dark .footer-border {
+            background: linear-gradient(to bottom, transparent, rgba(0, 24, 104, 0.1));
+        }
+    </style>
+
+    
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased">
+
+    <!-- Navbar -->
+    <nav class="navbar-blur sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-8">
+                    <a href="/" class="flex items-center gap-3 group">
+                        <div class="w-10 h-10 rounded-xl overflow-hidden transform group-hover:scale-110 transition-transform shadow-md">
+                            <img src="/static/images/python-for-laos.png" alt="Python for Laos Logo" class="w-full h-full object-cover">
+                        </div>
+                    </a>
+
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex items-center gap-1">
+                        <a href="/posts/?type=blog" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            Blog
+                        </a>
+                        <a href="/community/" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            Community
+                        </a>
+                        <a href="/courses/" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            Courses
+                        </a>
+                        <a href="/docs/" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            Docs
+                        </a>
+                        <a href="/events/" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            Events
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Right Side -->
+                <div class="flex items-center gap-4">
+                    <!-- Search (Desktop) -->
+                    <div class="hidden lg:block">
+                        <form action="/posts/" method="get" class="relative">
+                            <input
+                                type="text"
+                                name="search"
+                                class="w-64 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                                placeholder="ຄົ້ນຫາ..."
+                                value=""
+                            >
+                            <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </form>
+                    </div>
+
+                    <!-- Dark/Light Mode Toggle -->
+                    <button
+                        id="theme-toggle"
+                        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                        aria-label="Toggle theme"
+                    >
+                        <!-- Sun Icon (Dark Mode) -->
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
+                        </svg>
+                        <!-- Moon Icon (Light Mode) -->
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- User Menu -->
+                    
+                        <div class="hidden md:flex items-center gap-3">
+                            <a href="/login/" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
+                                ເຂົ້າສູ່ລະບົບ
+                            </a>
+                            <a href="/register/" class="px-4 py-2 bg-gradient-primary text-white rounded-full font-semibold text-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                                ລົງທະບຽນ
+                            </a>
+                        </div>
+                    
+
+                    <!-- Mobile Menu Button -->
+                    <button
+                        id="mobile-menu-button"
+                        class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                        aria-label="Toggle menu"
+                    >
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800 mobile-menu">
+            <div class="px-4 py-3 space-y-1">
+                <a href="/posts/?type=blog" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    Blog
+                </a>
+                <a href="/community/" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    Community
+                </a>
+                <a href="/courses/" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    Courses
+                </a>
+                <a href="/docs/" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    Docs
+                </a>
+                <a href="/events/" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    Events
+                </a>
+                <!-- Mobile Search -->
+                <div class="pt-2">
+                    <form action="/posts/" method="get">
+                        <input
+                            type="text"
+                            name="search"
+                            class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg py-2 px-4 text-sm outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="ຄົ້ນຫາ..."
+                            value=""
+                        >
+                    </form>
+                </div>
+
+                <!-- Mobile User Menu -->
+                
+                    <div class="pt-3 border-t border-gray-200 dark:border-gray-700 space-y-2">
+                        <a href="/login/" class="block px-4 py-2 text-center border border-primary text-primary rounded-lg font-semibold text-sm">
+                            ເຂົ້າສູ່ລະບົບ
+                        </a>
+                        <a href="/register/" class="block px-4 py-2 bg-gradient-primary text-white text-center rounded-lg font-semibold text-sm">
+                            ລົງທະບຽນ
+                        </a>
+                    </div>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        
+<div class="max-w-8xl mx-auto transition-colors duration-500">
+    <!-- Header Section -->
+    <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
+            Discover.
+        </h1>
+        <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+            The latest updates, discussions, and articles from the community.
+        </p>
+        
+        <!-- Search & Filter -->
+        <div class="mt-8 flex justify-center gap-4">
+             <div class="inline-flex rounded-full bg-gray-200 dark:bg-gray-800 p-1">
+                <a href="/posts/" class="px-6 py-2 rounded-full text-sm font-medium transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm">
+                    All
+                </a>
+                <a href="?type=blog" class="px-6 py-2 rounded-full text-sm font-medium transition-all text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                    Articles
+                </a>
+                <a href="?type=post" class="px-6 py-2 rounded-full text-sm font-medium transition-all text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                    Discussions
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="px-4 sm:px-6 lg:px-8 pb-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+            
+            
+            <!-- Card -->
+            <div class="group relative rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl
+                
+                    md:col-span-2 lg:col-span-2 row-span-2 bg-white dark:bg-gray-900
+                
+            ">
+                <a href="/post/python-programming-guide-lao/" class="absolute inset-0 z-10"></a>
+                
+                
+                    <!-- Image Card -->
+                    <div class="absolute inset-0">
+                        <img src="/media/blog/images/Harry_40.png" alt="Python Programming: ຄູ່ມືສຳລັບຜູ້ເລີ່ມຕົ້ນ - ພາສາລາວ" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    </div>
+                    
+                    <div class="relative h-full flex flex-col justify-end p-8">
+                        <div class="transform transition-transform duration-500 group-hover:-translate-y-2">
+                            
+                            <span class="inline-block px-3 py-1 mb-3 text-xs font-bold text-white/90 bg-white/20 backdrop-blur-md rounded-full">
+                                Python Tutorials
+                            </span>
+                            
+                            
+                            <h2 class="font-bold text-white leading-tight mb-2 
+                                text-3xl md:text-4xl">
+                                Python Programming: ຄູ່ມືສຳລັບຜູ້ເລີ່ມຕົ້ນ - ພາສາລາວ
+                            </h2>
+                            
+                            <p class="text-gray-200 line-clamp-2 text-sm md:text-base font-medium opacity-90">
+                                ຄູ່ມືການຮຽນ Python ແບບສົມບູນເປັນພາສາລາວ - ຕັ້ງແຕ່ພື້ນຖານຈົນເຖິງຂັ້ນສູງ ລວມເອົາ Variables, Functions, Classes, File Handling, ແລະ Popular Libraries
+                            </p>
+                            
+                            <div class="mt-4 flex items-center gap-3 text-white/70 text-xs font-medium">
+                                <span>admin</span>
+                                <span>•</span>
+                                <span>Jan 01</span>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+            
+            <!-- Card -->
+            <div class="group relative rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl
+                
+                    bg-white dark:bg-gray-900
+                
+            ">
+                <a href="/post/chatgpt-large-language-models-ai/" class="absolute inset-0 z-10"></a>
+                
+                
+                    <!-- Image Card -->
+                    <div class="absolute inset-0">
+                        <img src="/media/blog/images/af5ccbcab9ac6d1029398a146326324f.jpg" alt="ChatGPT ແລະ Large Language Models: ການປ່ຽນແປງວິທີການຄິດເຖິງ AI" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    </div>
+                    
+                    <div class="relative h-full flex flex-col justify-end p-8">
+                        <div class="transform transition-transform duration-500 group-hover:-translate-y-2">
+                            
+                            <span class="inline-block px-3 py-1 mb-3 text-xs font-bold text-white/90 bg-white/20 backdrop-blur-md rounded-full">
+                                ປັນຍາປະດິດ (AI)
+                            </span>
+                            
+                            
+                            <h2 class="font-bold text-white leading-tight mb-2 
+                                text-xl">
+                                ChatGPT ແລະ Large Language Models: ການປ່ຽນແປງວິທີການຄິດເຖິງ AI
+                            </h2>
+                            
+                            <p class="text-gray-200 line-clamp-2 text-sm md:text-base font-medium opacity-90">
+                                ການເກີດຂື້ນຂອງ ChatGPT ໄດ້ເຮັດໃຫ້ຄົນທົ່ວໂລກຮູ້ຈັກ AI ໃນຮູບແບບໃໝ່ ແລະ ເຫັນທ່າແຮງຂອງເທັກໂນໂລຊີ
+                            </p>
+                            
+                            <div class="mt-4 flex items-center gap-3 text-white/70 text-xs font-medium">
+                                <span>admin</span>
+                                <span>•</span>
+                                <span>Jul 12</span>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+            
+            <!-- Card -->
+            <div class="group relative rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl
+                
+                    bg-white dark:bg-gray-900
+                
+            ">
+                <a href="/post/tesla/" class="absolute inset-0 z-10"></a>
+                
+                
+                    <!-- Image Card -->
+                    <div class="absolute inset-0">
+                        <img src="/media/blog/images/5e621b67dac9b07531a63e815cf3f0cb.jpg" alt="ການປະວັດລົດໄຟຟ້າ: ຈາກເລີ່ມຕົ້ນຈົນເຖິງ Tesla" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    </div>
+                    
+                    <div class="relative h-full flex flex-col justify-end p-8">
+                        <div class="transform transition-transform duration-500 group-hover:-translate-y-2">
+                            
+                            <span class="inline-block px-3 py-1 mb-3 text-xs font-bold text-white/90 bg-white/20 backdrop-blur-md rounded-full">
+                                ລົດໄຟຟ້າ (EV)
+                            </span>
+                            
+                            
+                            <h2 class="font-bold text-white leading-tight mb-2 
+                                text-xl">
+                                ການປະວັດລົດໄຟຟ້າ: ຈາກເລີ່ມຕົ້ນຈົນເຖິງ Tesla
+                            </h2>
+                            
+                            <p class="text-gray-200 line-clamp-2 text-sm md:text-base font-medium opacity-90">
+                                ການເດີນທາງອັນຍາວນານຂອງລົດໄຟຟ້າ ແຕ່ການທົດລອງທໍາອິດໃນສະຕະວັດທີ 19 ຈົນເຖິງການນໍາພາຂອງ Tesla ໃນປະຈຸບັນ
+                            </p>
+                            
+                            <div class="mt-4 flex items-center gap-3 text-white/70 text-xs font-medium">
+                                <span>admin</span>
+                                <span>•</span>
+                                <span>Jul 12</span>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+            
+            <!-- Card -->
+            <div class="group relative rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl
+                
+                    bg-white dark:bg-gray-900
+                
+            ">
+                <a href="/post/5g-technology/" class="absolute inset-0 z-10"></a>
+                
+                
+                    <!-- Image Card -->
+                    <div class="absolute inset-0">
+                        <img src="/media/blog/images/2b996f69ee303ed2571b4530bb106370.jpg" alt="5G Technology: ການປະວັດການເຊື່ອມຕໍ່ແບບໃໝ່" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    </div>
+                    
+                    <div class="relative h-full flex flex-col justify-end p-8">
+                        <div class="transform transition-transform duration-500 group-hover:-translate-y-2">
+                            
+                            <span class="inline-block px-3 py-1 mb-3 text-xs font-bold text-white/90 bg-white/20 backdrop-blur-md rounded-full">
+                                ຮາດແວ
+                            </span>
+                            
+                            
+                            <h2 class="font-bold text-white leading-tight mb-2 
+                                text-xl">
+                                5G Technology: ການປະວັດການເຊື່ອມຕໍ່ແບບໃໝ່
+                            </h2>
+                            
+                            <p class="text-gray-200 line-clamp-2 text-sm md:text-base font-medium opacity-90">
+                                5G ຈະປ່ຽນແປງວິທີທີ່ພວກເຮົາໃຊ້ອິນເຕີເນັດ ແລະ ເຊື່ອມຕໍ່ອຸປະກອນຕ່າງໆ
+                            </p>
+                            
+                            <div class="mt-4 flex items-center gap-3 text-white/70 text-xs font-medium">
+                                <span>admin</span>
+                                <span>•</span>
+                                <span>Jul 12</span>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+            
+            <!-- Card -->
+            <div class="group relative rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl
+                
+                    bg-white dark:bg-gray-900
+                
+            ">
+                <a href="/post/blockchain-cryptocurrency/" class="absolute inset-0 z-10"></a>
+                
+                
+                    <!-- Image Card -->
+                    <div class="absolute inset-0">
+                        <img src="/media/blog/images/9788b50392fdcb56816aa805a73af6a1.jpg" alt="Blockchain ແລະ Cryptocurrency ໃນລາວ" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    </div>
+                    
+                    <div class="relative h-full flex flex-col justify-end p-8">
+                        <div class="transform transition-transform duration-500 group-hover:-translate-y-2">
+                            
+                            <span class="inline-block px-3 py-1 mb-3 text-xs font-bold text-white/90 bg-white/20 backdrop-blur-md rounded-full">
+                                ເທັກໂນໂລຊີໃນລາວ
+                            </span>
+                            
+                            
+                            <h2 class="font-bold text-white leading-tight mb-2 
+                                text-xl">
+                                Blockchain ແລະ Cryptocurrency ໃນລາວ
+                            </h2>
+                            
+                            <p class="text-gray-200 line-clamp-2 text-sm md:text-base font-medium opacity-90">
+                                ຄວາມເປັນໄປໄດ້ຂອງການນໍາໃຊ້ Blockchain ແລະ Cryptocurrency ໃນການພັດທະນາເສດຖະກິດດິຈິຕອນຂອງລາວ
+                            </p>
+                            
+                            <div class="mt-4 flex items-center gap-3 text-white/70 text-xs font-medium">
+                                <span>admin</span>
+                                <span>•</span>
+                                <span>Jul 12</span>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+            
+            
+        </div>
+
+        <!-- Pagination -->
+        
+    </div>
+</div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-border mt-auto">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                <!-- About -->
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 rounded-xl overflow-hidden shadow-md">
+                            <img src="/static/images/python-for-laos.png" alt="Python for Laos Logo" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຟຣີທັງໝົດ
+                    </p>
+                    <!-- Social Links -->
+                    <div class="flex items-center gap-3 mt-4">
+                        <a href="#" class="w-9 h-9 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gradient-primary hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gradient-primary hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gradient-primary hover:text-white transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">ແຫຼ່ງຮຽນຮູ້</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/docs/" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ເອກະສານ</a></li>
+                        <li><a href="/posts/?type=blog" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ບລັອກ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ວິດີໂອ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ຕົວຢ່າງໂປຣເຈັກ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Community -->
+                <div>
+                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">ຊຸມຊົນ</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/community/" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ກະດານສົນທະນາ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Discord</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Facebook Group</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ມາເປັນພາກສ່ວນ</a></li>
+                    </ul>
+                </div>
+
+                <!-- About -->
+                <div>
+                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">ກ່ຽວກັບ</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ກ່ຽວກັບພວກເຮົາ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ຕິດຕໍ່ພວກເຮົາ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ເງື່ອນໄຂການໃຊ້ງານ</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-gray-200 dark:border-gray-800">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        © 2024 <span class="gradient-text font-semibold">PythonForLaos</span>. ສະຫງວນລິຂະສິດທັງໝົດ.
+                    </p>
+                    <div class="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
+                        <a href="#" class="hover:text-primary transition-colors">ແຜນທີ່ເວັບໄຊທ໌</a>
+                        <a href="#" class="hover:text-primary transition-colors">RSS</a>
+                        <a href="#" class="hover:text-primary transition-colors">ສະໜັບສະໜູນ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Dark/Light Mode Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Check for saved theme preference or default to 'light' mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+
+        if (currentTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            // Toggle icons
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // Toggle dark mode
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideMenu = mobileMenu.contains(event.target);
+            const isClickOnButton = mobileMenuButton.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnButton && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Smooth scroll to top button
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            // You can add scroll-to-top button logic here if needed
+        });
+    </script>
+
+    
+
+    
+
+    
+    <script>
+        // Case 1: LINE just redirected back with ?code= (LIFF callback URL)
+        // Case 2: LIFF already processed ?code= and redirected to clean URL,
+        //         token is now stored in sessionStorage (LIFF_STORE:* keys)
+        // Skip auto-login on login/register pages so user can access them freely
+        const isAuthPage = ['/login/', '/register/'].includes(window.location.pathname);
+        const hasLiffCallback = window.location.search.includes('liffClientId=');
+        const hasLiffSession = !isAuthPage && Object.keys(sessionStorage).some(k => k.startsWith('LIFF_STORE:'));
+
+        if (hasLiffCallback || hasLiffSession) {
+            const script = document.createElement('script');
+            script.src = "https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js";
+            script.onload = async () => {
+                try {
+                    await liff.init({ liffId: "2009239826-p8o2bktj" });
+                    if (liff.isLoggedIn()) {
+                        const profile = await liff.getProfile();
+                        const res = await fetch("/line-auth/", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ userId: profile.userId, displayName: profile.displayName })
+                        });
+                        const result = await res.json();
+                        if (result.success) {
+                            const nextUrl = localStorage.getItem('line_login_next');
+                            if (nextUrl) {
+                                localStorage.removeItem('line_login_next');
+                                window.location.href = nextUrl;
+                            } else {
+                                window.location.href = "/";
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("Global LIFF Auth failed", e);
+                }
+            };
+            document.body.appendChild(script);
+        }
+    </script>
+    
+
+<!-- Dynamic Breadcrumb Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "http://localhost:8000"
+    }
+    
+    ,{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "http://localhost:8000/blog/"
+    }
+    
+  ]
+}
+</script>
+
+<!-- ============================================================ -->
+<!-- COOKIE CONSENT BANNER                                        -->
+<!-- ============================================================ -->
+<div id="cookie-banner"
+     class="fixed bottom-0 left-0 right-0 z-[9999] hidden"
+     role="dialog" aria-label="Cookie consent">
+    <div class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <!-- Icon + Text -->
+                <div class="flex items-start gap-3 flex-1">
+                    <div class="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-0.5">
+                            🍪 ເວັບໄຊນີ້ໃຊ້ Cookies
+                        </p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                            ພວກເຮົາໃຊ້ cookies ເພື່ອປັບປຸງປະສົບການການໃຊ້ງານ, ຈື່ການ login ຂອງທ່ານ
+                            ແລະ ວິເຄາະການໃຊ້ງານເວັບ.
+                            <a href="#" class="text-primary hover:underline font-medium">ນະໂຍບາຍ Cookies</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- Buttons -->
+                <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">
+                    <button id="cookie-essential"
+                            class="flex-1 sm:flex-none px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        ຈຳເປັນເທົ່ານັ້ນ
+                    </button>
+                    <button id="cookie-accept"
+                            class="flex-1 sm:flex-none px-5 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#001868] to-[#0033a0] rounded-lg hover:shadow-md hover:-translate-y-0.5 transform transition-all">
+                        ຍອມຮັບທັງໝົດ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const COOKIE_NAME = 'pp4l_cookie_consent';
+        const COOKIE_DAYS = 365;
+
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? decodeURIComponent(match[2]) : null;
+        }
+
+        function setCookie(name, value, days) {
+            const expires = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value) +
+                '; expires=' + expires +
+                '; path=/' +
+                '; SameSite=Lax';
+        }
+
+        function hideBanner() {
+            const banner = document.getElementById('cookie-banner');
+            if (banner) {
+                banner.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                banner.style.transform = 'translateY(100%)';
+                banner.style.opacity = '0';
+                setTimeout(() => banner.classList.add('hidden'), 320);
+            }
+        }
+
+        function showBanner() {
+            const banner = document.getElementById('cookie-banner');
+            if (!banner) return;
+            banner.classList.remove('hidden');
+            banner.style.transform = 'translateY(100%)';
+            banner.style.opacity = '0';
+            // Animate in
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    banner.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+                    banner.style.transform = 'translateY(0)';
+                    banner.style.opacity = '1';
+                });
+            });
+        }
+
+        // Show banner only if consent not yet given
+        if (!getCookie(COOKIE_NAME)) {
+            document.addEventListener('DOMContentLoaded', showBanner);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnAccept = document.getElementById('cookie-accept');
+            const btnEssential = document.getElementById('cookie-essential');
+
+            if (btnAccept) {
+                btnAccept.addEventListener('click', function () {
+                    setCookie(COOKIE_NAME, 'all', COOKIE_DAYS);
+                    hideBanner();
+                });
+            }
+
+            if (btnEssential) {
+                btnEssential.addEventListener('click', function () {
+                    setCookie(COOKIE_NAME, 'essential', COOKIE_DAYS);
+                    hideBanner();
+                });
+            }
+        });
+    })();
+</script>
+
+</body>
+</html>

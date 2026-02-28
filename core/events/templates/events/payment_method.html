@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static humanize %}
+{% load i18n static humanize %}
 
 {% block title %}Payment Method - {{ event.title }} - Python for Laos{% endblock %}
 
@@ -9,21 +9,21 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
             <!-- Header -->
             <div class="bg-gray-900 dark:bg-gray-950 px-8 py-6">
-                <h1 class="text-2xl font-bold text-white">Select Payment Method</h1>
-                <p class="text-gray-400 dark:text-gray-500 mt-1">Secure Transaction</p>
+                <h1 class="text-2xl font-bold text-white">{% trans "Select Payment Method" %}</h1>
+                <p class="text-gray-400 dark:text-gray-500 mt-1">{% trans "Secure Transaction" %}</p>
             </div>
 
             <div class="p-8">
                 <!-- Order Summary -->
                 <div class="flex justify-between items-center mb-8 pb-6 border-b border-gray-100 dark:border-gray-700">
                     <div>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm">Amount to Pay</p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">{% trans "Amount to Pay" %}</p>
                         <h2 class="text-3xl font-bold text-gray-900 dark:text-white">₭{{ registration.total_amount|floatformat:0|intcomma }}</h2>
                     </div>
                     <div class="text-right">
-                        <p class="text-gray-600 dark:text-gray-400 text-sm">Event</p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">{% trans "Event" %}</p>
                         <p class="font-medium text-gray-900 dark:text-white">{{ event.title }}</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ registration.ticket_quantity }} Ticket(s)</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ registration.ticket_quantity }} {% trans "Ticket(s)" %}</p>
                     </div>
                 </div>
 
@@ -31,7 +31,7 @@
                     {% csrf_token %}
 
                     <div class="space-y-4">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Choose a way to pay</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{% trans "Choose a way to pay" %}</label>
 
                         <!-- BCEL OnePay -->
                         <label class="relative flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer hover:border-primary dark:hover:border-primary transition-colors group bg-white dark:bg-gray-700">
@@ -40,36 +40,68 @@
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">OnePay</div>
                                     <div>
-                                        <p class="font-bold text-gray-900 dark:text-white">BCEL OnePay</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Scan QR Code via BCEL One App</p>
+                                        <p class="font-bold text-gray-900 dark:text-white">{% trans "BCEL OnePay" %}</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "Scan QR Code via BCEL One App" %}</p>
                                     </div>
                                 </div>
                                 <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </div>
                         </label>
 
-                        <!-- Credit Card (Mock) -->
-                        <label class="relative flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-xl cursor-not-allowed opacity-60 bg-white dark:bg-gray-700">
-                            <input type="radio" name="payment_method" value="CARD" class="h-4 w-4 text-primary border-gray-300 dark:border-gray-600 focus:ring-primary" disabled>
+                        <!-- Stripe Credit/Debit Card -->
+                        <label class="relative flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer hover:border-primary dark:hover:border-primary transition-colors group bg-white dark:bg-gray-700">
+                            <input type="radio" name="payment_method" value="STRIPE" class="h-4 w-4 text-primary border-gray-300 dark:border-gray-600 focus:ring-primary">
                             <div class="ml-4 flex items-center justify-between w-full">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-400">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                                    </div>
+                                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">Stripe</div>
                                     <div>
-                                        <p class="font-bold text-gray-900 dark:text-white">Credit / Debit Card</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Coming soon</p>
+                                        <p class="font-bold text-gray-900 dark:text-white">{% trans "Credit / Debit Card" %}</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "Visa, Mastercard via Stripe" %}</p>
                                     </div>
                                 </div>
+                                <div class="flex gap-1">
+                                    <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded">VISA</span>
+                                    <span class="px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded">MC</span>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Stripe PromptPay -->
+                        <label class="relative flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer hover:border-primary dark:hover:border-primary transition-colors group bg-white dark:bg-gray-700">
+                            <input type="radio" name="payment_method" value="PROMPTPAY" class="h-4 w-4 text-primary border-gray-300 dark:border-gray-600 focus:ring-primary">
+                            <div class="ml-4 flex items-center justify-between w-full">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-[#113566] rounded-lg flex items-center justify-center text-white font-bold text-xs">Prompt<br>Pay</div>
+                                    <div>
+                                        <p class="font-bold text-gray-900 dark:text-white">{% trans "PromptPay" %}</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "Scan PromptPay QR Code via Thai Bank App" %}</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </div>
+                        </label>
+
+                        <!-- PayPal -->
+                        <label class="relative flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer hover:border-primary dark:hover:border-primary transition-colors group bg-white dark:bg-gray-700">
+                            <input type="radio" name="payment_method" value="PAYPAL" class="h-4 w-4 text-primary border-gray-300 dark:border-gray-600 focus:ring-primary">
+                            <div class="ml-4 flex items-center justify-between w-full">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-white font-bold text-xs">PP</div>
+                                    <div>
+                                        <p class="font-bold text-gray-900 dark:text-white">PayPal</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "Pay with PayPal account or card" %}</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </div>
                         </label>
                     </div>
 
                     <!-- Actions -->
                     <div class="flex items-center justify-between pt-6">
-                        <a href="{% url 'events:event_purchase' event.slug %}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">Back</a>
+                        <a href="{% url 'events:event_purchase' event.slug %}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">{% trans "Back" %}</a>
                         <button type="submit" class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
-                            <span>Proceed to Payment</span>
+                            <span>{% trans "Proceed to Payment" %}</span>
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                         </button>
                     </div>
@@ -87,12 +119,12 @@
                 <div class="w-12 h-1 bg-primary"></div>
                 <div class="flex items-center text-primary font-bold">
                     <span class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm mr-2">2</span>
-                    Payment
+                    {% trans "Payment" %}
                 </div>
                 <div class="w-12 h-1 bg-gray-200 dark:bg-gray-700"></div>
                 <div class="flex items-center text-gray-400 dark:text-gray-500 font-medium">
                     <span class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 flex items-center justify-center text-sm mr-2">3</span>
-                    Status
+                    {% trans "Status" %}
                 </div>
             </div>
         </div>

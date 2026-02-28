@@ -7,11 +7,13 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+from django.conf import settings
+
 from .models import (
     Event, EventCategory, EventRegistration,
-    BCELOnePayPayment, EventTicket
+    BCELOnePayPayment, EventTicket, StripePayment, PayPalPayment
 )
-from .utils import BCELOnePayService, verify_ticket
+from .utils import BCELOnePayService, StripePaymentService, PayPalPaymentService, verify_ticket
 
 class EventListView(ListView):
     model = Event
@@ -175,37 +177,92 @@ def event_payment_method(request, slug):
 
 @login_required
 def event_payment_process(request, slug, method):
-    """Step 3: Process Payment with BCEL OnePay"""
+    """Step 3: Process Payment — dispatches by payment method"""
     event = get_object_or_404(Event, slug=slug)
     registration = get_object_or_404(EventRegistration, user=request.user, event=event)
-
-    # Get or create payment
-    if hasattr(registration, 'payment'):
-        payment = registration.payment
-    else:
-        # Create BCEL OnePay payment
-        payment = BCELOnePayService.create_payment(registration)
-
-    # Check payment status (manual check)
-    if request.method == 'POST' and request.POST.get('action') == 'check_status':
-        # Check with BCEL OnePay API
-        success = BCELOnePayService.check_payment_status(payment)
-
-        if success and payment.status == 'completed':
-            messages.success(request, "ການຈ່າຍເງິນສຳເລັດ! ປີ້ຂອງທ່ານພ້ອມແລ້ວ")
-            return redirect('events:event_ticket', slug=slug)
-        else:
-            messages.warning(request, "ກະລຸນາລໍຖ້າ... ກຳລັງກວດສອບການຈ່າຍເງິນ")
 
     context = {
         'event': event,
         'registration': registration,
-        'payment': payment,
         'method': method,
-        'qr_data': payment.qr_code_data,
-        'merchant_id': payment.merchant_id,
     }
-    return render(request, 'events/payment_process.html', context)
+
+    if method == 'STRIPE':
+        if not getattr(settings, 'STRIPE_SECRET_KEY', None) or not getattr(settings, 'STRIPE_PUBLISHABLE_KEY', None):
+            messages.error(request, "ລະບົບຍັງບໍ່ທັນໄດ້ຕັ້ງຄ່າ Stripe API Keys. ກະລຸນາເພີ່ມ STRIPE_SECRET_KEY ໃນ .env")
+            return redirect('events:event_payment_method', slug=slug)
+
+        try:
+            payment = StripePaymentService.create_payment_intent(registration, pm_type='card')
+            context['stripe_client_secret'] = payment.client_secret
+            context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
+            context['amount_usd'] = payment.amount_usd
+        except Exception as e:
+            messages.error(request, f"Stripe error: {e}")
+            return redirect('events:event_payment_method', slug=slug)
+        return render(request, 'events/payment_stripe.html', context)
+
+    elif method == 'PROMPTPAY':
+        if not getattr(settings, 'STRIPE_SECRET_KEY', None) or not getattr(settings, 'STRIPE_PUBLISHABLE_KEY', None):
+            messages.error(request, "ລະບົບຍັງບໍ່ທັນໄດ້ຕັ້ງຄ່າ Stripe API Keys. ກະລຸນາເພີ່ມ STRIPE_SECRET_KEY ໃນ .env")
+            return redirect('events:event_payment_method', slug=slug)
+
+        try:
+            payment = StripePaymentService.create_payment_intent(registration, pm_type='promptpay')
+            context['stripe_client_secret'] = payment.client_secret
+            context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
+            context['amount_thb'] = payment.amount_usd
+            
+            intent = getattr(payment, 'intent_obj', None)
+            if intent and intent.next_action and intent.next_action.promptpay_display_qr_code:
+                context['promptpay_qr_url'] = intent.next_action.promptpay_display_qr_code.image_url_svg
+        except Exception as e:
+            messages.error(request, f"Stripe PromptPay error: {e}")
+            return redirect('events:event_payment_method', slug=slug)
+        return render(request, 'events/payment_promptpay.html', context)
+
+    elif method == 'PAYPAL':
+        if not getattr(settings, 'PAYPAL_CLIENT_ID', None) or not getattr(settings, 'PAYPAL_CLIENT_SECRET', None):
+            messages.error(request, "ລະບົບຍັງບໍ່ທັນໄດ້ຕັ້ງຄ່າ PayPal API Keys. ກະລຸນາເພີ່ມ PAYPAL_CLIENT_ID ແລະ PAYPAL_CLIENT_SECRET ໃນ .env")
+            return redirect('events:event_payment_method', slug=slug)
+
+        context['paypal_client_id'] = settings.PAYPAL_CLIENT_ID
+        rate = getattr(settings, 'LAK_TO_USD_RATE', 21000)
+        context['amount_usd'] = round(float(registration.total_amount) / float(rate), 2)
+        return render(request, 'events/payment_paypal.html', context)
+
+    else:
+        # Default: BCEL OnePay
+        if hasattr(registration, 'payment'):
+            payment = registration.payment
+        else:
+            payment = BCELOnePayService.create_payment(registration)
+
+        if request.method == 'POST' and request.POST.get('action') == 'check_status':
+            success = BCELOnePayService.check_payment_status(payment)
+            if success and payment.status == 'completed':
+                messages.success(request, "ການຈ່າຍເງິນສຳເລັດ! ປີ້ຂອງທ່ານພ້ອມແລ້ວ")
+                return redirect('events:event_ticket', slug=slug)
+            else:
+                messages.warning(request, "ກະລຸນາລໍຖ້າ... ກຳລັງກວດສອບການຈ່າຍເງິນ")
+
+        context.update({
+            'payment': payment,
+            'qr_data': payment.qr_code_data,
+            'merchant_id': payment.merchant_id,
+        })
+        return render(request, 'events/payment_process.html', context)
+
+
+def _has_completed_payment(registration):
+    """Return True if any payment type for this registration is completed."""
+    if hasattr(registration, 'payment') and registration.payment.status == 'completed':
+        return True
+    if hasattr(registration, 'stripe_payment') and registration.stripe_payment.status == 'completed':
+        return True
+    if hasattr(registration, 'paypal_payment') and registration.paypal_payment.status == 'completed':
+        return True
+    return False
 
 
 @login_required
@@ -217,8 +274,7 @@ def event_ticket(request, slug):
     # For paid events, must have completed payment
     if not event.is_free and event.price > 0:
         if registration.status != 'confirmed':
-            # Check if payment exists and is completed
-            if not hasattr(registration, 'payment') or registration.payment.status != 'completed':
+            if not _has_completed_payment(registration):
                 messages.error(request, "ກະລຸນາຊຳລະເງິນກ່ອນເບິ່ງປີ້")
                 return redirect('events:event_payment_method', slug=slug)
 
@@ -319,3 +375,154 @@ def verify_ticket_view(request):
             })
 
     return render(request, 'events/verify_ticket.html')
+
+
+# ──────────────────────────────────────────────
+# Stripe views
+# ──────────────────────────────────────────────
+
+@login_required
+def create_stripe_payment_intent(request, slug):
+    """Create / refresh a Stripe PaymentIntent for the event."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    event = get_object_or_404(Event, slug=slug)
+    registration = get_object_or_404(EventRegistration, user=request.user, event=event)
+    try:
+        payment = StripePaymentService.create_payment_intent(registration)
+        return JsonResponse({
+            'clientSecret': payment.client_secret,
+            'amountUsd': float(payment.amount_usd),
+        })
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@login_required
+def check_stripe_payment_status(request, slug):
+    """Poll Stripe payment status — frontend calls this after confirmCardPayment."""
+    event = get_object_or_404(Event, slug=slug)
+    registration = get_object_or_404(EventRegistration, user=request.user, event=event)
+    try:
+        stripe_payment = registration.stripe_payment
+    except StripePayment.DoesNotExist:
+        return JsonResponse({'paid': False, 'status': 'not_found'})
+
+    # If already marked complete, return early
+    if stripe_payment.status == 'completed':
+        return JsonResponse({
+            'paid': True,
+            'status': 'completed',
+            'ticket_url': f'/events/{slug}/ticket/',
+        })
+
+    # Verify with Stripe
+    try:
+        success, intent = StripePaymentService.confirm_payment(stripe_payment.payment_intent_id)
+        if success and stripe_payment.status != 'completed':
+            stripe_payment.payment_response = dict(intent)
+            stripe_payment.mark_as_paid()
+        return JsonResponse({
+            'paid': stripe_payment.status == 'completed',
+            'status': stripe_payment.status,
+            'ticket_url': f'/events/{slug}/ticket/' if stripe_payment.status == 'completed' else None,
+        })
+    except Exception as e:
+        return JsonResponse({'paid': False, 'status': 'error', 'error': str(e)}, status=500)
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    """Stripe webhook endpoint — receives payment_intent.succeeded etc."""
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
+    try:
+        StripePaymentService.process_webhook(payload, sig_header)
+        return JsonResponse({'status': 'ok'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+# ──────────────────────────────────────────────
+# PayPal views
+# ──────────────────────────────────────────────
+
+@login_required
+def create_paypal_order(request, slug):
+    """Create a PayPal order — called from PayPal JS SDK onCreateOrder."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    event = get_object_or_404(Event, slug=slug)
+    registration = get_object_or_404(EventRegistration, user=request.user, event=event)
+    try:
+        payment = PayPalPaymentService.create_order(registration)
+        return JsonResponse({'id': payment.order_id})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@login_required
+def capture_paypal_order(request, slug):
+    """Capture an approved PayPal order — called from JS onApprove."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    event = get_object_or_404(Event, slug=slug)
+    registration = get_object_or_404(EventRegistration, user=request.user, event=event)
+
+    try:
+        data = json.loads(request.body)
+        order_id = data.get('orderID', '')
+    except (json.JSONDecodeError, AttributeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    try:
+        success, capture_id, capture_data = PayPalPaymentService.capture_order(order_id)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+    if success:
+        try:
+            pp = registration.paypal_payment
+        except PayPalPayment.DoesNotExist:
+            pp = PayPalPayment.objects.create(
+                registration=registration,
+                order_id=order_id,
+            )
+        pp.capture_id = capture_id
+        pp.payment_response = capture_data
+        pp.amount_usd = PayPalPaymentService._lak_to_usd(registration.total_amount)
+        pp.save()
+        pp.mark_as_paid()
+        return JsonResponse({'success': True, 'ticket_url': f'/events/{slug}/ticket/'})
+
+    return JsonResponse({'success': False, 'error': 'Capture failed'}, status=400)
+
+
+@csrf_exempt
+def paypal_webhook(request):
+    """PayPal webhook endpoint."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    try:
+        data = json.loads(request.body)
+        event_type = data.get('event_type', '')
+        if event_type == 'PAYMENT.CAPTURE.COMPLETED':
+            resource = data.get('resource', {})
+            custom_id = resource.get('custom_id') or (
+                resource.get('purchase_units', [{}])[0].get('custom_id', '')
+                if resource.get('purchase_units') else ''
+            )
+            capture_id = resource.get('id', '')
+            if custom_id:
+                try:
+                    registration = EventRegistration.objects.get(id=custom_id)
+                    pp, _ = PayPalPayment.objects.get_or_create(registration=registration)
+                    if pp.status != 'completed':
+                        pp.capture_id = capture_id
+                        pp.payment_response = data
+                        pp.mark_as_paid()
+                except EventRegistration.DoesNotExist:
+                    pass
+        return JsonResponse({'status': 'ok'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)

@@ -1,14 +1,15 @@
-{% load static %}
+{% load i18n %}
+{% load static i18n %}
 <!DOCTYPE html>
-<html lang="lo" class="scroll-smooth">
+<html lang="{{ request.LANGUAGE_CODE|default:'lo' }}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Python for Laos - ຮຽນ Python & Django ເປັນພາສາລາວ{% endblock %}</title>
+    <title>{% block title %}Python for Laos - {% trans "ຮຽນ Python & Django ເປັນພາສາລາວ" %}{% endblock %}</title>
 
     <!-- Meta Tags -->
-    <meta name="description" content="{% block description %}ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຕົວຢ່າງທີ່ຊັດເຈນ ແລະ ຟຣີທັງໝົດ{% endblock %}">
-    <meta name="keywords" content="{% block keywords %}Python, Django, Laos, ລາວ, Programming, Web Development{% endblock %}">
+    <meta name="description" content="{% block description %}{% trans 'ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຕົວຢ່າງທີ່ຊັດເຈນ ແລະ ຟຣີທັງໝົດ' %}{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}{% trans "Python, Django, Laos, ລາວ, Programming, Web Development" %}{% endblock %}">
     <meta name="author" content="Phenomenal Python for Laos">
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for Python for Laos" href="{% url 'blog:post_feed' %}">
@@ -28,15 +29,15 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:title" content="{% block og_title %}Python for Laos - ຮຽນ Python & Django ເປັນພາສາລາວ{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Python for Laos - {% trans "ຮຽນ Python & Django ເປັນພາສາລາວ" %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{% trans "ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ" %}{% endblock %}">
     <meta property="og:image" content="{% block og_image %}{% static 'images/python-for-laos.png' %}{% endblock %}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ request.build_absolute_uri }}">
     <meta property="twitter:title" content="{% block twitter_title %}Python for Laos{% endblock %}">
-    <meta property="twitter:description" content="{% block twitter_description %}ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}{% trans "ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ" %}{% endblock %}">
     <meta property="twitter:image" content="{% block twitter_image %}{% static 'images/python-for-laos.png' %}{% endblock %}">
 
     <!-- Fonts -->
@@ -155,7 +156,7 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <div class="flex items-center gap-8">
-                    <a href="{% url 'blog:index' %}" class="flex items-center gap-3 group">
+                    <a href="{% url 'home:index' %}" class="flex items-center gap-3 group">
                         <div class="w-10 h-10 rounded-xl overflow-hidden transform group-hover:scale-110 transition-transform shadow-md">
                             <img src="{% static 'images/python-for-laos.png' %}" alt="Python for Laos Logo" class="w-full h-full object-cover">
                         </div>
@@ -163,20 +164,20 @@
 
                     <!-- Desktop Navigation -->
                     <div class="hidden md:flex items-center gap-1">
-                        <a href="{% url 'blog:post_list' %}?type=blog" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                            Blog
+                        <a href="{% url 'blog:post_list' %}" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            {% trans "Blog" %}
                         </a>
                         <a href="{% url 'community:index' %}" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                            Community
+                            {% trans "Community" %}
                         </a>
                         <a href="{% url 'courses:course_list' %}" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                            Courses
+                            {% trans "Courses" %}
                         </a>
                         <a href="{% url 'docs:doc_list' %}" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                            Docs
+                            {% trans "Docs" %}
                         </a>
                         <a href="{% url 'events:event_list' %}" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                            Events
+                            {% trans "Events" %}
                         </a>
 
                     </div>
@@ -191,13 +192,35 @@
                                 type="text"
                                 name="search"
                                 class="w-64 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                                placeholder="ຄົ້ນຫາ..."
+                                placeholder="{% trans 'ຄົ້ນຫາ...' %}"
                                 value="{{ request.GET.search|default:'' }}"
                             >
                             <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </form>
+                    </div>
+
+                    <!-- Language Switcher -->
+                    <div class="relative group">
+                        <button class="flex items-center gap-2 p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" aria-label="Select Language">
+                            <span class="text-sm font-medium uppercase">{{ request.LANGUAGE_CODE|default:'lo' }}</span>
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden border border-gray-100 dark:border-gray-700">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <form action="{% url 'set_language' %}" method="post" class="m-0 p-0" onsubmit="sessionStorage.setItem('scrollPos', window.scrollY);">{% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                                    <input name="language" type="hidden" value="{{ language.code }}">
+                                    <button type="submit" class="w-full text-left px-4 py-2 text-sm {% if language.code == LANGUAGE_CODE %}bg-blue-50 text-blue-600 dark:bg-gray-700 dark:text-blue-400 font-bold{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700{% endif %}">
+                                        {{ language.name_local }}
+                                    </button>
+                                </form>
+                            {% endfor %}
+                        </div>
                     </div>
 
                     <!-- Dark/Light Mode Toggle -->
@@ -220,7 +243,7 @@
                     {% if user.is_authenticated %}
                         <div class="hidden md:flex items-center gap-3">
                             <a href="{% url 'blog:create_post' %}" class="px-4 py-2 bg-gradient-primary text-white rounded-full font-semibold text-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                                ສ້າງບົດຄວາມ
+                                {% trans "ສ້າງບົດຄວາມ" %}
                             </a>
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold text-sm">
@@ -228,17 +251,17 @@
                                 </div>
                                 <span class="text-sm font-medium">{{ user.first_name|default:user.username }}</span>
                             </div>
-                            <a href="{% url 'blog:logout' %}" onclick="Object.keys(sessionStorage).filter(k=>k.startsWith('LIFF_STORE:')).forEach(k=>sessionStorage.removeItem(k))" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
-                                ອອກ
+                            <a href="{% url 'home:logout' %}" onclick="Object.keys(sessionStorage).filter(k=>k.startsWith('LIFF_STORE:')).forEach(k=>sessionStorage.removeItem(k))" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+                                {% trans "ອອກ" %}
                             </a>
                         </div>
                     {% else %}
                         <div class="hidden md:flex items-center gap-3">
-                            <a href="{% url 'blog:login' %}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
-                                ເຂົ້າສູ່ລະບົບ
+                            <a href="{% url 'home:login' %}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
+                                {% trans "ເຂົ້າສູ່ລະບົບ" %}
                             </a>
-                            <a href="{% url 'blog:register' %}" class="px-4 py-2 bg-gradient-primary text-white rounded-full font-semibold text-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                                ລົງທະບຽນ
+                            <a href="{% url 'home:register' %}" class="px-4 py-2 bg-gradient-primary text-white rounded-full font-semibold text-sm hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                                {% trans "ລົງທະບຽນ" %}
                             </a>
                         </div>
                     {% endif %}
@@ -260,20 +283,20 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800 mobile-menu">
             <div class="px-4 py-3 space-y-1">
-                <a href="{% url 'blog:post_list' %}?type=blog" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    Blog
+                <a href="{% url 'blog:post_list' %}" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    {% trans "Blog" %}
                 </a>
                 <a href="{% url 'community:index' %}" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    Community
+                    {% trans "Community" %}
                 </a>
                 <a href="{% url 'courses:course_list' %}" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    Courses
+                    {% trans "Courses" %}
                 </a>
                 <a href="{% url 'docs:doc_list' %}" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    Docs
+                    {% trans "Docs" %}
                 </a>
                 <a href="{% url 'events:event_list' %}" class="block px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    Events
+                    {% trans "Events" %}
                 </a>
                 <!-- Mobile Search -->
                 <div class="pt-2">
@@ -282,7 +305,7 @@
                             type="text"
                             name="search"
                             class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg py-2 px-4 text-sm outline-none focus:ring-2 focus:ring-primary"
-                            placeholder="ຄົ້ນຫາ..."
+                            placeholder="{% trans 'ຄົ້ນຫາ...' %}"
                             value="{{ request.GET.search|default:'' }}"
                         >
                     </form>
@@ -297,23 +320,21 @@
                             </div>
                             <div>
                                 <div class="font-medium">{{ user.first_name|default:user.username }}</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">ສະມາຊິກ</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "ສະມາຊິກ" %}</div>
                             </div>
                         </div>
                         <a href="{% url 'blog:create_post' %}" class="block mx-4 mt-2 px-4 py-2 bg-gradient-primary text-white text-center rounded-lg font-semibold text-sm">
-                            ສ້າງບົດຄວາມ
+                            {% trans "ສ້າງບົດຄວາມ" %}
                         </a>
-                        <a href="{% url 'blog:logout' %}" onclick="Object.keys(sessionStorage).filter(k=>k.startsWith('LIFF_STORE:')).forEach(k=>sessionStorage.removeItem(k))" class="block mx-4 mt-2 px-4 py-2 border border-red-600 text-red-600 text-center rounded-lg font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                            ອອກຈາກລະບົບ
-                        </a>
+                        <a href="{% url 'home:logout' %}" onclick="Object.keys(sessionStorage).filter(k=>k.startsWith('LIFF_STORE:')).forEach(k=>sessionStorage.removeItem(k))" class="block mx-4 mt-2 px-4 py-2 border border-red-600 text-red-600 text-center rounded-lg font-semibold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">{% trans "ອອກຈາກລະບົບ" %}</a>
                     </div>
                 {% else %}
                     <div class="pt-3 border-t border-gray-200 dark:border-gray-700 space-y-2">
-                        <a href="{% url 'blog:login' %}" class="block px-4 py-2 text-center border border-primary text-primary rounded-lg font-semibold text-sm">
-                            ເຂົ້າສູ່ລະບົບ
+                        <a href="{% url 'home:login' %}" class="block px-4 py-2 text-center border border-primary text-primary rounded-lg font-semibold text-sm">
+                            {% trans "ເຂົ້າສູ່ລະບົບ" %}
                         </a>
-                        <a href="{% url 'blog:register' %}" class="block px-4 py-2 bg-gradient-primary text-white text-center rounded-lg font-semibold text-sm">
-                            ລົງທະບຽນ
+                        <a href="{% url 'home:register' %}" class="block px-4 py-2 bg-gradient-primary text-white text-center rounded-lg font-semibold text-sm">
+                            {% trans "ລົງທະບຽນ" %}
                         </a>
                     </div>
                 {% endif %}
@@ -322,7 +343,31 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-1">
+    <main class="flex-1 relative z-0">
+        <!-- Django Messages -->
+        {% if messages %}
+        <div class="fixed top-20 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
+            {% for message in messages %}
+            <div class="pointer-events-auto shadow-lg rounded-xl overflow-hidden backdrop-blur-sm transition-all duration-300 transform translate-y-0 opacity-100 flex items-start p-4 {% if message.tags == 'success' %}bg-green-500/90 text-white{% elif message.tags == 'warning' %}bg-yellow-500/90 text-white{% elif message.tags == 'error' %}bg-red-500/90 text-white{% else %}bg-blue-500/90 text-white{% endif %}" role="alert">
+                <div class="flex-1">
+                    <p class="font-medium text-sm">{{ message }}</p>
+                </div>
+                <button onclick="this.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.remove(), 300)" class="ml-4 text-white/80 hover:text-white mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        <script>
+            setTimeout(() => {
+                document.querySelectorAll('[role="alert"]').forEach(el => {
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 300);
+                });
+            }, 5000);
+        </script>
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </main>
@@ -339,7 +384,7 @@
                         </div>
                     </div>
                     <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຟຣີທັງໝົດ
+                        {% trans 'ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຟຣີທັງໝົດ' %}
                     </p>
                     <!-- Social Links -->
                     <div class="flex items-center gap-3 mt-4">
@@ -357,34 +402,34 @@
 
                 <!-- Resources -->
                 <div>
-                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">ແຫຼ່ງຮຽນຮູ້</h3>
+                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">{% trans "ແຫຼ່ງຮຽນຮູ້" %}</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{% url 'docs:doc_list' %}" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ເອກະສານ</a></li>
-                        <li><a href="{% url 'blog:post_list' %}?type=blog" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ບລັອກ</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ວິດີໂອ</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ຕົວຢ່າງໂປຣເຈັກ</a></li>
+                        <li><a href="{% url 'docs:doc_list' %}" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ເອກະສານ" %}</a></li>
+                        <li><a href="{% url 'blog:post_list' %}" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ບລັອກ" %}</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ວິດີໂອ" %}</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ຕົວຢ່າງໂປຣເຈັກ" %}</a></li>
                     </ul>
                 </div>
 
                 <!-- Community -->
                 <div>
-                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">ຊຸມຊົນ</h3>
+                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">{% trans "ຊຸມຊົນ" %}</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{% url 'community:index' %}" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ກະດານສົນທະນາ</a></li>
+                        <li><a href="{% url 'community:index' %}" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ກະດານສົນທະນາ" %}</a></li>
                         <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Discord</a></li>
                         <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Facebook Group</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ມາເປັນພາກສ່ວນ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ມາເປັນພາກສ່ວນ" %}</a></li>
                     </ul>
                 </div>
 
                 <!-- About -->
                 <div>
-                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">ກ່ຽວກັບ</h3>
+                    <h3 class="font-bold text-gray-900 dark:text-white mb-4">{% trans "ກ່ຽວກັບ" %}</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ກ່ຽວກັບພວກເຮົາ</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ຕິດຕໍ່ພວກເຮົາ</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ</a></li>
-                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">ເງື່ອນໄຂການໃຊ້ງານ</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ກ່ຽວກັບພວກເຮົາ" %}</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ຕິດຕໍ່ພວກເຮົາ" %}</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ" %}</a></li>
+                        <li><a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">{% trans "ເງື່ອນໄຂການໃຊ້ງານ" %}</a></li>
                     </ul>
                 </div>
             </div>
@@ -393,12 +438,12 @@
             <div class="pt-8 border-t border-gray-200 dark:border-gray-800">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <p class="text-sm text-gray-600 dark:text-gray-400">
-                        © 2024 <span class="gradient-text font-semibold">PythonForLaos</span>. ສະຫງວນລິຂະສິດທັງໝົດ.
+                        © 2024 <span class="gradient-text font-semibold">PythonForLaos</span>. {% trans "ສະຫງວນລິຂະສິດທັງໝົດ." %}
                     </p>
                     <div class="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
-                        <a href="#" class="hover:text-primary transition-colors">ແຜນທີ່ເວັບໄຊທ໌</a>
+                        <a href="#" class="hover:text-primary transition-colors">{% trans "ແຜນທີ່ເວັບໄຊທ໌" %}</a>
                         <a href="#" class="hover:text-primary transition-colors">RSS</a>
-                        <a href="#" class="hover:text-primary transition-colors">ສະໜັບສະໜູນ</a>
+                        <a href="#" class="hover:text-primary transition-colors">{% trans "ສະໜັບສະໜູນ" %}</a>
                     </div>
                 </div>
             </div>
@@ -489,48 +534,51 @@
 
     {% block extra_js %}{% endblock %}
 
-    {% if not request.user.is_authenticated %}
     <script>
-        // Case 1: LINE just redirected back with ?code= (LIFF callback URL)
+        // Case 1: LINE just redirected back with ?liffClientId= — always handle,
+        //         even if another Django user is already logged in (switch account).
         // Case 2: LIFF already processed ?code= and redirected to clean URL,
-        //         token is now stored in sessionStorage (LIFF_STORE:* keys)
-        // Skip auto-login on login/register pages so user can access them freely
-        const isAuthPage = ['/login/', '/register/'].includes(window.location.pathname);
-        const hasLiffCallback = window.location.search.includes('liffClientId=');
-        const hasLiffSession = !isAuthPage && Object.keys(sessionStorage).some(k => k.startsWith('LIFF_STORE:'));
+        //         token is in sessionStorage — only auto-login if not authenticated.
+        // Skip auto-login on login/register pages so user can access them freely.
+        (function () {
+            const isAuthPage = ['/login/', '/register/'].includes(window.location.pathname);
+            const hasLiffCallback = window.location.search.includes('liffClientId=');
+            const isAuthenticated = {% if request.user.is_authenticated %}true{% else %}false{% endif %};
+            const hasLiffSession = !isAuthPage && !isAuthenticated &&
+                Object.keys(sessionStorage).some(k => k.startsWith('LIFF_STORE:'));
 
-        if (hasLiffCallback || hasLiffSession) {
-            const script = document.createElement('script');
-            script.src = "https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js";
-            script.onload = async () => {
-                try {
-                    await liff.init({ liffId: "2009239826-p8o2bktj" });
-                    if (liff.isLoggedIn()) {
-                        const profile = await liff.getProfile();
-                        const res = await fetch("{% url 'blog:line_auth' %}", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ userId: profile.userId, displayName: profile.displayName })
-                        });
-                        const result = await res.json();
-                        if (result.success) {
-                            const nextUrl = localStorage.getItem('line_login_next');
-                            if (nextUrl) {
-                                localStorage.removeItem('line_login_next');
-                                window.location.href = nextUrl;
-                            } else {
-                                window.location.href = "{% url 'blog:index' %}";
+            if (hasLiffCallback || hasLiffSession) {
+                const script = document.createElement('script');
+                script.src = "https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js";
+                script.onload = async () => {
+                    try {
+                        await liff.init({ liffId: "2009239826-p8o2bktj" });
+                        if (liff.isLoggedIn()) {
+                            const profile = await liff.getProfile();
+                            const res = await fetch("{% url 'home:line_auth' %}", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ userId: profile.userId, displayName: profile.displayName })
+                            });
+                            const result = await res.json();
+                            if (result.success) {
+                                const nextUrl = localStorage.getItem('line_login_next');
+                                if (nextUrl) {
+                                    localStorage.removeItem('line_login_next');
+                                    window.location.href = nextUrl;
+                                } else {
+                                    window.location.href = "{% url 'home:index' %}";
+                                }
                             }
                         }
+                    } catch (e) {
+                        console.error("Global LIFF Auth failed", e);
                     }
-                } catch (e) {
-                    console.error("Global LIFF Auth failed", e);
-                }
-            };
-            document.body.appendChild(script);
-        }
+                };
+                document.body.appendChild(script);
+            }
+        })();
     </script>
-    {% endif %}
 
 <!-- Dynamic Breadcrumb Schema -->
 <script type="application/ld+json">
@@ -575,12 +623,11 @@
                     </div>
                     <div>
                         <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-0.5">
-                            🍪 ເວັບໄຊນີ້ໃຊ້ Cookies
+                            🍪 {% trans "ເວັບໄຊນີ້ໃຊ້ Cookies" %}
                         </p>
                         <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                            ພວກເຮົາໃຊ້ cookies ເພື່ອປັບປຸງປະສົບການການໃຊ້ງານ, ຈື່ການ login ຂອງທ່ານ
-                            ແລະ ວິເຄາະການໃຊ້ງານເວັບ.
-                            <a href="#" class="text-primary hover:underline font-medium">ນະໂຍບາຍ Cookies</a>
+                            {% trans "ພວກເຮົາໃຊ້ cookies ເພື່ອປັບປຸງປະສົບການການໃຊ້ງານ, ຈື່ການ login ຂອງທ່ານ ແລະ ວິເຄາະການໃຊ້ງານເວັບ." %}
+                            <a href="#" class="text-primary hover:underline font-medium">{% trans "ນະໂຍບາຍ Cookies" %}</a>
                         </p>
                     </div>
                 </div>
@@ -588,11 +635,11 @@
                 <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">
                     <button id="cookie-essential"
                             class="flex-1 sm:flex-none px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                        ຈຳເປັນເທົ່ານັ້ນ
+                        {% trans "ຈຳເປັນເທົ່ານັ້ນ" %}
                     </button>
                     <button id="cookie-accept"
                             class="flex-1 sm:flex-none px-5 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#001868] to-[#0033a0] rounded-lg hover:shadow-md hover:-translate-y-0.5 transform transition-all">
-                        ຍອມຮັບທັງໝົດ
+                        {% trans "ຍອມຮັບທັງໝົດ" %}
                     </button>
                 </div>
             </div>
@@ -669,6 +716,20 @@
         });
     })();
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        var scrollPos = sessionStorage.getItem('scrollPos');
+        if (scrollPos) {
+            setTimeout(function() {
+                window.scrollTo(0, parseInt(scrollPos));
+            }, 10);
+            sessionStorage.removeItem('scrollPos');
+        }
+    });
+</script>
+
+
 
 </body>
 </html>

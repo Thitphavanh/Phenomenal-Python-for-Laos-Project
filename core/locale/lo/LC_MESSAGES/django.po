@@ -1,0 +1,1781 @@
+# Lao translation for Python for Laos
+# Copyright (C) 2024 Phenomenal Python for Laos
+msgid ""
+msgstr ""
+"Project-Id-Version: PythonForLaos 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-01 00:05+0700\n"
+"PO-Revision-Date: 2024-01-01 00:00+0700\n"
+"Last-Translator: Python for Laos Team\n"
+"Language-Team: Lao\n"
+"Language: lo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: blog/forms.py:38 home/forms.py:14
+msgid "ອີເມວຂອງທ່ານ"
+msgstr "ອີເມວຂອງທ່ານ"
+
+#: blog/forms.py:45 blog/forms.py:80 home/forms.py:21 home/forms.py:56
+#: templates/auth/login.html:40 templates/auth/register.html:38
+msgid "ຊື່ຜູ້ໃຊ້"
+msgstr "ຊື່ຜູ້ໃຊ້"
+
+#: blog/forms.py:52 blog/forms.py:87 home/forms.py:28 home/forms.py:63
+#: templates/auth/login.html:53 templates/auth/register.html:70
+msgid "ລະຫັດຜ່ານ"
+msgstr "ລະຫັດຜ່ານ"
+
+#: blog/forms.py:59 home/forms.py:35 templates/auth/register.html:93
+msgid "ຢືນຢັນລະຫັດຜ່ານ"
+msgstr "ຢືນຢັນລະຫັດຜ່ານ"
+
+#: blog/templates/blog/blog_detail.html:434
+msgid "5 min read"
+msgstr "5 min read"
+
+#: blog/templates/blog/blog_detail.html:462
+msgid "Tags"
+msgstr "Tags"
+
+#: blog/templates/blog/blog_detail.html:475
+msgid "About the Author"
+msgstr "About the Author"
+
+#: blog/templates/blog/blog_detail.html:490
+#, python-format
+msgid "Comments (%(count)s)"
+msgstr "Comments (%(count)s)"
+
+#: blog/templates/blog/blog_detail.html:499
+msgid "Leave a comment"
+msgstr "Leave a comment"
+
+#: blog/templates/blog/blog_detail.html:504
+msgid "Share your thoughts..."
+msgstr "Share your thoughts..."
+
+#: blog/templates/blog/blog_detail.html:510
+msgid "Post Comment"
+msgstr "Post Comment"
+
+#: blog/templates/blog/blog_detail.html:517
+msgid "Sign in to join the conversation"
+msgstr "Sign in to join the conversation"
+
+#: blog/templates/blog/blog_detail.html:521
+#: events/templates/events/event_detail.html:228
+msgid "Sign In"
+msgstr "Sign In"
+
+#: blog/templates/blog/blog_detail.html:551
+msgid "No comments yet. Be the first to share your thoughts!"
+msgstr "No comments yet. Be the first to share your thoughts!"
+
+#: blog/templates/blog/blog_detail.html:561
+#: docs/templates/docs/doc_detail.html:312
+msgid "On this page"
+msgstr "On this page"
+
+#: blog/templates/blog/blog_detail.html:590
+#: blog/templates/blog/blog_detail.html:602
+msgid "Copy"
+msgstr "Copy"
+
+#: blog/templates/blog/blog_detail.html:598
+msgid "Copied!"
+msgstr "Copied!"
+
+#: blog/templates/blog/category_posts.html:32 templates/index.html:680
+msgid "ອ່ານຕໍ່"
+msgstr "ອ່ານຕໍ່"
+
+#: blog/templates/blog/category_posts.html:39
+msgid "ບໍ່ມີບົດຄວາມໃນໝວດໝູ່ນີ້"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: blog/templates/blog/category_posts.html:45
+msgid "ກັບໄປໜ້າຫລັກ"
+msgstr "ກັບໄປໜ້າຫລັກ"
+
+#: blog/templates/blog/create_post.html:11
+msgid "ສ້າງບົດຄວາມໃໝ່"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: blog/templates/blog/create_post.html:12
+msgid "ແບ່ງປັນຄວາມຮູ້ ແລະ ປະສົບການຂອງທ່ານກັບຊຸມຊົນ Python ລາວ"
+msgstr "ແບ່ງປັນຄວາມຮູ້ ແລະ ປະສົບການຂອງທ່ານກັບຊຸມຊົນ Python ລາວ"
+
+#: blog/templates/blog/create_post.html:23
+msgid "ຫົວຂໍ້ບົດຄວາມ"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: blog/templates/blog/create_post.html:27
+msgid "ຕົວຢ່າງ: Python Programming: ຄູ່ມືສຳລັບຜູ້ເລີ່ມຕົ້ນ"
+msgstr "ຕົວຢ່າງ: Python Programming: ຄູ່ມືສຳລັບຜູ້ເລີ່ມຕົ້ນ"
+
+#: blog/templates/blog/create_post.html:39
+msgid "ໃຊ້ຕົວອັກສອນພາສາອັງກິດຕົວນ້ອຍ, ຕົວເລກ ແລະ ເຄື່ອງໝາຍ \\"
+msgstr "ໃຊ້ຕົວອັກສອນພາສາອັງກິດຕົວນ້ອຍ, ຕົວເລກ ແລະ ເຄື່ອງໝາຍ \\"
+
+#: blog/templates/blog/create_post.html:46
+msgid "ປະເພດບົດຄວາມ"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: blog/templates/blog/create_post.html:57
+msgid "ສະຫຼຸບຫຍໍ້"
+msgstr "ສະຫຼຸບຫຍໍ້"
+
+#: blog/templates/blog/create_post.html:67
+msgid "ໝວດໝູ່"
+msgstr "ໝວດໝູ່:"
+
+#: blog/templates/blog/create_post.html:77
+msgid "ສະຖານະ"
+msgstr "ສະຖານະ"
+
+#: blog/templates/blog/create_post.html:88
+msgid "ຮູບປົກ"
+msgstr "ຮູບປົກ"
+
+#: blog/templates/blog/create_post.html:94
+msgid "ເລືອກຮູບພາບ"
+msgstr "ເລືອກຮູບພາບ"
+
+#: blog/templates/blog/create_post.html:96
+msgid "ຍັງບໍ່ໄດ້ເລືອກໄຟລ໌"
+msgstr "ຍັງບໍ່ໄດ້ເລືອກໄຟລ໌"
+
+#: blog/templates/blog/create_post.html:102
+msgid "ແທັກ"
+msgstr "ແທັກ"
+
+#: blog/templates/blog/create_post.html:116
+#: courses/templates/courses/lesson_detail.html:445
+msgid "ເນື້ອຫາ"
+msgstr "ເນື້ອຫາ"
+
+#: blog/templates/blog/create_post.html:126
+msgid "ຫົວຂໍ້ໃຫຍ່"
+msgstr "ຫົວຂໍ້ໃຫຍ່"
+
+#: blog/templates/blog/create_post.html:129
+msgid "ຫົວຂໍ້ຍ່ອຍ"
+msgstr "ຫົວຂໍ້ຍ່ອຍ"
+
+#: blog/templates/blog/create_post.html:142
+#: blog/templates/blog/edit_post.html:73
+#: courses/templates/courses/enroll_course.html:128
+msgid "ຍົກເລີກ"
+msgstr "ຍົກເລີກ"
+
+#: blog/templates/blog/create_post.html:147
+msgid "ເຜີຍແຜ່ບົດຄວາມ"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: blog/templates/blog/create_post.html:158
+msgid "ໃຊ້ຫົວຂໍ້ທີ່ຊັດເຈນ ແລະ ໜ້າສົນໃຈ"
+msgstr "ໃຊ້ຫົວຂໍ້ທີ່ຊັດເຈນ ແລະ ໜ້າສົນໃຈ"
+
+#: blog/templates/blog/create_post.html:166
+msgid "ໃຊ້ຕົວຢ່າງໂຄ້ດເພື່ອສະແດງໃຫ້ເຫັນແນວຄວາມຄິດ"
+msgstr "ໃຊ້ຕົວຢ່າງໂຄ້ດເພື່ອສະແດງໃຫ້ເຫັນແນວຄວາມຄິດ"
+
+#: blog/templates/blog/create_post.html:170
+msgid "ເພີ່ມຮູບປົກເພື່ອດຶງດູດຄວາມສົນໃຈ"
+msgstr "ເພີ່ມຮູບປົກເພື່ອດຶງດູດຄວາມສົນໃຈ"
+
+#: blog/templates/blog/create_post.html:174
+msgid "ໃຊ້ແທັກທີ່ກ່ຽວຂ້ອງເພື່ອໃຫ້ຜູ້ອ່ານຊອກຫາໄດ້ງ່າຍ"
+msgstr "ໃຊ້ແທັກທີ່ກ່ຽວຂ້ອງເພື່ອໃຫ້ຜູ້ອ່ານຊອກຫາໄດ້ງ່າຍ"
+
+#: blog/templates/blog/edit_post.html:34
+#: courses/templates/courses/course_list.html:51
+msgid "ໝວດໝູ່:"
+msgstr "ໝວດໝູ່:"
+
+#: blog/templates/blog/edit_post.html:71
+msgid "ອັບເດດ"
+msgstr "ອັບເດດ"
+
+#: blog/templates/blog/post_detail.html:93
+msgid "Comments"
+msgstr "ຊຸມຊົນ"
+
+#: blog/templates/blog/post_detail.html:96
+msgid "Share"
+msgstr "Share"
+
+#: blog/templates/blog/post_detail.html:99
+msgid "Save"
+msgstr "Save"
+
+#: blog/templates/blog/post_detail.html:107
+msgid "Comment as"
+msgstr "ຊຸມຊົນ"
+
+#: blog/templates/blog/post_detail.html:110
+#: community/templates/community/topic_detail.html:130
+msgid "What are your thoughts?"
+msgstr "What are your thoughts?"
+
+#: blog/templates/blog/post_detail.html:112
+msgid "Comment"
+msgstr "ຊຸມຊົນ"
+
+#: blog/templates/blog/post_detail.html:118
+msgid "Log in or sign up to leave a comment"
+msgstr "Log in or sign up to leave a comment"
+
+#: blog/templates/blog/post_detail.html:120
+#: community/templates/community/topic_detail.html:141
+msgid "Log In"
+msgstr "Log In"
+
+#: blog/templates/blog/post_detail.html:121
+msgid "Sign Up"
+msgstr "Sign Up"
+
+#: blog/templates/blog/post_detail.html:142
+msgid "Reply"
+msgstr "Reply"
+
+#: blog/templates/blog/post_detail.html:147
+msgid "No comments yet. Be the first to share what you think!"
+msgstr "No comments yet. Be the first to share what you think!"
+
+#: blog/templates/blog/post_list.html:11
+msgid "Discover."
+msgstr "Discover."
+
+#: blog/templates/blog/post_list.html:14
+msgid "The latest updates, discussions, and articles from the community."
+msgstr "The latest updates, discussions, and articles from the community."
+
+#: blog/templates/blog/post_list.html:110
+msgid "No posts published yet"
+msgstr "No posts published yet"
+
+#: blog/templates/blog/post_list.html:111
+msgid "Check back later for new content."
+msgstr "Check back later for new content."
+
+#: blog/templates/blog/post_list.html:123
+#: community/templates/community/topic_list.html:136
+#: docs/templates/docs/doc_detail.html:293
+#: events/templates/events/event_list.html:60
+msgid "Previous"
+msgstr "Previous"
+
+#: blog/templates/blog/post_list.html:128
+#: events/templates/events/event_list.html:64
+#, python-format
+msgid "Page %(num)s of %(total)s"
+msgstr "Page %(num)s of %(total)s"
+
+#: blog/templates/blog/post_list.html:133
+#: community/templates/community/topic_list.html:140
+#: docs/templates/docs/doc_detail.html:302
+#: events/templates/events/event_list.html:68
+msgid "Next"
+msgstr "Next"
+
+#: community/templates/community/topic_detail.html:52 templates/base.html:171
+#: templates/base.html:290
+msgid "Community"
+msgstr "ຊຸມຊົນ"
+
+#: community/templates/community/topic_detail.html:66
+#: community/templates/community/topic_list.html:85
+msgid "Pinned"
+msgstr "Pinned"
+
+#: community/templates/community/topic_detail.html:69
+#: community/templates/community/topic_list.html:88
+msgid "Solved"
+msgstr "Solved"
+
+#: community/templates/community/topic_detail.html:86
+#: community/templates/community/topic_list.html:113
+msgid "views"
+msgstr "views"
+
+#: community/templates/community/topic_detail.html:87
+#: community/templates/community/topic_list.html:109
+msgid "replies"
+msgstr "replies"
+
+#: community/templates/community/topic_detail.html:95
+#: community/templates/community/topic_list.html:48
+msgid "Replies"
+msgstr "Replies"
+
+#: community/templates/community/topic_detail.html:102
+msgid "Accepted Answer"
+msgstr "Accepted Answer"
+
+#: community/templates/community/topic_detail.html:126
+msgid "Post a Reply"
+msgstr "Post a Reply"
+
+#: community/templates/community/topic_detail.html:133
+msgid "Submit Reply"
+msgstr "Submit Reply"
+
+#: community/templates/community/topic_detail.html:139
+msgid "Please log in to join the discussion."
+msgstr "Please log in to join the discussion."
+
+#: community/templates/community/topic_form.html:4
+msgid "Create Topic - Community"
+msgstr "Create Topic - Community"
+
+#: community/templates/community/topic_form.html:11
+msgid "Create New Topic"
+msgstr "Create New Topic"
+
+#: community/templates/community/topic_form.html:12
+msgid "Start a discussion with the community"
+msgstr "Start a discussion with the community"
+
+#: community/templates/community/topic_form.html:20
+msgid "Topic Title"
+msgstr "Topic Title"
+
+#: community/templates/community/topic_form.html:21
+msgid "What's on your mind?"
+msgstr "What's on your mind?"
+
+#: community/templates/community/topic_form.html:26
+msgid "Category"
+msgstr "Category"
+
+#: community/templates/community/topic_form.html:28
+msgid "Select a category"
+msgstr "Select a category"
+
+#: community/templates/community/topic_form.html:37
+msgid "Content"
+msgstr "Content"
+
+#: community/templates/community/topic_form.html:38
+msgid "Describe your topic in detail..."
+msgstr "Describe your topic in detail..."
+
+#: community/templates/community/topic_form.html:42
+#: events/templates/events/event_purchase.html:73
+msgid "Cancel"
+msgstr "ຍົກເລີກ"
+
+#: community/templates/community/topic_form.html:44
+msgid "Post Topic"
+msgstr "Post Topic"
+
+#: community/templates/community/topic_list.html:5
+msgid "Community - Python for Laos"
+msgstr "Community - Python for Laos"
+
+#: community/templates/community/topic_list.html:16
+#: community/templates/community/topic_list.html:59
+msgid "ສ້າງຫົວຂໍ້ໃໝ່"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: community/templates/community/topic_list.html:21
+msgid "Categories"
+msgstr "Categories"
+
+#: community/templates/community/topic_list.html:25
+msgid "All Topics"
+msgstr "All Topics"
+
+#: community/templates/community/topic_list.html:42
+msgid "Stats"
+msgstr "Stats"
+
+#: community/templates/community/topic_list.html:44
+msgid "Topics"
+msgstr "Topics"
+
+#: community/templates/community/topic_list.html:65
+msgid "Recent Discussions"
+msgstr "Recent Discussions"
+
+#: community/templates/community/topic_list.html:67
+msgid "Search topics..."
+msgstr "Search topics..."
+
+#: community/templates/community/topic_list.html:122
+msgid "No topics found"
+msgstr "No topics found"
+
+#: community/templates/community/topic_list.html:123
+msgid "Be the first to start a conversation!"
+msgstr "Be the first to start a conversation!"
+
+#: community/templates/community/topic_list.html:125
+msgid "Start a Discussion"
+msgstr "Start a Discussion"
+
+#: community/templates/community/topic_list.html:138
+msgid "Page"
+msgstr "Page"
+
+#: community/templates/community/topic_list.html:138
+msgid "of"
+msgstr "of"
+
+#: core/settings/base.py:116
+msgid "Lao"
+msgstr "ລາວ"
+
+#: core/settings/base.py:117
+msgid "Thai"
+msgstr "ໄທ"
+
+#: core/settings/base.py:118
+msgid "English"
+msgstr "ອັງກິດ"
+
+#: core/settings/base.py:119
+msgid "Chinese"
+msgstr "ຈີນ"
+
+#: courses/templates/courses/course_detail.html:60
+msgid "Home"
+msgstr "Home"
+
+#: courses/templates/courses/course_detail.html:67 templates/base.html:174
+#: templates/base.html:293
+msgid "Courses"
+msgstr "ຄອດສຶກສາ"
+
+#: courses/templates/courses/course_detail.html:90
+#: events/templates/events/event_detail.html:145
+#: events/templates/events/includes/event_card.html:23
+msgid "FREE"
+msgstr "FREE"
+
+#: courses/templates/courses/course_detail.html:92
+msgid "PREMIUM"
+msgstr "PREMIUM"
+
+#: courses/templates/courses/course_detail.html:115
+msgid "ສອນໂດຍ"
+msgstr "ສອນໂດຍ"
+
+#: courses/templates/courses/course_detail.html:119
+msgid "ຜູ້ຮຽນ"
+msgstr "ຜູ້ຮຽນ"
+
+#: courses/templates/courses/course_detail.html:129
+msgid "ຣີວິວ"
+msgstr "ຣີວິວ"
+
+#: courses/templates/courses/course_detail.html:133
+msgid "ອັບເດດລ່າສຸດ:"
+msgstr "ອັບເດດລ່າສຸດ:"
+
+#: courses/templates/courses/course_detail.html:150
+msgid "ສິ່ງທີ່ທ່ານຈະໄດ້ຮຽນຮູ້"
+msgstr "ສິ່ງທີ່ທ່ານຈະໄດ້ຮຽນຮູ້"
+
+#: courses/templates/courses/course_detail.html:164
+msgid "ລາຍລະອຽດຄອດສຶກສາ"
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/course_detail.html:171
+msgid "ເນື້ອຫາບົດຮຽນ"
+msgstr "ບົດຮຽນ"
+
+#: courses/templates/courses/course_detail.html:173
+msgid "ພາກ"
+msgstr "ອອກ"
+
+#: courses/templates/courses/course_detail.html:174
+#: courses/templates/courses/course_detail.html:323
+#: courses/templates/courses/course_list.html:149
+#: courses/templates/courses/enroll_course.html:75
+#: courses/templates/courses/lesson_detail.html:343
+#: courses/templates/courses/lesson_detail.html:363
+#: courses/templates/courses/lesson_detail.html:491
+#: courses/templates/courses/lesson_detail.html:502
+#: courses/templates/courses/my_courses.html:141 templates/index.html:286
+#: templates/index.html:490
+msgid "ບົດຮຽນ"
+msgstr "ບົດຮຽນ"
+
+#: courses/templates/courses/course_detail.html:175
+msgid "ຊົ່ວໂມງ"
+msgstr "ຊົ່ວໂມງ"
+
+#: courses/templates/courses/course_detail.html:190
+#: courses/templates/courses/instructor_profile.html:173
+msgid "ບົດ"
+msgstr "ຟຣີ"
+
+#: courses/templates/courses/course_detail.html:214
+msgid "m"
+msgstr "m"
+
+#: courses/templates/courses/course_detail.html:230
+msgid "ຄວາມຕ້ອງການເບື້ອງຕົ້ນ"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: courses/templates/courses/course_detail.html:256
+msgid "Preview Course"
+msgstr "Preview Course"
+
+#: courses/templates/courses/course_detail.html:266
+msgid "Your browser does not support the video tag."
+msgstr "Your browser does not support the video tag."
+
+#: courses/templates/courses/course_detail.html:283
+#: courses/templates/courses/instructor_profile.html:197
+#: courses/templates/courses/pricing.html:56
+#: courses/templates/courses/pricing.html:383 templates/index.html:294
+#: templates/index.html:476
+msgid "ຟຣີ"
+msgstr "ຟຣີ"
+
+#: courses/templates/courses/course_detail.html:297
+msgid "ເຂົ້າຮຽນຕໍ່"
+msgstr "ເຂົ້າສູ່ລະບົບ"
+
+#: courses/templates/courses/course_detail.html:303
+#: courses/templates/courses/pricing.html:124
+msgid "ລົງທະບຽນຮຽນຟຣີ"
+msgstr "ລົງທະບຽນ"
+
+#: courses/templates/courses/course_detail.html:303
+msgid "ຊື້ຄອດສຶກສານີ້"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: courses/templates/courses/course_detail.html:309
+msgid "ຮັບປະກັນຄືນເງິນພາຍໃນ 30 ວັນ"
+msgstr "ຮັບປະກັນຄືນເງິນພາຍໃນ 30 ວັນ"
+
+#: courses/templates/courses/course_detail.html:315
+msgid "ຄອດສຶກສານີ້ປະກອບດ້ວຍ:"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: courses/templates/courses/course_detail.html:319
+msgid "ຊົ່ວໂມງ ວິດີໂອ"
+msgstr "ຊົ່ວໂມງ ວິດີໂອ"
+
+#: courses/templates/courses/course_detail.html:327
+msgid "ຮອງຮັບການຮຽນຜ່ານມືຖື"
+msgstr "ຮອງຮັບການຮຽນຜ່ານມືຖື"
+
+#: courses/templates/courses/course_detail.html:331
+msgid "ເຂົ້າເຖິງໄດ້ຕະຫຼອດຊີວິດ"
+msgstr "ເຂົ້າເຖິງໄດ້ຕະຫຼອດຊີວິດ"
+
+#: courses/templates/courses/course_list.html:32
+msgid "ຄົ້ນຫາຄອດສຶກສາ..."
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/course_list.html:55
+#: courses/templates/courses/course_list.html:74
+#: courses/templates/courses/my_courses.html:32
+#: courses/templates/courses/my_courses.html:87
+msgid "ທັງໝົດ"
+msgstr "ທັງໝົດ"
+
+#: courses/templates/courses/course_list.html:70
+msgid "ລະດັບ:"
+msgstr "ລະດັບ:"
+
+#: courses/templates/courses/course_list.html:78
+#: courses/templates/courses/course_list.html:159
+msgid "ພື້ນຖານ"
+msgstr "ພື້ນຖານ"
+
+#: courses/templates/courses/course_list.html:82
+#: courses/templates/courses/course_list.html:159
+msgid "ປານກາງ"
+msgstr "ປານກາງ"
+
+#: courses/templates/courses/course_list.html:86
+#: courses/templates/courses/course_list.html:159
+msgid "ຂັ້ນສູງ"
+msgstr "ຂັ້ນສູງ"
+
+#: courses/templates/courses/course_list.html:170
+msgid "ບໍ່ພົບຂໍ້ມູນ"
+msgstr "ບໍ່ພົບຂໍ້ມູນ"
+
+#: courses/templates/courses/course_list.html:171
+msgid "ລອງປ່ຽນເງື່ອນໄຂການຄົ້ນຫາໃໝ່"
+msgstr "ລອງປ່ຽນເງື່ອນໄຂການຄົ້ນຫາໃໝ່"
+
+#: courses/templates/courses/course_list.html:172
+msgid "ລ້າງຕົວກອງທັງໝົດ"
+msgstr "ລ້າງຕົວກອງທັງໝົດ"
+
+#: courses/templates/courses/course_list.html:188
+msgid "ໜ້າ"
+msgstr "ໜ້າ"
+
+#: courses/templates/courses/enroll_course.html:21
+msgid "ລົງທະບຽນຄອດສຶກສາ"
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/enroll_course.html:79
+#: courses/templates/courses/pricing.html:226
+msgid "ໄລຍະເວລາ"
+msgstr "ໄລຍະເວລາ"
+
+#: courses/templates/courses/enroll_course.html:83
+msgid "ລະດັບ"
+msgstr "ລະດັບ:"
+
+#: courses/templates/courses/enroll_course.html:87
+#: courses/templates/courses/instructor_profile.html:54
+#: templates/index.html:290
+msgid "ນັກຮຽນ"
+msgstr "ນັກຮຽນ"
+
+#: courses/templates/courses/enroll_course.html:95
+#: courses/templates/courses/pricing.html:214
+msgid "ລາຄາ"
+msgstr "ລາຄາ"
+
+#: courses/templates/courses/enroll_course.html:114
+#: templates/auth/register.html:111
+msgid "ຂ້ອຍຍອມຮັບ"
+msgstr "ຂ້ອຍຍອມຮັບ"
+
+#: courses/templates/courses/enroll_course.html:114
+#: templates/auth/register.html:111 templates/base.html:432
+msgid "ເງື່ອນໄຂການໃຊ້ງານ"
+msgstr "ເງື່ອນໄຂການໃຊ້ງານ"
+
+#: courses/templates/courses/enroll_course.html:114
+#: templates/auth/register.html:111
+msgid "ແລະ"
+msgstr "ແລະ"
+
+#: courses/templates/courses/enroll_course.html:114
+#: templates/auth/register.html:111 templates/base.html:431
+msgid "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: courses/templates/courses/enroll_course.html:124
+msgid "ຢືນຢັນການລົງທະບຽນ"
+msgstr "ລົງທະບຽນ"
+
+#: courses/templates/courses/enroll_course.html:143 templates/base.html:430
+msgid "ຕິດຕໍ່ພວກເຮົາ"
+msgstr "ຕິດຕໍ່ພວກເຮົາ"
+
+#: courses/templates/courses/instructor_profile.html:48
+#: courses/templates/courses/lesson_detail.html:143
+msgid "ຄອດສຶກສາ"
+msgstr "ຄອດສຶກສາ"
+
+#: courses/templates/courses/instructor_profile.html:61
+msgid "ຄະແນນ"
+msgstr "ຄະແນນ"
+
+#: courses/templates/courses/instructor_profile.html:73
+msgid "ເວັບໄຊ"
+msgstr "ເວັບໄຊ"
+
+#: courses/templates/courses/instructor_profile.html:110
+msgid "ກ່ຽວກັບຜູ້ສອນ"
+msgstr "ກ່ຽວກັບຜູ້ສອນ"
+
+#: courses/templates/courses/instructor_profile.html:200
+msgid "ເບິ່ງລາຍລະອຽດ"
+msgstr "ເບິ່ງລາຍລະອຽດ"
+
+#: courses/templates/courses/instructor_profile.html:211
+msgid "ຍັງບໍ່ມີຄອດສຶກສາ"
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/instructor_profile.html:221
+msgid "ສະຖິຕິ"
+msgstr "ສະຖິຕິ"
+
+#: courses/templates/courses/instructor_profile.html:230
+msgid "ຄອດສຶກສາທັງໝົດ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: courses/templates/courses/instructor_profile.html:242
+msgid "ນັກຮຽນທັງໝົດ"
+msgstr "ລ້າງຕົວກອງທັງໝົດ"
+
+#: courses/templates/courses/instructor_profile.html:255
+msgid "ຄະແນນສະເລ່ຍ"
+msgstr "ຄະແນນສະເລ່ຍ"
+
+#: courses/templates/courses/instructor_profile.html:268
+msgid "ເຂົ້າຮ່ວມວັນທີ"
+msgstr "ເຂົ້າສູ່ລະບົບ"
+
+#: courses/templates/courses/instructor_profile.html:281
+msgid "ຄວາມຊ່ຽວຊານ"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: courses/templates/courses/instructor_profile.html:295
+#: templates/auth/register.html:19
+msgid "ເລີ່ມການເດີນທາງຮຽນ Python ຂອງທ່ານວັນນີ້"
+msgstr "ເລີ່ມການເດີນທາງຮຽນ Python ຂອງທ່ານວັນນີ້"
+
+#: courses/templates/courses/instructor_profile.html:296
+#: courses/templates/courses/my_courses.html:175
+#: courses/templates/courses/pricing.html:420
+msgid "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: courses/templates/courses/lesson_detail.html:163
+msgid "ບົດທີ"
+msgstr "ບົດທີ"
+
+#: courses/templates/courses/lesson_detail.html:169
+msgid "ນາທີ"
+msgstr "ນາທີ"
+
+#: courses/templates/courses/lesson_detail.html:183
+msgid "ໝາຍວ່າສຳເລັດ"
+msgstr "ສຳເລັດ"
+
+#: courses/templates/courses/lesson_detail.html:191
+#: courses/templates/courses/my_courses.html:46
+#: courses/templates/courses/my_courses.html:89
+msgid "ສຳເລັດແລ້ວ"
+msgstr "ສຳເລັດ"
+
+#: courses/templates/courses/lesson_detail.html:217
+msgid "ບຼາວເຊີຂອງທ່ານບໍ່ຮອງຮັບວິດີໂອ."
+msgstr "ບຼາວເຊີຂອງທ່ານບໍ່ຮອງຮັບວິດີໂອ."
+
+#: courses/templates/courses/lesson_detail.html:244
+msgid "ແບບທົດສອບ"
+msgstr "ແບບທົດສອບ"
+
+#: courses/templates/courses/lesson_detail.html:245
+msgid "ທົດສອບຄວາມເຂົ້າໃຈຂອງທ່ານ"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: courses/templates/courses/lesson_detail.html:249
+msgid "ຟັງຊັນແບບທົດສອບຈະພັດທະນາໃນເວີຊັນຕໍ່ໄປ"
+msgstr "ຟັງຊັນແບບທົດສອບຈະພັດທະນາໃນເວີຊັນຕໍ່ໄປ"
+
+#: courses/templates/courses/lesson_detail.html:251
+msgid "ເລີ່ມແບບທົດສອບ"
+msgstr "ເລີ່ມແບບທົດສອບ"
+
+#: courses/templates/courses/lesson_detail.html:267 templates/index.html:610
+msgid "ເອກະສານປະກອບ"
+msgstr "ເອກະສານປະກອບ"
+
+#: courses/templates/courses/lesson_detail.html:268
+msgid "ດາວໂຫຼດເອກະສານປະກອບການຮຽນ"
+msgstr "ດາວໂຫຼດເອກະສານປະກອບການຮຽນ"
+
+#: courses/templates/courses/lesson_detail.html:270
+msgid "ດາວໂຫຼດ"
+msgstr "ດາວໂຫຼດ"
+
+#: courses/templates/courses/lesson_detail.html:284
+msgid "ກ່ອນໜ້າ"
+msgstr "ກ່ອນໜ້າ"
+
+#: courses/templates/courses/lesson_detail.html:299
+msgid "ຕໍ່ໄປ"
+msgstr "ຕໍ່ໄປ"
+
+#: courses/templates/courses/lesson_detail.html:311
+msgid "ສຳເລັດຄອດສຶກສາ"
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/lesson_detail.html:312
+msgid "ກັບໄປໜ້າຄອດສຶກສາ"
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/lesson_detail.html:336
+#: courses/templates/courses/lesson_detail.html:484
+#: courses/templates/courses/my_courses.html:74
+#: courses/templates/courses/my_courses.html:134
+msgid "ຄວາມຄືບໜ້າ"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: courses/templates/courses/lesson_detail.html:353
+#: courses/templates/courses/lesson_detail.html:471
+msgid "ເນື້ອຫາຄອດສຶກສາ"
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/lesson_detail.html:406 templates/base.html:409
+msgid "ວິດີໂອ"
+msgstr "ວິດີໂອ"
+
+#: courses/templates/courses/lesson_detail.html:418 templates/base.html:407
+msgid "ເອກະສານ"
+msgstr "ເອກະສານ"
+
+#: courses/templates/courses/lesson_detail.html:454
+msgid "ສຳເລັດ"
+msgstr "ສຳເລັດ"
+
+#: courses/templates/courses/my_courses.html:12
+msgid "ຄອດສຶກສາຂອງຂ້ອຍ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: courses/templates/courses/my_courses.html:13
+msgid "ຕິດຕາມຄວາມຄືບໜ້າການຮຽນຂອງທ່ານ"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: courses/templates/courses/my_courses.html:60
+#: courses/templates/courses/my_courses.html:88
+#: courses/templates/courses/my_courses.html:117
+msgid "ກຳລັງຮຽນ"
+msgstr "ກຳລັງຮຽນ"
+
+#: courses/templates/courses/my_courses.html:171
+msgid "ທ່ານຍັງບໍ່ໄດ້ລົງທະບຽນຄອດສຶກສາໃດໆ"
+msgstr "ທ່ານຍັງບໍ່ໄດ້ລົງທະບຽນຄອດສຶກສາໃດໆ"
+
+#: courses/templates/courses/my_courses.html:172
+msgid "ເລີ່ມການເດີນທາງຮຽນຂອງທ່ານດ້ວຍຄອດສຶກສາຟຣີຂອງພວກເຮົາ"
+msgstr "ເລີ່ມການເດີນທາງຮຽນຂອງທ່ານດ້ວຍຄອດສຶກສາຟຣີຂອງພວກເຮົາ"
+
+#: courses/templates/courses/my_courses.html:174
+msgid "ເບິ່ງຄອດສຶກສາຟຣີ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: courses/templates/courses/pricing.html:12
+msgid "ເລືອກແຜນທີ່ເໝາະກັບທ່ານ"
+msgstr "ເລືອກແຜນທີ່ເໝາະກັບທ່ານ"
+
+#: courses/templates/courses/pricing.html:13
+msgid "ເລີ່ມຮຽນ Python ແລະ Django ດ້ວຍແຜນການທີ່ຍືດຫຍຸ່ນ ແລະ ລາຄາທີ່ເໝາະສົມ"
+msgstr "ເລີ່ມຮຽນ Python ແລະ Django ດ້ວຍແຜນການທີ່ຍືດຫຍຸ່ນ ແລະ ລາຄາທີ່ເໝາະສົມ"
+
+#: courses/templates/courses/pricing.html:18
+msgid "ທົດລອງຟຣີ 7 ວັນ ສຳລັບທຸກແຜນການ"
+msgstr "ທົດລອງຟຣີ 7 ວັນ ສຳລັບທຸກແຜນການ"
+
+#: courses/templates/courses/pricing.html:116 templates/index.html:556
+msgid "ເລີ່ມຮຽນຟຣີ"
+msgstr "ເລີ່ມຮຽນຟຣີ"
+
+#: courses/templates/courses/pricing.html:134
+msgid "ເລືອກຄອດສຶກສາ"
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/pricing.html:142
+msgid "ລົງທະບຽນເພື່ອຊື້"
+msgstr "ລົງທະບຽນ"
+
+#: courses/templates/courses/pricing.html:152
+msgid "ເລີ່ມຕົ້ນຮຽນຮູ້"
+msgstr "ເລີ່ມຕົ້ນຮຽນຮູ້"
+
+#: courses/templates/courses/pricing.html:160
+msgid "ລົງທະບຽນເລີ່ມຕົ້ນ"
+msgstr "ລົງທະບຽນ"
+
+#: courses/templates/courses/pricing.html:167
+msgid "ເຂົ້າເຖິງຄອດສຶກສາທັງໝົດ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: courses/templates/courses/pricing.html:180
+msgid "ຍັງບໍ່ມີແຜນລາຄາ"
+msgstr "ຍັງບໍ່ມີແຜນລາຄາ"
+
+#: courses/templates/courses/pricing.html:181
+msgid "ກະລຸນາກັບມາໃໝ່ໃນພາຍຫຼັງ"
+msgstr "ກະລຸນາກັບມາໃໝ່ໃນພາຍຫຼັງ"
+
+#: courses/templates/courses/pricing.html:192
+msgid "ປຽບທຽບແຜນການ"
+msgstr "ປຽບທຽບແຜນການ"
+
+#: courses/templates/courses/pricing.html:193
+msgid "ເລືອກແຜນທີ່ເໝາະສົມກັບເປົ້າໝາຍການຮຽນຂອງທ່ານ"
+msgstr "ເລືອກແຜນທີ່ເໝາະສົມກັບເປົ້າໝາຍການຮຽນຂອງທ່ານ"
+
+#: courses/templates/courses/pricing.html:201
+msgid "ຄຸນສົມບັດ"
+msgstr "ຄຸນສົມບັດ"
+
+#: courses/templates/courses/pricing.html:244
+msgid "ເຂົ້າເຖິງຄອດສຶກສາ"
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: courses/templates/courses/pricing.html:260
+msgid "ໃບຢັ້ງຢືນ"
+msgstr "ໃບຢັ້ງຢືນ"
+
+#: courses/templates/courses/pricing.html:278
+msgid "ການສະໜັບສະໜູນ"
+msgstr "ການສະໜັບສະໜູນ"
+
+#: courses/templates/courses/pricing.html:299
+msgid "ເລີ່ມຕົ້ນ"
+msgstr "ເລີ່ມຕົ້ນ"
+
+#: courses/templates/courses/pricing.html:301
+#: courses/templates/courses/pricing.html:307
+#: courses/templates/courses/pricing.html:313 templates/auth/register.html:6
+#: templates/base.html:264 templates/base.html:337 templates/index.html:528
+msgid "ລົງທະບຽນ"
+msgstr "ລົງທະບຽນ"
+
+#: courses/templates/courses/pricing.html:305
+msgid "ເລືອກຄອດ"
+msgstr "ເລືອກຄອດ"
+
+#: courses/templates/courses/pricing.html:311
+msgid "ເລີ່ມທົດລອງ"
+msgstr "ເລີ່ມທົດລອງ"
+
+#: courses/templates/courses/pricing.html:362
+msgid "ຄອດສຶກສາແນະນຳ"
+msgstr "ຄອດສຶກສາ"
+
+#: courses/templates/courses/pricing.html:363
+msgid "ເລີ່ມຮຽນດ້ວຍຄອດສຶກສາທີ່ດີທີ່ສຸດຂອງພວກເຮົາ"
+msgstr "ເລີ່ມຮຽນດ້ວຍຄອດສຶກສາທີ່ດີທີ່ສຸດຂອງພວກເຮົາ"
+
+#: courses/templates/courses/pricing.html:430
+msgid "ຄຳຖາມທີ່ພົບເລື້ອຍ"
+msgstr "ຄຳຖາມທີ່ພົບເລື້ອຍ"
+
+#: courses/templates/courses/pricing.html:431
+msgid "ຄຳຕອບສຳລັບຄຳຖາມທີ່ພົບເລື້ອຍ"
+msgstr "ຄຳຕອບສຳລັບຄຳຖາມທີ່ພົບເລື້ອຍ"
+
+#: courses/templates/courses/pricing.html:509
+#: courses/templates/courses/pricing.html:511
+msgid "ເລີ່ມຟຣີ"
+msgstr "ເລີ່ມຟຣີ"
+
+#: courses/templates/courses/pricing.html:514
+msgid "ເບິ່ງຄອດສຶກສາ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: docs/templates/docs/doc_detail.html:190
+msgid "Getting Started"
+msgstr "Getting Started"
+
+#: docs/templates/docs/doc_detail.html:232 templates/base.html:177
+#: templates/base.html:296
+msgid "Docs"
+msgstr "ເອກະສານ"
+
+#: docs/templates/docs/doc_detail.html:285
+msgid "Diagram:"
+msgstr "Diagram:"
+
+#: docs/templates/docs/doc_list.html:12
+msgid "Documentation"
+msgstr "Documentation"
+
+#: docs/templates/docs/doc_list.html:15
+msgid ""
+"Everything you need to learn Python and Django development. From beginner "
+"guides to advanced topics."
+msgstr ""
+"Everything you need to learn Python and Django development. From beginner "
+"guides to advanced topics."
+
+#: events/templates/events/event_detail.html:84
+msgid "Online Event"
+msgstr "Online Event"
+
+#: events/templates/events/event_detail.html:98
+msgid "About this Event"
+msgstr "About this Event"
+
+#: events/templates/events/event_detail.html:107
+msgid "Agenda"
+msgstr "Agenda"
+
+#: events/templates/events/event_detail.html:117
+msgid "Requirements"
+msgstr "Requirements"
+
+#: events/templates/events/event_detail.html:142
+msgid "Price"
+msgstr "Price"
+
+#: events/templates/events/event_detail.html:158
+msgid "Payment Pending"
+msgstr "Payment Pending"
+
+#: events/templates/events/event_detail.html:160
+msgid "Please complete your payment to confirm your registration."
+msgstr "Please complete your payment to confirm your registration."
+
+#: events/templates/events/event_detail.html:162
+msgid "Complete Payment"
+msgstr "Complete Payment"
+
+#: events/templates/events/event_detail.html:167
+msgid "You are registered!"
+msgstr "You are registered!"
+
+#: events/templates/events/event_detail.html:170
+msgid "View Ticket"
+msgstr "View Ticket"
+
+#: events/templates/events/event_detail.html:173
+msgid "Registration Cancelled"
+msgstr "Registration Cancelled"
+
+#: events/templates/events/event_detail.html:177
+msgid "Status:"
+msgstr "Status:"
+
+#: events/templates/events/event_detail.html:189
+msgid "Your Notes:"
+msgstr "Your Notes:"
+
+#: events/templates/events/event_detail.html:198
+msgid "Register Again"
+msgstr "Register Again"
+
+#: events/templates/events/event_detail.html:205
+msgid "Cancel Registration"
+msgstr "Cancel Registration"
+
+#: events/templates/events/event_detail.html:212
+#, python-format
+msgid "Only %(spots)s spots left!"
+msgstr "Only %(spots)s spots left!"
+
+#: events/templates/events/event_detail.html:216
+msgid "Register / Buy Ticket"
+msgstr "Register / Buy Ticket"
+
+#: events/templates/events/event_detail.html:220
+msgid "Class Full"
+msgstr "Class Full"
+
+#: events/templates/events/event_detail.html:220
+msgid "Event Ended"
+msgstr "Event Ended"
+
+#: events/templates/events/event_detail.html:220
+msgid "Registration Closed"
+msgstr "Registration Closed"
+
+#: events/templates/events/event_detail.html:226
+msgid "Please sign in to register"
+msgstr "Please sign in to register"
+
+#: events/templates/events/event_detail.html:238
+msgid "To be announced"
+msgstr "To be announced"
+
+#: events/templates/events/event_detail.html:243
+msgid "Join Online Meeting"
+msgstr "Join Online Meeting"
+
+#: events/templates/events/event_detail.html:252
+msgid "Organizer"
+msgstr "Organizer"
+
+#: events/templates/events/event_detail.html:259
+msgid "Event Host"
+msgstr "ກິດຈະກຳ"
+
+#: events/templates/events/event_list.html:11
+msgid "Upcoming Events"
+msgstr "Upcoming Events"
+
+#: events/templates/events/event_list.html:12
+msgid ""
+"Join the Python for Laos community events. Workshops, meetups, and "
+"conferences to level up your skills."
+msgstr ""
+"Join the Python for Laos community events. Workshops, meetups, and "
+"conferences to level up your skills."
+
+#: events/templates/events/event_list.html:19
+msgid "All Events"
+msgstr "ກິດຈະກຳ"
+
+#: events/templates/events/event_list.html:33
+msgid "Featured"
+msgstr "Featured"
+
+#: events/templates/events/event_list.html:44
+msgid "Latest Events"
+msgstr "ກິດຈະກຳ"
+
+#: events/templates/events/event_list.html:80
+msgid "No events found"
+msgstr "No events found"
+
+#: events/templates/events/event_list.html:81
+msgid "Check back later for new events."
+msgstr "Check back later for new events."
+
+#: events/templates/events/event_purchase.html:4
+msgid "Confirm Purchase"
+msgstr "ຢືນຢັນການສັ່ງຊື້"
+
+#: events/templates/events/event_purchase.html:12
+msgid "Confirm Your Registration"
+msgstr "ຢືນຢັນການລົງທະບຽນຂອງທ່ານ"
+
+#: events/templates/events/event_purchase.html:44
+msgid "Name"
+msgstr "ຊື່"
+
+#: events/templates/events/event_purchase.html:48
+msgid "Email"
+msgstr "ອີເມວ"
+
+#: events/templates/events/event_purchase.html:55
+msgid "Number of Tickets"
+msgstr "ຈຳນວນປີ້"
+
+#: events/templates/events/event_purchase.html:57
+msgid "Ticket"
+msgstr "ປີ້"
+
+#: events/templates/events/event_purchase.html:58
+#: events/templates/events/event_purchase.html:59
+#: events/templates/events/event_purchase.html:60
+#: events/templates/events/event_purchase.html:61
+msgid "Tickets"
+msgstr "ປີ້"
+
+#: events/templates/events/event_purchase.html:67
+msgid "Additional Notes (Optional)"
+msgstr "ໝາຍເຫດເພີ່ມເຕີມ (ເລືອກໄດ້)"
+
+#: events/templates/events/event_purchase.html:68
+msgid "Dietary restrictions, accessibility needs, etc."
+msgstr "ຂໍ້ຈຳກັດດ້ານອາຫານ, ຄວາມຕ້ອງການພິເສດ, ແລະ ອື່ນໆ."
+
+#: events/templates/events/event_purchase.html:75
+msgid "Continue to Payment"
+msgstr "ສືບຕໍ່ໄປຍັງການຊຳລະເງິນ"
+
+#: events/templates/events/event_purchase.html:87
+#: events/templates/events/payment_paypal.html:16
+#: events/templates/events/payment_promptpay.html:20
+#: events/templates/events/payment_stripe.html:20
+msgid "Confirm"
+msgstr "ຢືນຢັນ"
+
+#: events/templates/events/event_purchase.html:92
+#: events/templates/events/payment_method.html:122
+#: events/templates/events/payment_paypal.html:28
+#: events/templates/events/payment_promptpay.html:32
+#: events/templates/events/payment_stripe.html:32
+msgid "Payment"
+msgstr "ຊຳລະເງິນ"
+
+#: events/templates/events/event_purchase.html:97
+#: events/templates/events/payment_method.html:127
+msgid "Status"
+msgstr "ສະຖານະ"
+
+#: events/templates/events/includes/event_card.html:43
+msgid "Online"
+msgstr "Online"
+
+#: events/templates/events/includes/event_card.html:64
+msgid "Host:"
+msgstr "Host:"
+
+#: events/templates/events/includes/event_card.html:70
+msgid "Register"
+msgstr "Register"
+
+#: events/templates/events/includes/event_card.html:73
+msgid "Closed"
+msgstr "Closed"
+
+#: events/templates/events/payment_method.html:12
+msgid "Select Payment Method"
+msgstr "ເລືອກຊ່ອງທາງການຊຳລະເງິນ"
+
+#: events/templates/events/payment_method.html:13
+msgid "Secure Transaction"
+msgstr "ທຸລະກຳທີ່ປອດໄພ"
+
+#: events/templates/events/payment_method.html:20
+msgid "Amount to Pay"
+msgstr "ຍອດທີ່ຕ້ອງຊຳລະ"
+
+#: events/templates/events/payment_method.html:24
+msgid "Event"
+msgstr "ງານ"
+
+#: events/templates/events/payment_method.html:26
+msgid "Ticket(s)"
+msgstr "ປີ້"
+
+#: events/templates/events/payment_method.html:34
+msgid "Choose a way to pay"
+msgstr "ເລືອກວິທີການຊຳລະເງິນ"
+
+#: events/templates/events/payment_method.html:43
+msgid "BCEL OnePay"
+msgstr "BCEL OnePay"
+
+#: events/templates/events/payment_method.html:44
+msgid "Scan QR Code via BCEL One App"
+msgstr "ສະແກນ QR Code ຜ່ານແອັບ BCEL One"
+
+#: events/templates/events/payment_method.html:58
+#, fuzzy
+#| msgid "Credit / Debit Card, PayPal, Stripe"
+msgid "Credit / Debit Card"
+msgstr "ບັດເຄຣດິດ / ເດບິດ, PayPal, Stripe"
+
+#: events/templates/events/payment_method.html:59
+msgid "Visa, Mastercard via Stripe"
+msgstr ""
+
+#: events/templates/events/payment_method.html:76
+msgid "PromptPay"
+msgstr "ພ້ອມເພ (PromptPay)"
+
+#: events/templates/events/payment_method.html:77
+#, fuzzy
+#| msgid "Scan QR Code via BCEL One App"
+msgid "Scan PromptPay QR Code via Thai Bank App"
+msgstr "ສະແກນ QR Code ພ້ອມເພ ຜ່ານແອັບທະນາຄານໄທ"
+
+#: events/templates/events/payment_method.html:92
+msgid "Pay with PayPal account or card"
+msgstr ""
+
+#: events/templates/events/payment_method.html:102
+msgid "Back"
+msgstr "ກັບຄືນ"
+
+#: events/templates/events/payment_method.html:104
+msgid "Proceed to Payment"
+msgstr "ດຳເນີນການຊຳລະເງິນ"
+
+#: events/templates/events/payment_paypal.html:23
+#: events/templates/events/payment_promptpay.html:27
+#: events/templates/events/payment_stripe.html:27
+msgid "Method"
+msgstr ""
+
+#: events/templates/events/payment_paypal.html:42
+#: events/templates/events/payment_promptpay.html:46
+#: events/templates/events/payment_stripe.html:46
+#, fuzzy
+#| msgid "Amount to Pay"
+msgid "Amount"
+msgstr "ຍອດທີ່ຕ້ອງຊຳລະ"
+
+#: events/templates/events/payment_paypal.html:60
+msgid "Loading PayPal..."
+msgstr ""
+
+#: events/templates/events/payment_paypal.html:70
+msgid "Secured by PayPal"
+msgstr ""
+
+#: events/templates/events/payment_paypal.html:78
+#: events/templates/events/payment_promptpay.html:85
+#: events/templates/events/payment_stripe.html:90
+#, fuzzy
+#| msgid "Select Payment Method"
+msgid "Back to payment methods"
+msgstr "ເລືອກຊ່ອງທາງການຊຳລະເງິນ"
+
+#: events/templates/events/payment_paypal.html:126
+msgid "Payment failed. Please try again."
+msgstr ""
+
+#: events/templates/events/payment_paypal.html:135
+msgid "PayPal encountered an error. Please try again."
+msgstr ""
+
+#: events/templates/events/payment_paypal.html:142
+#, fuzzy
+#| msgid "Payment Pending"
+msgid "Payment cancelled."
+msgstr "Payment Pending"
+
+#: events/templates/events/payment_process.html:81
+msgid "ກວດສອບການຊຳລະ"
+msgstr "ກວດສອບການຊຳລະ"
+
+#: events/templates/events/payment_process.html:89
+msgid "ຮອງຮັບການຊຳລະຜ່ານທະນາຄານ"
+msgstr "ຮອງຮັບການຊຳລະຜ່ານທະນາຄານ"
+
+#: events/templates/events/payment_promptpay.html:40
+msgid "Pay with PromptPay"
+msgstr "ຊຳລະດ້ວຍກາງສະແກນ QR Code PromptPay"
+
+#: events/templates/events/payment_promptpay.html:67
+#: events/templates/events/payment_promptpay.html:121
+#: events/templates/events/payment_promptpay.html:144
+msgid "Generate QR Code"
+msgstr "ສ້າງ QR Code ຊຳລະເງິນ"
+
+#: events/templates/events/payment_promptpay.html:77
+#: events/templates/events/payment_stripe.html:82
+msgid "Secured by Stripe"
+msgstr ""
+
+#: events/templates/events/payment_promptpay.html:101
+msgid "Please wait..."
+msgstr "ກະລຸນາລໍຖ້າ..."
+
+#: events/templates/events/payment_promptpay.html:141
+msgid "An error occurred. Please try again."
+msgstr "ເກີດຂໍ້ຜິດພາດ. ກະລຸນາລອງໃໝ່."
+
+#: events/templates/events/payment_stripe.html:40
+msgid "Pay by Card"
+msgstr ""
+
+#: events/templates/events/payment_stripe.html:62
+msgid "Card details"
+msgstr ""
+
+#: events/templates/events/payment_stripe.html:74
+#: events/templates/events/payment_stripe.html:142
+#, fuzzy
+#| msgid "Payment"
+msgid "Pay"
+msgstr "ຊຳລະເງິນ"
+
+#: events/templates/events/payment_stripe.html:130
+msgid "Processing..."
+msgstr ""
+
+#: templates/auth/login.html:6 templates/auth/login.html:18
+#: templates/auth/login.html:78 templates/auth/register.html:185
+#: templates/base.html:261 templates/base.html:334
+msgid "ເຂົ້າສູ່ລະບົບ"
+msgstr "ເຂົ້າສູ່ລະບົບ"
+
+#: templates/auth/login.html:20
+msgid "ຍິນດີຕ້ອນຮັບກັບຄືນສູ່ PythonForLaos"
+msgstr "ຍິນດີຕ້ອນຮັບກັບຄືນສູ່ PythonForLaos"
+
+#: templates/auth/login.html:68
+msgid "ຈື່ຂ້ອຍໄວ້"
+msgstr "ຈື່ຂ້ອຍໄວ້"
+
+#: templates/auth/login.html:72
+msgid "ລືມລະຫັດຜ່ານ?"
+msgstr "ລືມລະຫັດຜ່ານ?"
+
+#: templates/auth/login.html:88
+msgid "ຫຼື"
+msgstr "ຟຣີ"
+
+#: templates/auth/login.html:132 templates/auth/register.html:171
+#: templates/index.html:392
+msgid "ສະບາຍດີ"
+msgstr "ສະບາຍດີ"
+
+#: templates/auth/login.html:138 templates/auth/register.html:177
+#: templates/base.html:329
+msgid "ອອກຈາກລະບົບ"
+msgstr "ອອກຈາກລະບົບ"
+
+#: templates/auth/login.html:145
+msgid "ຍັງບໍ່ມີບັນຊີບໍ່?"
+msgstr "ຍັງບໍ່ມີບັນຊີບໍ່?"
+
+#: templates/auth/login.html:146
+msgid "ລົງທະບຽນທີ່ນີ້"
+msgstr "ລົງທະບຽນ"
+
+#: templates/auth/login.html:156 templates/auth/register.html:195
+msgid "ກັບໄປໜ້າຫຼັກ"
+msgstr "ກັບໄປໜ້າຫຼັກ"
+
+#: templates/auth/register.html:18
+msgid "ສ້າງບັນຊີໃໝ່"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: templates/auth/register.html:49
+msgid "ຕົວອັກສອນ, ຕົວເລກ ແລະ @/./+/-/_ ເທົ່ານັ້ນ"
+msgstr "ຕົວອັກສອນ, ຕົວເລກ ແລະ @/./+/-/_ ເທົ່ານັ້ນ"
+
+#: templates/auth/register.html:56
+msgid "ອີເມວ"
+msgstr "ອີເມວ"
+
+#: templates/auth/register.html:81
+msgid "ລະຫັດຜ່ານຕ້ອງມີ:"
+msgstr "ລະຫັດຜ່ານຕ້ອງມີ:"
+
+#: templates/auth/register.html:83
+msgid "ຢ່າງໜ້ອຍ 8 ຕົວອັກສອນ"
+msgstr "ຢ່າງໜ້ອຍ 8 ຕົວອັກສອນ"
+
+#: templates/auth/register.html:84
+msgid "ບໍ່ຄ້າຍກັບຂໍ້ມູນສ່ວນຕົວອື່ນໆຂອງທ່ານ"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: templates/auth/register.html:85
+msgid "ບໍ່ພຽງແຕ່ຕົວເລກ"
+msgstr "ບໍ່ພົບຂໍ້ມູນ"
+
+#: templates/auth/register.html:117
+msgid "ສ້າງບັນຊີ"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: templates/auth/register.html:127
+msgid "ຫຼື ລົງທະບຽນດ້ວຍ"
+msgstr "ລົງທະບຽນ"
+
+#: templates/auth/register.html:184
+msgid "ມີບັນຊີແລ້ວບໍ່?"
+msgstr "ມີບັນຊີແລ້ວບໍ່?"
+
+#: templates/base.html:8 templates/base.html:32
+msgid "ຮຽນ Python & Django ເປັນພາສາລາວ"
+msgstr "ເປັນພາສາລາວ"
+
+#: templates/base.html:11
+msgid "ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຕົວຢ່າງທີ່ຊັດເຈນ ແລະ ຟຣີທັງໝົດ"
+msgstr "ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຕົວຢ່າງທີ່ຊັດເຈນ ແລະ ຟຣີທັງໝົດ"
+
+#: templates/base.html:12
+msgid "Python, Django, Laos, ລາວ, Programming, Web Development"
+msgstr "Python, Django, Laos, ລາວ, Programming, Web Development"
+
+#: templates/base.html:33 templates/base.html:40
+msgid "ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ"
+msgstr "ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຟຣີທັງໝົດ"
+
+#: templates/base.html:168 templates/base.html:287
+msgid "Blog"
+msgstr "ບົດຄວາມ"
+
+#: templates/base.html:180 templates/base.html:299
+msgid "Events"
+msgstr "ກິດຈະກຳ"
+
+#: templates/base.html:195 templates/base.html:308
+msgid "ຄົ້ນຫາ..."
+msgstr "ຄົ້ນຫາ..."
+
+#: templates/base.html:246 templates/base.html:327
+msgid "ສ້າງບົດຄວາມ"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: templates/base.html:255
+msgid "ອອກ"
+msgstr "ອອກ"
+
+#: templates/base.html:323
+msgid "ສະມາຊິກ"
+msgstr "ສະມາຊິກ"
+
+#: templates/base.html:387
+msgid "ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຟຣີທັງໝົດ"
+msgstr "ຮຽນ Python ແລະ Django ເປັນພາສາລາວ ດ້ວຍບົດຮຽນທີ່ງ່າຍ ຟຣີທັງໝົດ"
+
+#: templates/base.html:405
+msgid "ແຫຼ່ງຮຽນຮູ້"
+msgstr "ກຳລັງຮຽນ"
+
+#: templates/base.html:408
+msgid "ບລັອກ"
+msgstr "ບລັອກ"
+
+#: templates/base.html:410
+msgid "ຕົວຢ່າງໂປຣເຈັກ"
+msgstr "ຕົວຢ່າງໂປຣເຈັກ"
+
+#: templates/base.html:416
+msgid "ຊຸມຊົນ"
+msgstr "ຊຸມຊົນ"
+
+#: templates/base.html:418
+msgid "ກະດານສົນທະນາ"
+msgstr "ກະດານສົນທະນາ"
+
+#: templates/base.html:421
+msgid "ມາເປັນພາກສ່ວນ"
+msgstr "ມາເປັນພາກສ່ວນ"
+
+#: templates/base.html:427
+msgid "ກ່ຽວກັບ"
+msgstr "ກ່ຽວກັບ"
+
+#: templates/base.html:429
+msgid "ກ່ຽວກັບພວກເຮົາ"
+msgstr "ກ່ຽວກັບພວກເຮົາ"
+
+#: templates/base.html:441
+msgid "ສະຫງວນລິຂະສິດທັງໝົດ."
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: templates/base.html:444
+msgid "ແຜນທີ່ເວັບໄຊທ໌"
+msgstr "ແຜນທີ່ເວັບໄຊທ໌"
+
+#: templates/base.html:446
+msgid "ສະໜັບສະໜູນ"
+msgstr "ສະໜັບສະໜູນ"
+
+#: templates/base.html:626
+msgid "ເວັບໄຊນີ້ໃຊ້ Cookies"
+msgstr "ເວັບໄຊນີ້ໃຊ້ Cookies"
+
+#: templates/base.html:629
+msgid ""
+"ພວກເຮົາໃຊ້ cookies ເພື່ອປັບປຸງປະສົບການການໃຊ້ງານ, ຈື່ການ login ຂອງທ່ານ ແລະ "
+"ວິເຄາະການໃຊ້ງານເວັບ."
+msgstr ""
+"ພວກເຮົາໃຊ້ cookies ເພື່ອປັບປຸງປະສົບການການໃຊ້ງານ, ຈື່ການ login ຂອງທ່ານ ແລະ "
+"ວິເຄາະການໃຊ້ງານເວັບ."
+
+#: templates/base.html:630
+msgid "ນະໂຍບາຍ Cookies"
+msgstr "ນະໂຍບາຍ Cookies"
+
+#: templates/base.html:638
+msgid "ຈຳເປັນເທົ່ານັ້ນ"
+msgstr "ຈຳເປັນເທົ່ານັ້ນ"
+
+#: templates/base.html:642
+msgid "ຍອມຮັບທັງໝົດ"
+msgstr "ລ້າງຕົວກອງທັງໝົດ"
+
+#: templates/index.html:5
+msgid "Python for Laos - ຮຽນ Python & Django ເປັນພາສາລາວ"
+msgstr "ເປັນພາສາລາວ"
+
+#: templates/index.html:263
+msgid "ຮຽນ"
+msgstr "ຟຣີ"
+
+#: templates/index.html:264
+msgid "ເປັນພາສາລາວ"
+msgstr "ເປັນພາສາລາວ"
+
+#: templates/index.html:269
+msgid ""
+"ເລີ່ມຕົ້ນການເດີນທາງໃນໂລກຂອງ Programming ດ້ວຍບົດຮຽນທີ່ງ່າຍ, ມີຕົວຢ່າງທີ່ຈະແຈ້ງ ແລະ "
+"ເປັນພາສາລາວທັງໝົດ"
+msgstr ""
+"ເລີ່ມຕົ້ນການເດີນທາງໃນໂລກຂອງ Programming ດ້ວຍບົດຮຽນທີ່ງ່າຍ, ມີຕົວຢ່າງທີ່ຈະແຈ້ງ ແລະ "
+"ເປັນພາສາລາວທັງໝົດ"
+
+#: templates/index.html:275
+msgid "ເລີ່ມຮຽນດຽວນີ້"
+msgstr "ເລີ່ມຮຽນດຽວນີ້"
+
+#: templates/index.html:278
+msgid "ອ່ານບລັອກ"
+msgstr "ອ່ານຕໍ່"
+
+#: templates/index.html:306
+msgid "ເປັນຫຍັງຕ້ອງເລືອກເຮົາ?"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: templates/index.html:309
+msgid "ເຮົາມີທຸກສິ່ງທີ່ທ່ານຕ້ອງການເພື່ອກາຍເປັນ Python Developer ທີ່ດີ"
+msgstr "ເຮົາມີທຸກສິ່ງທີ່ທ່ານຕ້ອງການເພື່ອກາຍເປັນ Python Developer ທີ່ດີ"
+
+#: templates/index.html:319
+msgid "ພາສາລາວທັງໝົດ"
+msgstr "ລ້າງຕົວກອງທັງໝົດ"
+
+#: templates/index.html:321
+msgid "ບົດຮຽນທຸກບົດເປັນພາສາລາວ ງ່າຍຕໍ່ການເຂົ້າໃຈ ບໍ່ມີອຸປະສັກໃນການຮຽນຮູ້"
+msgstr "ບົດຮຽນທຸກບົດເປັນພາສາລາວ ງ່າຍຕໍ່ການເຂົ້າໃຈ ບໍ່ມີອຸປະສັກໃນການຮຽນຮູ້"
+
+#: templates/index.html:330
+msgid "ຕົວຢ່າງຈິງ"
+msgstr "ຕົວຢ່າງຈິງ"
+
+#: templates/index.html:332
+msgid "Code ຕົວຢ່າງທີ່ສາມາດລອງໃຊ້ໄດ້ຈິງ ພ້ອມຄຳອະທິບາຍລະອຽດ"
+msgstr "Code ຕົວຢ່າງທີ່ສາມາດລອງໃຊ້ໄດ້ຈິງ ພ້ອມຄຳອະທິບາຍລະອຽດ"
+
+#: templates/index.html:341
+msgid "ອັບເດດສະເໝີ"
+msgstr "ອັບເດດສະເໝີ"
+
+#: templates/index.html:343
+msgid "ເນື້ອຫາໃໝ່ທຸກອາທິດ ອັບເດດຕາມ Technology ລ້າສຸດ"
+msgstr "ເນື້ອຫາໃໝ່ທຸກອາທິດ ອັບເດດຕາມ Technology ລ້າສຸດ"
+
+#: templates/index.html:357
+msgid "ງ່າຍດາຍ"
+msgstr "ງ່າຍດາຍ"
+
+#: templates/index.html:358
+msgid "ແບບບໍ່ເຄີຍມີມາກ່ອນ"
+msgstr "ແບບບໍ່ເຄີຍມີມາກ່ອນ"
+
+#: templates/index.html:361
+msgid ""
+"Python ແມ່ນພາສາທີ່ງ່າຍທີ່ສຸດສຳລັບຜູ້ເລີ່ມຕົ້ນ. ທ່ານສາມາດຂຽນ Code ທີ່ອ່ານງ່າຍຄືພາສາອັງກິດ ແລະ "
+"ເຮັດວຽກໄດ້ຫຼາຍຢ່າງ"
+msgstr ""
+"Python ແມ່ນພາສາທີ່ງ່າຍທີ່ສຸດສຳລັບຜູ້ເລີ່ມຕົ້ນ. ທ່ານສາມາດຂຽນ Code ທີ່ອ່ານງ່າຍຄືພາສາອັງກິດ ແລະ "
+"ເຮັດວຽກໄດ້ຫຼາຍຢ່າງ"
+
+#: templates/index.html:368
+msgid "Syntax ທີ່ອ່ານງ່າຍ ເຂົ້າໃຈໄວ"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: templates/index.html:374
+msgid "ຕົວຢ່າງ Code ທີ່ສາມາດ Copy ໄດ້"
+msgstr "ຕົວຢ່າງ Code ທີ່ສາມາດ Copy ໄດ້"
+
+#: templates/index.html:380
+msgid "ເນື້ອຫາຈາກງ່າຍໄປຫາຍາກ"
+msgstr "ເນື້ອຫາຈາກງ່າຍໄປຫາຍາກ"
+
+#: templates/index.html:383
+msgid "ເບິ່ງບົດຮຽນທັງໝົດ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: templates/index.html:389
+msgid "ຕົວຢ່າງ Python ງ່າຍໆ"
+msgstr "ຕົວຢ່າງຈິງ"
+
+#: templates/index.html:391
+msgid "ຟັງຊັນທັກທາຍ"
+msgstr "ຟັງຊັນທັກທາຍ"
+
+#: templates/index.html:395
+msgid "ເອີ້ນໃຊ້ຟັງຊັນ"
+msgstr "ເງື່ອນໄຂການໃຊ້ງານ"
+
+#: templates/index.html:396
+msgid "ສົມໃຈ"
+msgstr "ສົມໃຈ"
+
+#: templates/index.html:397
+msgid "ສະບາຍດີ, ສົມໃຈ!"
+msgstr "ສະບາຍດີ, ສົມໃຈ!"
+
+#: templates/index.html:412
+msgid "ເສັ້ນທາງການຮຽນຮູ້"
+msgstr "ເສັ້ນທາງການຮຽນຮູ້"
+
+#: templates/index.html:413
+msgid "ລຳດັບການຮຽນທີ່ເໝາະສົມ ຈາກພື້ນຖານຈົນເຖິງຂັ້ນສູງ"
+msgstr "ລຳດັບການຮຽນທີ່ເໝາະສົມ ຈາກພື້ນຖານຈົນເຖິງຂັ້ນສູງ"
+
+#: templates/index.html:424
+msgid "ຮຽນພື້ນຖານ Python: ຕົວແປ, ປະເພດຂໍ້ມູນ, Control Flow"
+msgstr "ຮຽນພື້ນຖານ Python: ຕົວແປ, ປະເພດຂໍ້ມູນ, Control Flow"
+
+#: templates/index.html:425 templates/index.html:437 templates/index.html:449
+msgid "ເລີ່ມຮຽນ →"
+msgstr "ເລີ່ມຟຣີ"
+
+#: templates/index.html:436
+msgid "ຮຽນການຂຽນ Functions ແລະ Object-Oriented Programming"
+msgstr "ຮຽນການຂຽນ Functions ແລະ Object-Oriented Programming"
+
+#: templates/index.html:448
+msgid "ສ້າງ Web Application ດ້ວຍ Django Framework"
+msgstr "ສ້າງ Web Application ດ້ວຍ Django Framework"
+
+#: templates/index.html:460
+msgid "ຄອດສ໌ຮຽນແນະນຳ"
+msgstr "ຄອດສຶກສາ"
+
+#: templates/index.html:461
+msgid "ເລືອກຮຽນຕາມຄວາມສົນໃຈຂອງທ່ານ"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: templates/index.html:491
+msgid "ລາຍລະອຽດ →"
+msgstr "ເບິ່ງລາຍລະອຽດ"
+
+#: templates/index.html:497
+msgid "ກຳລັງກະກຽມຄອດສ໌ໃໝ່..."
+msgstr "ຄົ້ນຫາຄອດສຶກສາ..."
+
+#: templates/index.html:502
+msgid "ເບິ່ງຄອດສ໌ທັງໝົດ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: templates/index.html:511
+msgid "ກິດຈະກຳທີ່ຈະມາເຖິງ"
+msgstr "ກິດຈະກຳທີ່ຈະມາເຖິງ"
+
+#: templates/index.html:512
+msgid "ຢ່າພາດໂອກາດທີ່ຈະໄດ້ພົບປະກັບນັກພັດທະນາຄົນອື່ນໆ"
+msgstr "ຢ່າພາດໂອກາດທີ່ຈະໄດ້ພົບປະກັບນັກພັດທະນາຄົນອື່ນໆ"
+
+#: templates/index.html:531
+msgid "ຍັງບໍ່ມີກິດຈະກຳໃນໄວໆນີ້"
+msgstr "ຍັງບໍ່ມີກິດຈະກຳໃນໄວໆນີ້"
+
+#: templates/index.html:535
+msgid "ເບິ່ງກິດຈະກຳທັງໝົດ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#: templates/index.html:552
+msgid "ພ້ອມທີ່ຈະເລີ່ມຕົ້ນແລ້ວບໍ?"
+msgstr "ລົງທະບຽນ"
+
+#: templates/index.html:554
+msgid "ເຂົ້າຮ່ວມກັບນັກຮຽນຫຼາຍພັນຄົນທີ່ກຳລັງຮຽນ Python ແລະ Django ເປັນພາສາລາວ"
+msgstr "ເຂົ້າຮ່ວມກັບນັກຮຽນຫຼາຍພັນຄົນທີ່ກຳລັງຮຽນ Python ແລະ Django ເປັນພາສາລາວ"
+
+#: templates/index.html:574
+msgid "ຊຸມຊົນຖາມ-ຕອບ"
+msgstr "ຊຸມຊົນ"
+
+#: templates/index.html:586
+msgid "ຜ່ານມາ"
+msgstr "ຜ່ານມາ"
+
+#: templates/index.html:591
+msgid "ຄຳຕອບ"
+msgstr "ຄຳຕອບ"
+
+#: templates/index.html:596
+msgid "ຍັງບໍ່ມີຫົວຂໍ້ສົນທະນາ"
+msgstr "ຍັງບໍ່ມີຫົວຂໍ້ສົນທະນາ"
+
+#: templates/index.html:600
+msgid "ເຂົ້າຮ່ວມການສົນທະນາ"
+msgstr "ເຂົ້າສູ່ລະບົບ"
+
+#: templates/index.html:631
+msgid "ກຳລັງອັບເດດເອກະສານ..."
+msgstr "ອັບເດດລ່າສຸດ:"
+
+#: templates/index.html:635
+msgid "ອ່ານເອກະສານທັງໝົດ"
+msgstr "ລ້າງຕົວກອງທັງໝົດ"
+
+#: templates/index.html:647
+msgid "ບົດຄວາມຫຼ້າສຸດ"
+msgstr "ສ້າງບົດຄວາມ"
+
+#: templates/index.html:648
+msgid "ອ່ານບົດຄວາມ ແລະ ບົດສອນຫຼ້າສຸດຈາກຊຸມຊົນ"
+msgstr "ອ່ານບົດຄວາມ ແລະ ບົດສອນຫຼ້າສຸດຈາກຊຸມຊົນ"
+
+#: templates/index.html:686
+msgid "ບໍ່ມີບົດຄວາມໃນຂະນະນີ້"
+msgstr "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ"
+
+#: templates/index.html:691
+msgid "ເບິ່ງບົດຄວາມທັງໝົດ"
+msgstr "ເບິ່ງຄອດສຶກສາທັງໝົດ"
+
+#~ msgid "Coming soon"
+#~ msgstr "ໄວໆນີ້"
+
+#, python-format
+#~ msgid "{%% trans "
+#~ msgstr "{%% trans"

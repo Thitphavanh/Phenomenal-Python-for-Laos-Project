@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
+{% load course_filters %}
 
 {% block title %}{{ instructor.get_full_name|default:instructor.username }} - ຜູ້ສອນ - Python for Laos{% endblock %}
 
@@ -43,20 +45,20 @@
                         <svg class="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
-                        <span class="text-blue-100">{{ total_courses }} ຄອດສຶກສາ</span>
+                        <span class="text-blue-100">{{ total_courses } {% trans "ຄອດສຶກສາ" %}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
-                        <span class="text-blue-100">{{ total_students }} ນັກຮຽນ</span>
+                        <span class="text-blue-100">{{ total_students } {% trans "ນັກຮຽນ" %}</span>
                     </div>
                     {% if average_rating %}
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                         </svg>
-                        <span class="text-blue-100">{{ average_rating|floatformat:1 }} ຄະແນນ</span>
+                        <span class="text-blue-100">{{ average_rating|floatformat:1 } {% trans "ຄະແນນ" %}</span>
                     </div>
                     {% endif %}
                 </div>
@@ -68,9 +70,7 @@
                     <a href="{{ instructor.profile.website }}" target="_blank" rel="noopener" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
-                        </svg>
-                        ເວັບໄຊ
-                    </a>
+                        </svg>{% trans "ເວັບໄຊ" %}</a>
                     {% endif %}
                     {% if instructor.profile.github %}
                     <a href="{{ instructor.profile.github }}" target="_blank" rel="noopener" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors flex items-center gap-2">
@@ -107,9 +107,7 @@
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
                         <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                        ກ່ຽວກັບຜູ້ສອນ
-                    </h2>
+                        </svg>{% trans "ກ່ຽວກັບຜູ້ສອນ" %}</h2>
                     <div class="prose prose-lg dark:prose-invert max-w-none">
                         {{ instructor.profile.about|safe }}
                     </div>
@@ -172,8 +170,7 @@
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                             </svg>
-                                            {{ course.total_lessons }} ບົດ
-                                        </span>
+                                            {{ course.total_lessons } {% trans "ບົດ" %}</span>
                                         <span class="flex items-center gap-1">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
@@ -197,12 +194,10 @@
                                         {% if course.pricing_plan.price > 0 %}
                                         <span class="text-2xl font-bold text-primary">{{ course.pricing_plan.price|floatformat:0 }}₭</span>
                                         {% else %}
-                                        <span class="text-2xl font-bold text-green-600 dark:text-green-400">ຟຣີ</span>
+                                        <span class="text-2xl font-bold text-green-600 dark:text-green-400">{% trans "ຟຣີ" %}</span>
                                         {% endif %}
                                     </div>
-                                    <a href="{% url 'courses:course_detail' course.slug %}" class="px-4 py-2 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">
-                                        ເບິ່ງລາຍລະອຽດ
-                                    </a>
+                                    <a href="{% url 'courses:course_detail' course.slug %}" class="px-4 py-2 bg-gradient-primary text-white rounded-lg font-semibold hover:shadow-lg transition-all">{% trans "ເບິ່ງລາຍລະອຽດ" %}</a>
                                 </div>
                             </div>
                         </div>
@@ -213,7 +208,7 @@
                         <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
-                        <p class="text-gray-600 dark:text-gray-400">ຍັງບໍ່ມີຄອດສຶກສາ</p>
+                        <p class="text-gray-600 dark:text-gray-400">{% trans "ຍັງບໍ່ມີຄອດສຶກສາ" %}</p>
                     </div>
                     {% endif %}
                 </div>
@@ -223,7 +218,7 @@
             <div class="space-y-6">
                 <!-- Stats Card -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">ສະຖິຕິ</h3>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">{% trans "ສະຖິຕິ" %}</h3>
                     <div class="space-y-4">
                         <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
                             <div class="flex items-center gap-3">
@@ -232,7 +227,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-gray-600 dark:text-gray-400">ຄອດສຶກສາທັງໝົດ</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">{% trans "ຄອດສຶກສາທັງໝົດ" %}</span>
                             </div>
                             <span class="text-xl font-bold text-gray-900 dark:text-white">{{ total_courses }}</span>
                         </div>
@@ -244,7 +239,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-gray-600 dark:text-gray-400">ນັກຮຽນທັງໝົດ</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">{% trans "ນັກຮຽນທັງໝົດ" %}</span>
                             </div>
                             <span class="text-xl font-bold text-gray-900 dark:text-white">{{ total_students }}</span>
                         </div>
@@ -257,7 +252,7 @@
                                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-gray-600 dark:text-gray-400">ຄະແນນສະເລ່ຍ</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">{% trans "ຄະແນນສະເລ່ຍ" %}</span>
                             </div>
                             <span class="text-xl font-bold text-gray-900 dark:text-white">{{ average_rating|floatformat:1 }}</span>
                         </div>
@@ -270,7 +265,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-gray-600 dark:text-gray-400">ເຂົ້າຮ່ວມວັນທີ</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">{% trans "ເຂົ້າຮ່ວມວັນທີ" %}</span>
                             </div>
                             <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ instructor.date_joined|date:"M Y" }}</span>
                         </div>
@@ -283,11 +278,9 @@
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                        </svg>
-                        ຄວາມຊ່ຽວຊານ
-                    </h3>
+                        </svg>{% trans "ຄວາມຊ່ຽວຊານ" %}</h3>
                     <div class="flex flex-wrap gap-2">
-                        {% for skill in instructor.profile.expertise.split ',' %}
+                        {% for skill in instructor.profile.expertise|split:',' %}
                         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">
                             {{ skill.strip }}
                         </span>
@@ -299,12 +292,8 @@
                 <!-- Contact Card -->
                 <div class="bg-gradient-primary text-white rounded-xl p-6">
                     <h3 class="text-lg font-bold mb-2">ສົນໃຈຮຽນກັບຜູ້ສອນທ່ານນີ້ບໍ່?</h3>
-                    <p class="text-blue-100 text-sm mb-4">
-                        ເລີ່ມການເດີນທາງຮຽນ Python ຂອງທ່ານວັນນີ້
-                    </p>
-                    <a href="{% url 'courses:course_list' %}?instructor={{ instructor.username }}" class="block w-full px-4 py-3 bg-white text-primary text-center rounded-lg font-semibold hover:shadow-xl transition-all">
-                        ເບິ່ງຄອດສຶກສາທັງໝົດ
-                    </a>
+                    <p class="text-blue-100 text-sm mb-4">{% trans "ເລີ່ມການເດີນທາງຮຽນ Python ຂອງທ່ານວັນນີ້" %}</p>
+                    <a href="{% url 'courses:course_list' %}?instructor={{ instructor.username }}" class="block w-full px-4 py-3 bg-white text-primary text-center rounded-lg font-semibold hover:shadow-xl transition-all">{% trans "ເບິ່ງຄອດສຶກສາທັງໝົດ" %}</a>
                 </div>
             </div>
         </div>

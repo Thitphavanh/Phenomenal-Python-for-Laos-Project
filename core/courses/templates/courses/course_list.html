@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static humanize %}
 
 {% block title %}ຫຼັກສູດ - Python for Laos{% endblock %}
+
+{% block extra_css %}
+<style>
+    .filter-scroll {
+        -webkit-overflow-scrolling: touch;   /* iOS momentum scroll */
+        overscroll-behavior-x: contain;      /* ບໍ່ໃຫ້ parent page scroll ຕາມ */
+        scroll-behavior: smooth;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+</style>
+{% endblock %}
 
 {% block content %}
 <!-- Section: Header (Ducafecat Style) -->
@@ -15,7 +29,7 @@
                     name="search"
                     value="{{ search_query }}"
                     class="w-full bg-gray-100 dark:bg-gray-800 border-0 rounded-full py-3 pl-12 pr-4 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-[#0078D4] transition-all"
-                    placeholder="ຄົ້ນຫາຄອດສຶກສາ..."
+                    placeholder="{% trans 'ຄົ້ນຫາຄອດສຶກສາ...' %}"
                 >
                 <svg class="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -31,53 +45,47 @@
         <form id="filter-form" method="get">
             {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
             
-            <div class="space-y-4">
+            <div class="space-y-3">
                 <!-- Subject / Category -->
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white mr-2">ໝວດໝູ່:</span>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="category" value="" class="hidden peer" {% if not selected_category %}checked{% endif %}>
-                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
-                            ທັງໝົດ
-                        </span>
-                    </label>
-                    {% for cat in categories %}
-                    <label class="cursor-pointer">
-                        <input type="radio" name="category" value="{{ cat.slug }}" class="hidden peer" {% if selected_category == cat.slug %}checked{% endif %}>
-                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
-                            {{ cat.name }}
-                        </span>
-                    </label>
-                    {% endfor %}
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white shrink-0">{% trans "ໝວດໝູ່:" %}</span>
+                    <div class="filter-scroll flex items-center gap-2 overflow-x-auto pb-1 min-w-0 flex-1">
+                        <label class="cursor-pointer shrink-0">
+                            <input type="radio" name="category" value="" class="hidden peer" {% if not selected_category %}checked{% endif %}>
+                            <span class="whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">{% trans "ທັງໝົດ" %}</span>
+                        </label>
+                        {% for cat in categories %}
+                        <label class="cursor-pointer shrink-0">
+                            <input type="radio" name="category" value="{{ cat.slug }}" class="hidden peer" {% if selected_category == cat.slug %}checked{% endif %}>
+                            <span class="whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                                {{ cat.name }}
+                            </span>
+                        </label>
+                        {% endfor %}
+                    </div>
                 </div>
 
                 <!-- Difficulty -->
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white mr-2">ລະດັບ:</span>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="difficulty" value="" class="hidden peer" {% if not selected_difficulty %}checked{% endif %}>
-                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
-                            ທັງໝົດ
-                        </span>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="difficulty" value="beginner" class="hidden peer" {% if selected_difficulty == 'beginner' %}checked{% endif %}>
-                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
-                            ພື້ນຖານ
-                        </span>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="difficulty" value="intermediate" class="hidden peer" {% if selected_difficulty == 'intermediate' %}checked{% endif %}>
-                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
-                            ປານກາງ
-                        </span>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="difficulty" value="advanced" class="hidden peer" {% if selected_difficulty == 'advanced' %}checked{% endif %}>
-                        <span class="px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
-                            ຂັ້ນສູງ
-                        </span>
-                    </label>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white shrink-0">{% trans "ລະດັບ:" %}</span>
+                    <div class="filter-scroll flex items-center gap-2 overflow-x-auto pb-1 min-w-0 flex-1">
+                        <label class="cursor-pointer shrink-0">
+                            <input type="radio" name="difficulty" value="" class="hidden peer" {% if not selected_difficulty %}checked{% endif %}>
+                            <span class="whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">{% trans "ທັງໝົດ" %}</span>
+                        </label>
+                        <label class="cursor-pointer shrink-0">
+                            <input type="radio" name="difficulty" value="beginner" class="hidden peer" {% if selected_difficulty == 'beginner' %}checked{% endif %}>
+                            <span class="whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">{% trans "ພື້ນຖານ" %}</span>
+                        </label>
+                        <label class="cursor-pointer shrink-0">
+                            <input type="radio" name="difficulty" value="intermediate" class="hidden peer" {% if selected_difficulty == 'intermediate' %}checked{% endif %}>
+                            <span class="whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">{% trans "ປານກາງ" %}</span>
+                        </label>
+                        <label class="cursor-pointer shrink-0">
+                            <input type="radio" name="difficulty" value="advanced" class="hidden peer" {% if selected_difficulty == 'advanced' %}checked{% endif %}>
+                            <span class="whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 peer-checked:bg-[#0078D4] peer-checked:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">{% trans "ຂັ້ນສູງ" %}</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </form>
@@ -138,7 +146,7 @@
                             </div>
                             <div class="flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>{{ course.total_lessons }} ບົດຮຽນ</span>
+                                <span>{{ course.total_lessons }} {% trans "ບົດຮຽນ" %}</span>
                             </div>
                         </div>
 
@@ -148,7 +156,7 @@
                                 {{ course.category.name|default:"General" }}
                             </span>
                             <span class="text-[10px] text-gray-400">
-                                {% if course.difficulty == 'beginner' %}ພື້ນຖານ{% elif course.difficulty == 'intermediate' %}ປານກາງ{% else %}ຂັ້ນສູງ{% endif %}
+                                {% if course.difficulty == 'beginner' %}{% trans "ພື້ນຖານ" %}{% elif course.difficulty == 'intermediate' %}{% trans "ປານກາງ" %}{% else %}{% trans "ຂັ້ນສູງ" %}{% endif %}
                             </span>
                         </div>
                     </div>
@@ -159,11 +167,9 @@
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-6">
                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ບໍ່ພົບຂໍ້ມູນ</h3>
-                <p class="text-gray-500 dark:text-gray-400">ລອງປ່ຽນເງື່ອນໄຂການຄົ້ນຫາໃໝ່</p>
-                <a href="{% url 'courses:course_list' %}" class="inline-block mt-6 text-[#0078D4] font-medium hover:underline">
-                    ລ້າງຕົວກອງທັງໝົດ
-                </a>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{% trans "ບໍ່ພົບຂໍ້ມູນ" %}</h3>
+                <p class="text-gray-500 dark:text-gray-400">{% trans "ລອງປ່ຽນເງື່ອນໄຂການຄົ້ນຫາໃໝ່" %}</p>
+                <a href="{% url 'courses:course_list' %}" class="inline-block mt-6 text-[#0078D4] font-medium hover:underline">{% trans "ລ້າງຕົວກອງທັງໝົດ" %}</a>
             </div>
             {% endfor %}
         </div>
@@ -179,7 +185,7 @@
                 {% endif %}
 
                 <span class="px-4 py-2 font-medium text-[#001868] dark:text-[#0078D4]">
-                    ໜ້າ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                    {% trans "ໜ້າ" %} {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
                 </span>
 
                 {% if page_obj.has_next %}

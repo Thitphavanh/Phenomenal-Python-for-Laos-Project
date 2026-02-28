@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 {% load markdown_extras %}
 
@@ -186,7 +187,7 @@
                             <span class="text-[#001868] dark:text-[#0078D4] group-hover:text-[#001868] dark:text-[#0078D4]">
                                 {% if cat.grouper %}{% else %}{% endif %}
                             </span>
-                            <span>{{ cat.grouper|default:"Getting Started" }}</span>
+                            <span>{% if cat.grouper %}{{ cat.grouper }}{% else %}{% trans "Getting Started" %}{% endif %}</span>
                         </div>
                         <!-- Chevron Icon -->
                         <svg class="w-4 h-4 transition-transform duration-200 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -228,7 +229,7 @@
                     <!-- Breadcrumb -->
                     {% if post.category %}
                     <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                        <a href="{% url 'docs:doc_list' %}" class="hover:text-gray-900 dark:hover:text-white">Docs</a>
+                        <a href="{% url 'docs:doc_list' %}" class="hover:text-gray-900 dark:hover:text-white">{% trans "Docs" %}</a>
                         <span>/</span>
                         <span class="text-[#001868] dark:text-[#0078D4]">{{ post.category.name }}</span>
                     </div>
@@ -281,7 +282,7 @@
                     {% if post.diagram_image %}
                     <figure class="mt-8 mb-8">
                         <img src="{{ post.diagram_image.url }}" alt="Diagram for {{ post.title }}" class="w-full rounded-lg border border-gray-200 dark:border-gray-700">
-                        <figcaption class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">Diagram: {{ post.title }}</figcaption>
+                        <figcaption class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">{% trans "Diagram:" %} {{ post.title }}</figcaption>
                     </figure>
                     {% endif %}
 
@@ -289,7 +290,7 @@
                     <nav class="grid sm:grid-cols-2 gap-4 mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
                         {% if prev_doc %}
                         <a href="{% url 'docs:doc_detail' prev_doc.slug %}" class="group flex flex-col p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-[#001868] dark:hover:border-[#0078D4] hover:bg-gray-200 dark:bg-gray-700/50 transition-all">
-                            <span class="text-xs text-gray-500 dark:text-gray-400 mb-1">← Previous</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400 mb-1">← {% trans "Previous" %}</span>
                             <span class="font-medium text-gray-900 dark:text-white group-hover:text-[#001868] dark:group-hover:text-[#0078D4]">{{ prev_doc.title }}</span>
                         </a>
                         {% else %}
@@ -298,7 +299,7 @@
                         
                         {% if next_doc %}
                         <a href="{% url 'docs:doc_detail' next_doc.slug %}" class="group flex flex-col items-end p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-[#001868] dark:hover:border-[#0078D4] hover:bg-gray-200 dark:bg-gray-700/50 transition-all text-right">
-                            <span class="text-xs text-gray-500 dark:text-gray-400 mb-1">Next →</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400 mb-1">{% trans "Next" %} →</span>
                             <span class="font-medium text-gray-900 dark:text-white group-hover:text-[#001868] dark:group-hover:text-[#0078D4]">{{ next_doc.title }}</span>
                         </a>
                         {% endif %}
@@ -308,7 +309,7 @@
                 <!-- Right Sidebar (Table of Contents) -->
                 <aside class="hidden xl:block w-64 shrink-0">
                     <div class="sticky top-24">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">On this page</h4>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">{% trans "On this page" %}</h4>
                         <nav id="toc-container" class="space-y-1 text-sm border-l border-gray-200 dark:border-gray-700">
                             <!-- Populated via JS -->
                         </nav>

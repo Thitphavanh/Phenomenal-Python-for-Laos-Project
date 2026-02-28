@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
 {% block title %}{{ lesson.title }} - {{ course.title }} - Python for Laos{% endblock %}
@@ -139,9 +140,7 @@
                 <div class="px-4 sm:px-6 lg:px-8 py-4">
                     <!-- Breadcrumb -->
                     <nav class="flex items-center gap-2 text-sm mb-3">
-                        <a href="{% url 'courses:course_list' %}" class="text-gray-600 dark:text-gray-400 hover:text-primary">
-                            ຄອດສຶກສາ
-                        </a>
+                        <a href="{% url 'courses:course_list' %}" class="text-gray-600 dark:text-gray-400 hover:text-primary">{% trans "ຄອດສຶກສາ" %}</a>
                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -161,13 +160,13 @@
                                 {{ lesson.title }}
                             </h1>
                             <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-                                <span>ບົດທີ {{ lesson.order }}</span>
+                                <span>{% trans "ບົດທີ" %} {{ lesson.order }}</span>
                                 {% if lesson.duration_minutes %}
                                 <span class="flex items-center gap-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    {{ lesson.duration_minutes }} ນາທີ
+                                    {{ lesson.duration_minutes }} {% trans "ນາທີ" %}
                                 </span>
                                 {% endif %}
                             </div>
@@ -181,7 +180,7 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                ໝາຍວ່າສຳເລັດ
+                                {% trans "ໝາຍວ່າສຳເລັດ" %}
                             </button>
                         </form>
                         {% elif lesson_progress.is_completed %}
@@ -189,7 +188,7 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            ສຳເລັດແລ້ວ
+                            {% trans "ສຳເລັດແລ້ວ" %}
                         </div>
                         {% endif %}
                     </div>
@@ -215,7 +214,7 @@
                         {% else %}
                         <video controls class="w-full h-full">
                             <source src="{{ video_ctx.url }}" type="video/mp4">
-                            ບຼາວເຊີຂອງທ່ານບໍ່ຮອງຮັບວິດີໂອ.
+                            {% trans "ບຼາວເຊີຂອງທ່ານບໍ່ຮອງຮັບວິດີໂອ." %}
                         </video>
                         {% endif %}
                     </div>
@@ -242,14 +241,14 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">ແບບທົດສອບ</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">ທົດສອບຄວາມເຂົ້າໃຈຂອງທ່ານ</p>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">{% trans "ແບບທົດສອບ" %}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "ທົດສອບຄວາມເຂົ້າໃຈຂອງທ່ານ" %}</p>
                         </div>
                     </div>
                     <div class="text-center py-8">
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">ຟັງຊັນແບບທົດສອບຈະພັດທະນາໃນເວີຊັນຕໍ່ໄປ</p>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">{% trans "ຟັງຊັນແບບທົດສອບຈະພັດທະນາໃນເວີຊັນຕໍ່ໄປ" %}</p>
                         <button class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors">
-                            ເລີ່ມແບບທົດສອບ
+                            {% trans "ເລີ່ມແບບທົດສອບ" %}
                         </button>
                     </div>
                 </div>
@@ -265,12 +264,10 @@
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">ເອກະສານປະກອບ</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">ດາວໂຫຼດເອກະສານປະກອບການຮຽນ</p>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">{% trans "ເອກະສານປະກອບ" %}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">{% trans "ດາວໂຫຼດເອກະສານປະກອບການຮຽນ" %}</p>
                         </div>
-                        <a href="{{ lesson.file_url }}" download class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors">
-                            ດາວໂຫຼດ
-                        </a>
+                        <a href="{{ lesson.file_url }}" download class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors">{% trans "ດາວໂຫຼດ" %}</a>
                     </div>
                 </div>
                 {% endif %}
@@ -284,7 +281,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
                             <div>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">ກ່ອນໜ້າ</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">{% trans "ກ່ອນໜ້າ" %}</p>
                                 <p class="font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
                                     {{ previous_lesson.title }}
                                 </p>
@@ -299,7 +296,7 @@
                     <a href="{% url 'courses:lesson_detail' course.slug next_lesson.slug %}" class="flex-1 px-6 py-4 bg-gradient-primary text-white rounded-xl hover:shadow-xl transition-all group">
                         <div class="flex items-center justify-end gap-3">
                             <div class="text-right">
-                                <p class="text-xs text-blue-100">ຕໍ່ໄປ</p>
+                                <p class="text-xs text-blue-100">{% trans "ຕໍ່ໄປ" %}</p>
                                 <p class="font-semibold">{{ next_lesson.title }}</p>
                             </div>
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -311,8 +308,8 @@
                     <a href="{% url 'courses:course_detail' course.slug %}" class="flex-1 px-6 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl hover:shadow-xl transition-all group">
                         <div class="flex items-center justify-end gap-3">
                             <div class="text-right">
-                                <p class="text-xs text-green-100">ສຳເລັດຄອດສຶກສາ</p>
-                                <p class="font-semibold">ກັບໄປໜ້າຄອດສຶກສາ</p>
+                                <p class="text-xs text-green-100">{% trans "ສຳເລັດຄອດສຶກສາ" %}</p>
+                                <p class="font-semibold">{% trans "ກັບໄປໜ້າຄອດສຶກສາ" %}</p>
                             </div>
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -336,15 +333,14 @@
                     {% if enrollment %}
                     <div class="mb-3">
                         <div class="flex items-center justify-between text-sm mb-1">
-                            <span class="text-gray-600 dark:text-gray-400">ຄວາມຄືບໜ້າ</span>
+                            <span class="text-gray-600 dark:text-gray-400">{% trans "ຄວາມຄືບໜ້າ" %}</span>
                             <span class="font-bold text-primary">{{ enrollment.progress_percentage|floatformat:0 }}%</span>
                         </div>
                         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                             <div class="bg-gradient-primary h-2 rounded-full transition-all" style="width: {{ enrollment.progress_percentage }}%"></div>
                         </div>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            {{ enrollment.completed_lessons.count }} / {{ course.total_lessons }} ບົດຮຽນ
-                        </p>
+                            {{ enrollment.completed_lessons.count }} / {{ course.total_lessons } {% trans "ບົດຮຽນ" %}</p>
                     </div>
                     {% endif %}
                 </div>
@@ -354,9 +350,7 @@
                     <h3 class="text-sm font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-                        </svg>
-                        ເນື້ອຫາຄອດສຶກສາ
-                    </h3>
+                        </svg>{% trans "ເນື້ອຫາຄອດສຶກສາ" %}</h3>
 
                     {% for chapter in chapters %}
                     <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
@@ -366,8 +360,7 @@
                                     {{ chapter.title }}
                                 </h4>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                    {{ chapter.lessons.count }} ບົດຮຽນ
-                                </p>
+                                    {{ chapter.lessons.count } {% trans "ບົດຮຽນ" %}</p>
                             </div>
                             <svg class="w-5 h-5 text-gray-400 transform transition-transform chapter-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -410,9 +403,7 @@
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                                ວິດີໂອ
-                                            </span>
+                                                </svg>{% trans "ວິດີໂອ" %}</span>
                                             {% elif lesson_item.content_type == 'quiz' %}
                                             <span class="flex items-center gap-1">
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -424,9 +415,7 @@
                                             <span class="flex items-center gap-1">
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                                </svg>
-                                                ເອກະສານ
-                                            </span>
+                                                </svg>{% trans "ເອກະສານ" %}</span>
                                             {% endif %}
                                             {% if lesson_item.duration_minutes %}
                                             <span>{{ lesson_item.duration_minutes }} ນາທີ</span>
@@ -453,9 +442,7 @@
             <button id="mobileCourseMenuBtn" class="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-                </svg>
-                ເນື້ອຫາ
-            </button>
+                </svg>{% trans "ເນື້ອຫາ" %}</button>
 
             <!-- Mark Complete Button -->
             {% if enrollment and not lesson_progress.is_completed %}
@@ -464,9 +451,7 @@
                 <button type="submit" class="w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    ສຳເລັດ
-                </button>
+                    </svg>{% trans "ສຳເລັດ" %}</button>
             </form>
             {% elif lesson_progress.is_completed %}
             <div class="flex-1 px-4 py-3 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg font-semibold flex items-center justify-center gap-2">
@@ -483,7 +468,7 @@
     <div id="mobileCourseMenu" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 hidden">
         <div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-2xl max-h-[80vh] overflow-y-auto">
             <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white">ເນື້ອຫາຄອດສຶກສາ</h3>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{% trans "ເນື້ອຫາຄອດສຶກສາ" %}</h3>
                 <button id="closeMobileCourseMenu" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
                     <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -496,15 +481,14 @@
                 {% if enrollment %}
                 <div class="mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex items-center justify-between text-sm mb-2">
-                        <span class="text-gray-600 dark:text-gray-400">ຄວາມຄືບໜ້າ</span>
+                        <span class="text-gray-600 dark:text-gray-400">{% trans "ຄວາມຄືບໜ້າ" %}</span>
                         <span class="font-bold text-primary">{{ enrollment.progress_percentage|floatformat:0 }}%</span>
                     </div>
                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                         <div class="bg-gradient-primary h-2 rounded-full" style="width: {{ enrollment.progress_percentage }}%"></div>
                     </div>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {{ enrollment.completed_lessons.count }} / {{ course.total_lessons }} ບົດຮຽນ
-                    </p>
+                        {{ enrollment.completed_lessons.count }} / {{ course.total_lessons } {% trans "ບົດຮຽນ" %}</p>
                 </div>
                 {% endif %}
 
@@ -515,7 +499,7 @@
                         <button class="chapter-toggle-mobile w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 text-left flex items-center justify-between" data-chapter="{{ chapter.id }}">
                             <div>
                                 <h4 class="font-semibold text-gray-900 dark:text-white text-sm">{{ chapter.title }}</h4>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ chapter.lessons.count }} ບົດຮຽນ</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ chapter.lessons.count } {% trans "ບົດຮຽນ" %}</p>
                             </div>
                             <svg class="w-5 h-5 text-gray-400 transform transition-transform chapter-icon-mobile" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>

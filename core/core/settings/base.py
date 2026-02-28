@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "django.contrib.sites",
     "django.contrib.sitemaps",
+    "rosetta",
     
     # Allauth
     "allauth",
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     "django_celery_beat",  # Celery Beat Scheduler
     "django_celery_results",  # Celery Results Backend
     # Local apps
+    "home",          # Home
     "blog",          # Blog & Community Posts
     "docs",          # Documentation
     "courses",       # Course Management System
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -105,13 +108,38 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+from django.utils.translation import gettext_lazy as _
+
+LANGUAGE_CODE = "lo"
+
+LANGUAGES = [
+    ('lo', _('Lao')),
+    ('th', _('Thai')),
+    ('en', _('English')),
+    ('zh-hans', _('Chinese')),
+]
 
 TIME_ZONE = "Asia/Vientiane"  # ເວລາລາວ
 
 USE_I18N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
+EXTRA_LANG_INFO = {
+    'lo': {
+        'bidi': False,
+        'code': 'lo',
+        'name': 'Lao',
+        'name_local': 'ລາວ',
+    },
+}
+
+import django.conf.locale
+django.conf.locale.LANG_INFO.update(EXTRA_LANG_INFO)
 
 
 # Static files (CSS, JavaScript, Images)
@@ -135,9 +163,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SITE_ID = 1
 
 # Authentication Settings
-LOGIN_URL = "blog:login"
-LOGIN_REDIRECT_URL = "blog:index"
-LOGOUT_REDIRECT_URL = "blog:index"
+LOGIN_URL = "home:login"
+LOGIN_REDIRECT_URL = "home:index"
+LOGOUT_REDIRECT_URL = "home:index"
 
 # Allauth Settings
 AUTHENTICATION_BACKENDS = [
@@ -146,7 +174,10 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_SIGNUP_FIELDS = ['email', 'username*', 'password1*', 'password2*']
+
+# Silence CKEditor end-of-life warning
+SILENCED_SYSTEM_CHECKS = ['ckeditor.W001']
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -397,3 +428,21 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_TASK_ROUTES = {
     'ai_agents.tasks.*': {'queue': 'default'},
 }
+
+# ============================================
+# Payment Gateway Configuration
+# ============================================
+
+# Stripe
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', '')
+
+# PayPal
+PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID', '')
+PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET', '')
+PAYPAL_MODE = os.getenv('PAYPAL_MODE', 'sandbox')  # 'sandbox' or 'live'
+
+# Currency conversion: 1 USD = LAK amount
+LAK_TO_USD_RATE = float(os.getenv('LAK_TO_USD_RATE', '21000'))
+LAK_TO_THB_RATE = float(os.getenv('LAK_TO_THB_RATE', '650'))

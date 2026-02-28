@@ -26,6 +26,16 @@ urlpatterns = [
     # AJAX endpoints
     path('payment/status/<uuid:payment_id>/', views.check_payment_status, name='check_payment_status'),
 
+    # Stripe endpoints
+    path('payment/stripe/create-intent/<slug:slug>/', views.create_stripe_payment_intent, name='create_stripe_intent'),
+    path('payment/stripe/webhook/', views.stripe_webhook, name='stripe_webhook'),
+    path('payment/stripe/status/<slug:slug>/', views.check_stripe_payment_status, name='check_stripe_status'),
+
+    # PayPal endpoints
+    path('payment/paypal/create-order/<slug:slug>/', views.create_paypal_order, name='create_paypal_order'),
+    path('payment/paypal/capture-order/<slug:slug>/', views.capture_paypal_order, name='capture_paypal_order'),
+    path('payment/paypal/webhook/', views.paypal_webhook, name='paypal_webhook'),
+
     # Ticket verification (for organizers)
     path('verify-ticket/', views.verify_ticket_view, name='verify_ticket'),
 ]

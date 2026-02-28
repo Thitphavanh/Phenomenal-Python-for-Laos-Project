@@ -93,7 +93,7 @@ class PythonLaosChatbot:
                     raise ValueError("GOOGLE_API_KEY not found")
                 
                 self.client = genai.Client(api_key=api_key)
-                self.model = 'gemini-3-flash-preview'
+                self.model = 'gemini-2.5-flash'
             except ImportError:
                 raise ImportError("google-genai package not installed. Run: pip install google-genai")
         

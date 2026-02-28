@@ -10,8 +10,7 @@ from .feeds import LatestPostsFeed
 
 urlpatterns = [
     # Home feed / posts
-    path("", views.index, name="index"),
-    path("posts/", views.post_list, name="post_list"),
+    path("", views.post_list, name="post_list"),
     path("feed/", LatestPostsFeed(), name="post_feed"),
 
     # Post URLs
@@ -23,11 +22,5 @@ urlpatterns = [
     # Voting
     path("vote/<int:post_id>/", views.vote_post, name="vote_post"),
 
-    # Authentication
-    path("register/", views.register_view, name="register"),
-    path("login/", views.login_view, name="login"),
-    path("logout/", views.logout_view, name="logout"),
 
-    # LINE LIFF Authentication
-    path("line-auth/", views.line_auth_view, name="line_auth"),
 ]
