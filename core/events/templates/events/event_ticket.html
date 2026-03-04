@@ -12,8 +12,8 @@
             <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">You are going!</h1>
-            <p class="text-gray-600 dark:text-gray-300 mt-2">Registration confirmed for <span class="font-medium text-gray-900 dark:text-white">{{ event.title }}</span></p>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{% trans "You are going!" %}</h1>
+            <p class="text-gray-600 dark:text-gray-300 mt-2">{% trans "Registration confirmed for" %} <span class="font-medium text-gray-900 dark:text-white">{{ event.title }}</span></p>
         </div>
 
         <!-- Ticket Card -->
@@ -26,7 +26,7 @@
             <div class="bg-blue-600 dark:bg-blue-700 px-8 py-6 text-white text-center relative overflow-hidden">
                 <div class="absolute inset-0 bg-blue-700 dark:bg-blue-800 opacity-50 transform -skew-y-6 origin-top-left -translate-y-6"></div>
                 <div class="relative z-10">
-                    <p class="text-blue-100 dark:text-blue-200 text-sm font-medium tracking-wider uppercase mb-1">Phenomenal Python for Laos</p>
+                    <p class="text-blue-100 dark:text-blue-200 text-sm font-medium tracking-wider uppercase mb-1">{% trans "Phenomenal Python for Laos" %}</p>
                     <h2 class="text-2xl font-bold">{{ event.title }}</h2>
                 </div>
             </div>
@@ -35,13 +35,13 @@
             <div class="p-8">
                 <div class="grid grid-cols-2 gap-8 mb-8">
                     <div>
-                        <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">Date</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">{% trans "Date" %}</p>
                         <p class="font-bold text-gray-900 dark:text-white text-lg">{{ event.start_datetime|date:"F j, Y" }}</p>
                         <p class="text-gray-500 dark:text-gray-400 text-sm">{{ event.start_datetime|date:"g:i A" }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">Venue</p>
-                        <p class="font-bold text-gray-900 dark:text-white text-lg">{{ event.venue|default:"Online" }}</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">{% trans "Venue" %}</p>
+                        <p class="font-bold text-gray-900 dark:text-white text-lg">{% if event.venue %}{{ event.venue }}{% else %}{% trans "Online" %}{% endif %}</p>
                         {% if event.venue_address %}
                         <p class="text-gray-500 dark:text-gray-400 text-sm truncate">{{ event.venue_address }}</p>
                         {% endif %}
@@ -52,22 +52,22 @@
                     <div class="flex justify-between items-start">
                         <div>
                             <div class="mb-4">
-                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">Attendee</p>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">{% trans "Attendee" %}</p>
                                 <p class="font-bold text-gray-900 dark:text-white text-xl">{{ user.get_full_name|default:user.first_name|default:user.username }}</p>
                             </div>
                             <div class="mb-4">
-                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">Ticket Type</p>
-                                <p class="font-medium text-gray-900 dark:text-white">General Admission x {{ registration.ticket_quantity }}</p>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">{% trans "Ticket Type" %}</p>
+                                <p class="font-medium text-gray-900 dark:text-white">{% trans "General Admission" %} x {{ registration.ticket_quantity }}</p>
                             </div>
                             <div>
-                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">Transaction ID</p>
+                                <p class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mb-1">{% trans "Transaction ID" %}</p>
                                 <p class="font-mono text-gray-700 dark:text-gray-300 text-sm">{{ registration.transaction_id|default:"-" }}</p>
                             </div>
                         </div>
                         <div class="flex flex-col items-center">
                             <!-- Helper QR Code Service -->
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ request.scheme }}://{{ request.get_host }}{% url 'events:event_detail' event.slug %}" alt="Event QR" class="w-32 h-32 border-4 border-white dark:border-gray-700 shadow-sm mb-2">
-                            <p class="text-xs text-gray-400 dark:text-gray-500">Scan to check-in</p>
+                            <p class="text-xs text-gray-400 dark:text-gray-500">{% trans "Scan to check-in" %}</p>
                         </div>
                     </div>
                 </div>
@@ -75,10 +75,10 @@
             
             <!-- Footer -->
             <div class="bg-gray-50 dark:bg-gray-700 px-8 py-4 border-t border-gray-100 dark:border-gray-600 flex justify-between items-center text-sm">
-                <a href="{% url 'events:event_detail' event.slug %}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">← Back to Event</a>
+                <a href="{% url 'events:event_detail' event.slug %}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">&larr; {% trans "Back to Event" %}</a>
                 <button onclick="window.print()" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                    Print Ticket
+                    {% trans "Print Ticket" %}
                 </button>
             </div>
         </div>

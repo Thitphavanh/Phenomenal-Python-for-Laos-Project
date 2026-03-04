@@ -28,6 +28,9 @@ urlpatterns = [
     path('line/login/', views.line_login_page, name='line-login'),
     path('api/line/webhook/', views.LineWebhookView.as_view(), name='line-webhook'),
     path('api/line/push/', views.LinePushMessageView.as_view(), name='line-push'),
+    
+    # TikTok Integrations
+    path('api/tiktok/', include('ai_agents.tiktok.urls')),
 
     # REST Framework Router URLs
     path('api/', include(router.urls)),

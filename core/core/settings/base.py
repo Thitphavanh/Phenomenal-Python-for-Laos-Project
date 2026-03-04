@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.github",
     "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.tiktok",
 
     # Third-party apps
     "ckeditor",
@@ -198,6 +199,13 @@ SOCIALACCOUNT_PROVIDERS = {
         'APP': {
             'client_id': os.getenv('FACEBOOK_CLIENT_ID', ''),
             'secret': os.getenv('FACEBOOK_CLIENT_SECRET', ''),
+            'key': ''
+        }
+    },
+    'tiktok': {
+        'APP': {
+            'client_id': os.getenv('TIKTOK_CLIENT_ID', ''),
+            'secret': os.getenv('TIKTOK_CLIENT_SECRET', ''),
             'key': ''
         }
     }
