@@ -168,6 +168,18 @@ LOGIN_URL = "home:login"
 LOGIN_REDIRECT_URL = "home:index"
 LOGOUT_REDIRECT_URL = "home:index"
 
+# -------------------------------
+# API Keys Configuration
+# -------------------------------
+# TikTok Marketing / Content API
+TIKTOK_ACCESS_TOKEN = os.getenv("TIKTOK_ACCESS_TOKEN", "")
+TIKTOK_ADVERTISER_ID = os.getenv("TIKTOK_ADVERTISER_ID", "")
+
+# Google Gemini API
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+
+# -------------------------------
+
 # Allauth Settings
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

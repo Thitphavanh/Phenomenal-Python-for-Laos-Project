@@ -283,12 +283,19 @@ def enroll_course(request, slug):
 @login_required
 def my_courses(request):
     """Display user's enrolled courses"""
+    from ai_agents.services.recommendation import CourseRecommendationEngine
+    
     enrollments = Enrollment.objects.filter(
         student=request.user
     ).select_related('course').order_by('-enrolled_at')
 
+    # Get AI Recommendations
+    engine = CourseRecommendationEngine()
+    recommendations = engine.recommend_for_user(request.user, limit=3)
+
     context = {
         'enrollments': enrollments,
+        'recommendations': recommendations,
     }
 
     return render(request, 'courses/my_courses.html', context)

@@ -162,7 +162,7 @@
     /* Improved heading scroll margin */
     .prose h2,
     .prose h3 {
-        scroll-margin-top: 6rem;
+        scroll-margin-top: 8rem;
     }
 </style>
 {% endblock %}
@@ -170,8 +170,8 @@
 {% block content %}
 {# Override the entire layout for docs - 3-column with Dark/Light Mode #}
 <div class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
- <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 lg:flex lg:gap-12">
-    <div class="flex flex-1">
+ <div class="max-w-8xl mx-auto w-full sm:px-6 lg:px-8 lg:flex lg:gap-12">
+    <div class="flex flex-1 min-w-0">
         <!-- Left Sidebar (Docs Navigation with Dropdown) -->
         <aside id="docs-sidebar" class="fixed inset-y-0 left-0 z-40 w-72 pt-14 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform -translate-x-full transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:block overflow-y-auto">
             <div class="px-4 py-6 space-y-2">
@@ -200,7 +200,7 @@
                         {% for item in cat.list %}
                         <li>
                             <a href="{% url 'docs:doc_detail' item.slug %}"
-                               class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-all ml-2 border-l-2 {% if item.slug == post.slug %}border-[#001868] dark:border-[#0078D4] bg-gray-200 dark:bg-gray-700 text-white font-medium{% else %}border-transparent text-gray-500 dark:text-gray-400 hover:border-[#001868] dark:hover:border-[#0078D4]/50 hover:bg-gray-200 dark:bg-gray-700 hover:text-gray-900 dark:hover:text-white{% endif %}">
+                               class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-all ml-2 border-l-2 {% if item.slug == post.slug %}border-[#001868] dark:border-[#0078D4] bg-gray-200 dark:bg-gray-700 text-[#001868] dark:text-white font-medium{% else %}border-transparent text-gray-500 dark:text-gray-400 hover:border-[#001868] dark:hover:border-[#0078D4]/50 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-[#001868] dark:hover:text-white{% endif %}">
                                 <span class="w-1.5 h-1.5 rounded-full {% if item.slug == post.slug %}bg-[#001868] dark:bg-[#0078D4]{% else %}bg-gray-400 dark:bg-gray-600{% endif %}"></span>
                                 <span class="flex-1">{{ item.title }}</span>
                                 <!-- Badge for difficulty or chapter -->
@@ -223,9 +223,17 @@
 
         <!-- Main Content Area -->
         <main class="flex-1 min-w-0 lg:pl-0">
-            <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:flex lg:gap-12">
+            <!-- Mobile Menu Toggle Button (Visible only on small screens) -->
+            <div class="lg:hidden px-4 sm:px-6 pt-6 -mb-4">
+                <button onclick="toggleDocsSidebar()" class="w-full sm:w-auto text-gray-700 hover:text-[#001868] dark:text-gray-300 dark:hover:text-[#0078D4] focus:outline-none flex items-center justify-center gap-2 bg-white dark:bg-gray-800 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm transition-colors active:scale-95">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                    <span class="font-medium text-sm font-secondary">ສະແດງເມນູເອກະສານ (Table of Contents)</span>
+                </button>
+            </div>
+
+            <div class="max-w-8xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 lg:flex lg:gap-12">
                 <!-- Article Content -->
-                <article class="flex-1 min-w-0">
+                <article class="flex-1 min-w-0 overflow-hidden">
                     <!-- Breadcrumb -->
                     {% if post.category %}
                     <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
@@ -236,7 +244,7 @@
                     {% endif %}
 
                     <!-- Title -->
-                    <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6">{{ post.title }}</h1>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-6 break-words" style="word-break: break-word;">{{ post.title }}</h1>
                     
                     <!-- Meta Info -->
                     <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
@@ -260,7 +268,7 @@
                     {% endif %}
 
                     <!-- Prose Content -->
-                    <div class="prose prose-invert prose-lg max-w-none
+                    <div class="prose prose-base lg:prose-lg prose-invert max-w-none break-words
                         prose-headings:text-gray-900 dark:prose-headings:text-white prose-headings:font-bold prose-headings:tracking-tight
                         prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-gray-200 dark:border-gray-700
                         prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
@@ -472,7 +480,7 @@
                 e.preventDefault();
                 const target = document.getElementById(heading.id);
                 if (target) {
-                    const offset = 100; // Offset for fixed navbar
+                    const offset = 140; // Increased offset for fixed navbar and top spacing
                     const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
                     window.scrollTo({
                         top: targetPosition,

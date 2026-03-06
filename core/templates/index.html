@@ -188,6 +188,10 @@
         .section {
             padding: 3rem 0;
         }
+        .code-preview {
+            padding: 1.25rem;
+            font-size: 0.8rem;
+        }
     }
 
     /* Smooth Scroll */
@@ -257,40 +261,40 @@
     <div class="blob" style="width: 400px; height: 400px; background: linear-gradient(135deg, #0078D4, #2196F3); bottom: 10%; right: 10%; animation-delay: -5s;"></div>
 
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center max-w-5lxl mx-auto">
+        <div class="text-center max-w-5xl mx-auto">
             <!-- Main Heading -->
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 fade-in-up text-gray-900 dark:text-white">
+            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold mb-4 sm:mb-6 fade-in-up text-gray-900 dark:text-white leading-tight">
                 {% trans "ຮຽນ" %} <span class="gradient-text">Python & Django</span>
                 <br>{% trans "ເປັນພາສາລາວ" %}
             </h1>
 
             <!-- Subheading -->
-            <p class="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-12 fade-in-up max-w-3xl mx-auto" style="animation-delay: 0.2s;">
+            <p class="text-lg sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 sm:mb-12 fade-in-up max-w-3xl mx-auto" style="animation-delay: 0.2s;">
                 {% trans "ເລີ່ມຕົ້ນການເດີນທາງໃນໂລກຂອງ Programming ດ້ວຍບົດຮຽນທີ່ງ່າຍ, ມີຕົວຢ່າງທີ່ຈະແຈ້ງ ແລະ ເປັນພາສາລາວທັງໝົດ" %}
             </p>
 
             <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-up" style="animation-delay: 0.4s;">
-                <a href="{% url 'docs:doc_list' %}" class="btn-primary inline-block">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-up w-full sm:w-auto px-4 sm:px-0" style="animation-delay: 0.4s;">
+                <a href="{% url 'docs:doc_list' %}" class="btn-primary inline-block w-full sm:w-auto text-center">
                     {% trans "ເລີ່ມຮຽນດຽວນີ້" %}
                 </a>
-                <a href="{% url 'blog:post_list' %}" class="btn-secondary inline-block">
+                <a href="{% url 'blog:post_list' %}" class="btn-secondary inline-block w-full sm:w-auto text-center">
                     {% trans "ອ່ານບລັອກ" %}
                 </a>
             </div>
 
             <!-- Stats -->
-            <div class="grid grid-cols-3 gap-8 mt-16 fade-in-up" style="animation-delay: 0.6s;">
+            <div class="grid grid-cols-3 gap-2 sm:gap-8 mt-12 sm:mt-16 fade-in-up" style="animation-delay: 0.6s;">
                 <div class="text-center">
-                    <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2">50+</div>
+                    <div class="stat-number text-3xl sm:text-5xl font-bold gradient-text mb-1 sm:mb-2">{{ total_docs_formatted }}{% if total_docs_formatted != '0' %}+{% endif %}</div>
                     <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">{% trans "ບົດຮຽນ" %}</div>
                 </div>
                 <div class="text-center">
-                    <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2" style="animation-delay: 0.1s;">1.2k+</div>
+                    <div class="stat-number text-3xl sm:text-5xl font-bold gradient-text mb-1 sm:mb-2" style="animation-delay: 0.1s;">{{ total_students_formatted }}{% if total_students_formatted != '0' %}+{% endif %}</div>
                     <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">{% trans "ນັກຮຽນ" %}</div>
                 </div>
                 <div class="text-center">
-                    <div class="stat-number text-4xl sm:text-5xl font-bold gradient-text mb-2" style="animation-delay: 0.2s;">100%</div>
+                    <div class="stat-number text-3xl sm:text-5xl font-bold gradient-text mb-1 sm:mb-2" style="animation-delay: 0.2s;">{{ free_percentage }}%</div>
                     <div class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">{% trans "ຟຣີ" %}</div>
                 </div>
             </div>
@@ -301,11 +305,11 @@
 <!-- Features Section -->
 <section class="section bg-gray-50 dark:bg-gray-900">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+        <div class="text-center mb-12 sm:mb-16">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
                 {% trans "ເປັນຫຍັງຕ້ອງເລືອກເຮົາ?" %}
             </h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                 {% trans "ເຮົາມີທຸກສິ່ງທີ່ທ່ານຕ້ອງການເພື່ອກາຍເປັນ Python Developer ທີ່ດີ" %}
             </p>
         </div>
@@ -353,8 +357,8 @@
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <!-- Left: Text -->
             <div>
-                <h2 class="text-4xl sm:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-                    {% trans "ງ່າຍດາຍ" %}<br>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white leading-tight">
+                    {% trans "ງ່າຍດາຍ" %}<br class="hidden sm:block">
                     <span class="gradient-text">{% trans "ແບບບໍ່ເຄີຍມີມາກ່ອນ" %}</span>
                 </h2>
                 <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
@@ -408,14 +412,14 @@
 <!-- Learning Path Section -->
 <section class="section bg-gray-50 dark:bg-gray-900">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ເສັ້ນທາງການຮຽນຮູ້" %}</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ລຳດັບການຮຽນທີ່ເໝາະສົມ ຈາກພື້ນຖານຈົນເຖິງຂັ້ນສູງ" %}</p>
+        <div class="text-center mb-12 sm:mb-16">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ເສັ້ນທາງການຮຽນຮູ້" %}</h2>
+            <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ລຳດັບການຮຽນທີ່ເໝາະສົມ ຈາກພື້ນຖານຈົນເຖິງຂັ້ນສູງ" %}</p>
         </div>
 
         <div class="max-w-3xl mx-auto space-y-6">
             <!-- Step 1 -->
-            <div class="glass rounded-2xl p-6 flex items-start gap-6">
+            <div class="glass rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
                 <div class="w-12 h-12 gradient-bg-1 rounded-xl flex items-center justify-center flex-shrink-0">
                     <span class="text-white font-bold text-xl">1</span>
                 </div>
@@ -427,7 +431,7 @@
             </div>
 
             <!-- Step 2 -->
-            <div class="glass rounded-2xl p-6 flex items-start gap-6">
+            <div class="glass rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
                 <div class="w-12 h-12 gradient-bg-2 rounded-xl flex items-center justify-center flex-shrink-0">
                     <span class="text-white font-bold text-xl">2</span>
                 </div>
@@ -439,7 +443,7 @@
             </div>
 
             <!-- Step 3 -->
-            <div class="glass rounded-2xl p-6 flex items-start gap-6">
+            <div class="glass rounded-2xl p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
                 <div class="w-12 h-12 gradient-bg-3 rounded-xl flex items-center justify-center flex-shrink-0">
                     <span class="text-white font-bold text-xl">3</span>
                 </div>
@@ -456,9 +460,9 @@
 <!-- Courses Section -->
 <section class="section">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ຄອດສ໌ຮຽນແນະນຳ" %}</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ເລືອກຮຽນຕາມຄວາມສົນໃຈຂອງທ່ານ" %}</p>
+        <div class="text-center mb-12 sm:mb-16">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ຄອດສ໌ຮຽນແນະນຳ" %}</h2>
+            <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ເລືອກຮຽນຕາມຄວາມສົນໃຈຂອງທ່ານ" %}</p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
@@ -507,9 +511,9 @@
 <!-- Events Section -->
 <section class="section bg-gray-50 dark:bg-gray-900">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ກິດຈະກຳທີ່ຈະມາເຖິງ" %}</h2>
-             <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ຢ່າພາດໂອກາດທີ່ຈະໄດ້ພົບປະກັບນັກພັດທະນາຄົນອື່ນໆ" %}</p>
+        <div class="text-center mb-12 sm:mb-16">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ກິດຈະກຳທີ່ຈະມາເຖິງ" %}</h2>
+             <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{% trans "ຢ່າພາດໂອກາດທີ່ຈະໄດ້ພົບປະກັບນັກພັດທະນາຄົນອື່ນໆ" %}</p>
         </div>
         
         <div class="grid md:grid-cols-3 gap-8">
@@ -548,13 +552,13 @@
 
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center max-w-3xl mx-auto text-white">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-6">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
                 {% trans "ພ້ອມທີ່ຈະເລີ່ມຕົ້ນແລ້ວບໍ?" %}
             </h2>
-            <p class="text-xl mb-10 opacity-90">{% trans "ເຂົ້າຮ່ວມກັບນັກຮຽນຫຼາຍພັນຄົນທີ່ກຳລັງຮຽນ Python ແລະ Django ເປັນພາສາລາວ" %}</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{% url 'docs:doc_list' %}" class="inline-block bg-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105" style="color: #001868;">{% trans "ເລີ່ມຮຽນຟຣີ" %}</a>
-                <a href="{% url 'blog:post_list' %}" class="inline-block bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white transition-all hover:text-[#001868]">
+            <p class="text-lg sm:text-xl mb-8 sm:mb-10 opacity-90">{% trans "ເຂົ້າຮ່ວມກັບນັກຮຽນຫຼາຍພັນຄົນທີ່ກຳລັງຮຽນ Python ແລະ Django ເປັນພາສາລາວ" %}</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
+                <a href="{% url 'docs:doc_list' %}" class="inline-block bg-white px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:bg-gray-100 transition-all hover:scale-105 text-center w-full sm:w-auto" style="color: #001868;">{% trans "ເລີ່ມຮຽນຟຣີ" %}</a>
+                <a href="{% url 'blog:post_list' %}" class="inline-block bg-transparent border-2 border-white text-white px-8 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg hover:bg-white transition-all hover:text-[#001868] text-center w-full sm:w-auto">
                     ອ່ານບລັອກ
                 </a>
             </div>
@@ -643,9 +647,9 @@
 <!-- Recent Posts Section -->
 <section class="section bg-white dark:bg-gray-800">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ບົດຄວາມຫຼ້າສຸດ" %}</h2>
-            <p class="text-xl text-gray-600 dark:text-gray-400">{% trans "ອ່ານບົດຄວາມ ແລະ ບົດສອນຫຼ້າສຸດຈາກຊຸມຊົນ" %}</p>
+        <div class="text-center mb-12 sm:mb-16">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">{% trans "ບົດຄວາມຫຼ້າສຸດ" %}</h2>
+            <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400">{% trans "ອ່ານບົດຄວາມ ແລະ ບົດສອນຫຼ້າສຸດຈາກຊຸມຊົນ" %}</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">

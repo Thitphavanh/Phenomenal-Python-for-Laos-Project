@@ -24,14 +24,19 @@ def index(request):
     # Fetch recent posts (excluding docs if needed, or all)
     posts = Post.objects.filter(status='published').order_by('-published_at')
     
-    # Fetch Courses (3 latest published)
-    courses = Course.objects.filter(status='published').order_by('-created_at')[:3]
+    # Fetch Recommended Courses (Featured first, then most students, then latest)
+    courses = Course.objects.filter(status='published').order_by('-is_featured', '-total_students', '-created_at')[:3]
 
-    # Fetch Events (3 upcoming published)
+    # Fetch Events (Try to get upcoming, if none, get latest past events)
     upcoming_events = Event.objects.filter(
         status='published', 
         start_datetime__gte=timezone.now()
     ).order_by('start_datetime')[:3]
+    
+    if len(upcoming_events) == 0:
+        upcoming_events = Event.objects.filter(
+            status='published'
+        ).order_by('-start_datetime')[:3]
 
     # Fetch Community Topics (5 recent)
     recent_topics = Topic.objects.all().order_by('-created_at')[:5]
@@ -39,6 +44,23 @@ def index(request):
     # Fetch Docs (5 recent published)
     recent_docs = Documentation.objects.filter(status='published').order_by('-updated_at')[:5]
     
+    # Stats
+    def format_count(num):
+        if num >= 1000000:
+            return f"{num/1000000:.1f}M".replace('.0M', 'M')
+        if num >= 1000:
+            return f"{num/1000:.1f}k".replace('.0k', 'k')
+        return str(num)
+
+    total_docs = Documentation.objects.filter(status='published').count()
+    # If it's too few, we can just show the real number without '+' or let the template add it.
+    
+    total_students = User.objects.filter(is_active=True).count()
+    
+    total_courses = Course.objects.filter(status='published').count()
+    free_courses = Course.objects.filter(status='published', is_free=True).count()
+    free_percentage = int((free_courses / total_courses) * 100) if total_courses > 0 else 100
+
     # Pagination
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
@@ -50,6 +72,9 @@ def index(request):
         'upcoming_events': upcoming_events,
         'recent_topics': recent_topics,
         'recent_docs': recent_docs,
+        'total_docs_formatted': format_count(total_docs),
+        'total_students_formatted': format_count(total_students),
+        'free_percentage': free_percentage,
     }
     
     return render(request, 'index.html', context)

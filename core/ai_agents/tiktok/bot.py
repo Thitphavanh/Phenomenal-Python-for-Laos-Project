@@ -48,7 +48,14 @@ class TikTokGeminiBot:
             return "ຂອບໃຈທີ່ສົນໃຈເດີ! ຕິດຕໍ່ສອບຖາມເພີ່ມເຕີມໃນ Inbox ໄດ້ເລີຍຄຮັບ ✨"
             
         try:
-            prompt = f"ຜູ້ໃຊ້ຄອມເມັ້ນວ່າ: '{comment_text}' ຊ່ວຍຕອບກັບແດ່."
+            # Fetch some recommended courses to give context to Gemini
+            from courses.models import Course
+            courses = Course.objects.filter(status='published').order_by('-is_featured', '-total_students')[:3]
+            course_info = ""
+            if courses:
+                course_info = "ຄອສຮຽນທີ່ແນະນຳປະຈຸບັນມີ:\n" + "\n".join([f"- {c.title} ({'Free/ຟຣີ' if c.is_free else 'Paid/ມີຄ່າໃຊ້ຈ່າຍ'})" for c in courses])
+                
+            prompt = f"ຜູ້ໃຊ້ຄອມເມັ້ນວ່າ: '{comment_text}' ຊ່ວຍຕອບກັບແດ່.\n\n{course_info}"
             response = self.model.generate_content(prompt)
             return response.text.strip()
         except Exception as e:
